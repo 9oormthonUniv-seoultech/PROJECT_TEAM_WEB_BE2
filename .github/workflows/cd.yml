@@ -19,7 +19,7 @@ jobs:
 
       - name: make application-prod yml file
         run: |
-          cd ./api-module/src/main/resources
+          cd ./hexagonal/src/main/resources
           touch ./application-prod.yml
           echo "${{ secrets.APPLICATION_PROD }}" > ./application-prod.yml
         shell: bash
