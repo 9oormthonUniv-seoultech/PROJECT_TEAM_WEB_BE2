@@ -1,13 +1,13 @@
-package com.foodgo.oubounds;
+package com.pocket.outbound;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OuboundsApplication {
+public class OutboundApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OuboundsApplication.class, args);
+        SpringApplication.run(OutboundApplication.class, args);
     }
 
 }
