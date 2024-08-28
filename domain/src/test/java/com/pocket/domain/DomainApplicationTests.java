@@ -1,4 +1,4 @@
-package com.foodgo.domain;
+package com.pocket.domain;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
