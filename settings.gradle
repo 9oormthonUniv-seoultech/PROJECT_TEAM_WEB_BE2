@@ -1,1 +1,6 @@
 rootProject.name = 'pocket'
+include 'hexagonal'
+include 'domain'
+include 'inbounds'
+include 'outbound'
+include 'core'
