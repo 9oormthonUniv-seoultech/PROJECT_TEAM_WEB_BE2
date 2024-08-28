@@ -1,4 +1,4 @@
-package com.foodgo.inbounds;
+package com.pocket.inbounds;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
