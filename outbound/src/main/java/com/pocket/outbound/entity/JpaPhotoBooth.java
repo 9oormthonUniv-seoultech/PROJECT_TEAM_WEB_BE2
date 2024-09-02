@@ -1,6 +1,6 @@
 package com.pocket.outbound.entity;
 
-import com.pocket.domain.entity.User;
+import com.pocket.domain.entity.photobooth.PhotoBooth;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,20 +11,18 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "USERS")
-public class JpaUser {
+@Table(name = "PHOROBOOTH")
+public class JpaPhotoBooth {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "photoBooth_id")
     private Long id;
 
     @Embedded
-    private User user;
+    private PhotoBooth photoBooth;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<JpaPhoto> images = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "photoBooth", fetch = FetchType.LAZY)
     private List<JpaLike> likes = new ArrayList<>();
+
 }
