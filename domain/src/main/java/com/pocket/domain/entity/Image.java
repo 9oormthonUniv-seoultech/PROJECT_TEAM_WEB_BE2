@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-@Embeddable
+@Embeddable // 이거
 public class Image extends BaseEntity {
 
     @Enumerated(EnumType.STRING)

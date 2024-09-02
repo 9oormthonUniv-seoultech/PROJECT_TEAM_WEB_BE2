@@ -16,7 +16,7 @@ public class JpaImage {
     @Column(name = "image_id")
     private Long id;
 
-    @Embedded
+    @Embedded // 이거
     private Image image;
 
     @ManyToOne
