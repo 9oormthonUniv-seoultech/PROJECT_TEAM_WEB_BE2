@@ -1,6 +1,6 @@
 package com.pocket.outbound.entity;
 
-import com.pocket.domain.entity.Review;
+import com.pocket.domain.entity.review.Review;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

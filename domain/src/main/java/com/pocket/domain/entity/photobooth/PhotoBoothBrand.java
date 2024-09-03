@@ -1,9 +1,7 @@
 package com.pocket.domain.entity.photobooth;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 // JSON으로 변환시 한글명이 반환되도록 하기 위해, @JsonFormat 어노테이션을 지정한다.
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum PhotoBoothBrand {
     LIFE4CUT("인생네컷"),
     PHOTOISM("포토이즘"),
@@ -12,20 +10,12 @@ public enum PhotoBoothBrand {
     PHOTOSIGNATURE("포토시그니처");
 
     final private String name;
-    private PhotoBoothBrand(String name) {
+
+    PhotoBoothBrand(String name) {
         this.name = name;
     }
     public String getName() {
         return this.name;
     }
 
-    // 한글명을 파라미터로 받아서 enum 형식으로 반환한다.
-    public static PhotoBoothBrand nameOf(String name) {
-        for (PhotoBoothBrand status : PhotoBoothBrand.values()) {
-            if (status.getName().equals(name)) {
-                return status;
-            }
-        }
-        return null;
-    }
 }
