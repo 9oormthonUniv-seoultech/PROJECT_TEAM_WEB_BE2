@@ -21,5 +21,5 @@ public class JpaImage {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private JpaUser user;
+    private JpaUser jpaUser;
 }
