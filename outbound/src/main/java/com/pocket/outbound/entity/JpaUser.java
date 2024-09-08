@@ -19,6 +19,12 @@ public class JpaUser {
     @Embedded
     private User user;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<JpaPhoto> images = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<JpaLike> likes = new ArrayList<>();
+
     public static JpaUser createUser(User user) {
 
         JpaUser jpaUser = new JpaUser();

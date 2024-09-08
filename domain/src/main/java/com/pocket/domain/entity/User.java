@@ -3,10 +3,8 @@ package com.pocket.domain.entity;
 import com.pocket.domain.dto.OidcDecodePayload;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 @Embeddable
 public class User extends BaseEntity {
 
