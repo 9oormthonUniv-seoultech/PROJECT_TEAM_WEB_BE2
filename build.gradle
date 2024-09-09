@@ -38,7 +38,6 @@ subprojects {
 		annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
 		implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2' // swagger
-		implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE' // s3
 
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
@@ -49,6 +48,9 @@ subprojects {
 
 		implementation 'org.springframework.boot:spring-boot-starter-webflux'
 		implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+		// AWS S3
+		implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	}
 
 	test {

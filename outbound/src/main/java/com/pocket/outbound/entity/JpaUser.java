@@ -5,9 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 @Entity
@@ -22,6 +19,10 @@ public class JpaUser {
     @Embedded
     private User user;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<JpaImage> images = new ArrayList<>();
+    public static JpaUser createUser(User user) {
+
+        JpaUser jpaUser = new JpaUser();
+        jpaUser.user = user;
+        return jpaUser;
+    }
 }
