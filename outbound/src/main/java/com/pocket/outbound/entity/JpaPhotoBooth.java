@@ -5,13 +5,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "PHOROBOOTH")
+@Table(name = "PHOTOBOOTH")
 public class JpaPhotoBooth {
 
     @Id
@@ -21,8 +18,5 @@ public class JpaPhotoBooth {
 
     @Embedded
     private PhotoBooth photoBooth;
-
-    @OneToMany(mappedBy = "photoBooth", fetch = FetchType.LAZY)
-    private List<JpaLike> likes = new ArrayList<>();
 
 }

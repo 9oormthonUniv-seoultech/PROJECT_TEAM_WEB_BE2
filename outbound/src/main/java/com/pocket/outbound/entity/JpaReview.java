@@ -5,9 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 @Entity
@@ -27,8 +24,5 @@ public class JpaReview {
 
     @Embedded
     private Review review;
-
-    @OneToMany(mappedBy = "review", fetch = FetchType.LAZY)
-    private List<JpaReviewImage> images = new ArrayList<>();
 
 }
