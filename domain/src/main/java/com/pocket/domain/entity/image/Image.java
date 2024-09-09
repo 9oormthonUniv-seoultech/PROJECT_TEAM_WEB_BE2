@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Embeddable // 이거
+@Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Image extends BaseEntity {
 
@@ -21,9 +21,6 @@ public class Image extends BaseEntity {
     @Column(name = "image_url")
     private String imageUrl;
 
-
-    // 이미지 타입을 지정하는 생성자를 만들어서
-    // 각각 PHOTO, REVIEW, PROFILE을 설정해주는 방식
     public Image(ImageType type) {
         this.type = type;
     }
