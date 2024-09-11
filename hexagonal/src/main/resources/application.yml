@@ -10,15 +10,15 @@ spring:
 spring:
   config:
     activate:
-      on-profile: local
-    import: application-prod.yml, application-oauth.yml, application-redis.yml
+      on-profile: prod
+    import: application-prod.yml, application-oauth.yml, application-redis.yml, application-s3.yml
 
 ---
 spring:
   config:
     activate:
       on-profile: prod
-    import: application-prod.yml, application-oauth.yml, application-redis.yml
+    import: application-prod.yml, application-oauth.yml, application-redis.yml, application-s3.yml
 
 
 server:
