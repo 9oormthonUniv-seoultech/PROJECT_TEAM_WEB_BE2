@@ -2,7 +2,7 @@ name: Backend CD # actions 이름
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ feat/#9 ]
 
 jobs:
   deploy:
@@ -29,6 +29,13 @@ jobs:
           cd ./outbound/src/main/resources
           touch ./application-oauth.yml
           echo "${{ secrets.APPLICATION_OAUTH }}" > ./application-oauth.yml
+        shell: bash
+
+      - name: make application-s3 yml file
+        run: |
+          cd ./core/src/main/resources
+          touch ./application-s3.yml
+          echo "${{ secrets.APPLICATION_S3 }}" > ./application-s3.yml
         shell: bash
 
       - name: Gradlew 권한 부여
