@@ -37,6 +37,7 @@ public class OAuthLoginSuccessHandler implements AuthenticationSuccessHandler {
                     .toUriString();
 
             response.sendRedirect(encodedRedirectUrl);
+
         } else {
             // 인증 타입이 OidcUser가 아닐 경우 처리
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Authentication principal is not an instance of OidcUser");

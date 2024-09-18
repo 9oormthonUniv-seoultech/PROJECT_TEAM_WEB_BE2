@@ -2,9 +2,10 @@ package com.pocket.outbound.config;
 
 import com.pocket.core.exception.jwt.JwtAccessDeniedHandler;
 import com.pocket.core.exception.jwt.JwtAuthenticationEntryPoint;
-import com.pocket.outbound.adapter.KakaoLoginAdapter;
+import com.pocket.outbound.adapter.oauth.KakaoLoginAdapter;
 import com.pocket.outbound.adapter.authentication.OAuthLoginFailureHandler;
 import com.pocket.outbound.adapter.authentication.OAuthLoginSuccessHandler;
+import com.pocket.outbound.util.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -16,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -32,6 +34,7 @@ public class SecurityConfig {
     private final OAuthLoginSuccessHandler oAuth2SuccessHandler;
     private final OAuthLoginFailureHandler oAuth2FailureHandler;
 
+    private final JwtFilter jwtFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
@@ -47,11 +50,9 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(authz -> {
-                    authz.requestMatchers("/").permitAll();
                     authz.requestMatchers("/swagger-ui/**"
                             , "/swagger-resources/**"
                             , "/v3/api-docs/**").permitAll();
-                    authz.requestMatchers(PathRequest.toH2Console()).permitAll();
                     authz.anyRequest().authenticated();
                 })
 
@@ -60,6 +61,9 @@ public class SecurityConfig {
                                 .oidcUserService(kakaoLoginAdapter))
                         .successHandler(oAuth2SuccessHandler)
                         .failureHandler(oAuth2FailureHandler))
+
+                .addFilterAt(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+
 
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)

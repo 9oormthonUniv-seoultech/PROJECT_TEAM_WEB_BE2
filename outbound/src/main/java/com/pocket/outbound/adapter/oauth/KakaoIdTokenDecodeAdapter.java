@@ -1,10 +1,10 @@
-package com.pocket.outbound.adapter;
+package com.pocket.outbound.adapter.oauth;
 
 import com.nimbusds.jose.shaded.gson.JsonObject;
 import com.nimbusds.jose.shaded.gson.JsonParser;
 import com.pocket.core.exception.jwt.SecurityCustomException;
 import com.pocket.core.exception.jwt.SecurityErrorCode;
-import com.pocket.domain.dto.OidcDecodePayload;
+import com.pocket.domain.dto.oauth.OidcDecodePayload;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;

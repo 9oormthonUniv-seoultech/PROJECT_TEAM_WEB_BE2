@@ -1,6 +1,6 @@
-package com.pocket.outbound.adapter;
+package com.pocket.outbound.adapter.oauth;
 
-import com.pocket.domain.dto.OidcDecodePayload;
+import com.pocket.domain.dto.oauth.OidcDecodePayload;
 import com.pocket.domain.entity.User;
 import com.pocket.outbound.entity.JpaUser;
 import com.pocket.outbound.repository.UserRepository;
@@ -39,19 +39,17 @@ public class KakaoLoginAdapter extends OidcUserService {
             log.debug("Decoded Payload: {}", oidcDecodePayload);
 
             // User 존재 여부 확인 및 조회
-            JpaUser user = userRepository.findByUserSubId(oidcDecodePayload.email())
+            userRepository.findByUserSubId(oidcDecodePayload.sub())
                     .orElseGet(() -> {
                         User newUser = User.createSocialUser(oidcDecodePayload);
                         JpaUser savedUser = JpaUser.createUser(newUser);
                         return userRepository.save(savedUser);
                     });
 
-            OidcUser oidcUser = new DefaultOidcUser(
+            return new DefaultOidcUser(
                     Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
                     userRequest.getIdToken()
             );
-
-            return oidcUser;
 
         } catch (Exception e) {
             log.error("Error loading user from OAuth2 user request: {}", e.getMessage(), e);
