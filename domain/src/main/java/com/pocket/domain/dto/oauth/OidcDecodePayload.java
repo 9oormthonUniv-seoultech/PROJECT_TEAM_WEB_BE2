@@ -1,4 +1,4 @@
-package com.pocket.domain.dto;
+package com.pocket.domain.dto.oauth;
 
 import java.util.HashMap;
 import java.util.Map;

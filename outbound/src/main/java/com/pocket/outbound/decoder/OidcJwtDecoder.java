@@ -2,7 +2,7 @@ package com.pocket.outbound.decoder;
 
 import com.pocket.core.exception.jwt.SecurityCustomException;
 import com.pocket.core.exception.jwt.SecurityErrorCode;
-import com.pocket.domain.dto.OidcDecodePayload;
+import com.pocket.domain.dto.oauth.OidcDecodePayload;
 import io.jsonwebtoken.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

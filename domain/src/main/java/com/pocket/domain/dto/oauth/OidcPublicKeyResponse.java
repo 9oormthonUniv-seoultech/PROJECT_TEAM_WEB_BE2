@@ -1,4 +1,4 @@
-package com.pocket.domain.dto;
+package com.pocket.domain.dto.oauth;
 
 public record OidcPublicKeyResponse(
         String kid,
