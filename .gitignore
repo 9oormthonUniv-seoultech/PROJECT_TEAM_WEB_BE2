@@ -35,8 +35,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
-outbound/src/main/resources/application-oauth.yml
-hexagonal/src/main/resources/application-prod.yml
-core/src/main/resources/application-s3.yml
-/docker-compose.yml
