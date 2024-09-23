@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+application-s3.yml
+docker-compose.yml
+application-prod.yml
+application-oauth.yml
