@@ -11,7 +11,8 @@ public enum PhotoBoothBrand {
     PLANBSTUDIO("플랜비스튜디오"),
     PHOTOMATIC("포토매틱"),
     HARUFLIM("하루필름"),
-    PHOTOSIGNATURE("포토시그니처");
+    PHOTOSIGNATURE("포토시그니처"),
+    UNKNOWN("존재하지 않음");
 
     final private String name;
 

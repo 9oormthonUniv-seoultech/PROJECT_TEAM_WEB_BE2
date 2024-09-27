@@ -4,7 +4,6 @@ dependencies {
     implementation project(':domain')
     implementation project(':inbounds')
     implementation project(':outbound')
-    implementation project(':batch')
 }
 
 bootJar {
