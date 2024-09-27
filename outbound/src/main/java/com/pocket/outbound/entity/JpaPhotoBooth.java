@@ -19,4 +19,8 @@ public class JpaPhotoBooth {
     @Embedded
     private PhotoBooth photoBooth;
 
+    public void setPhotoBooth(PhotoBooth photoBooth) {
+        this.photoBooth = photoBooth;
+    }
+
 }
