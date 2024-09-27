@@ -100,5 +100,72 @@ class AddPlacesReaderTest {
         PhotoBoothFindResponseDto secondResult = addPlacesReader.read();
         assertNull(secondResult);
     }
+
+    @Test
+    void testRead_MultipleBrands() throws Exception {
+        // Mock Kakao API response for multiple brands
+        KakaoDocument document1 = new KakaoDocument();
+        document1.setPlace_name("인생네컷 대구동성로1호직영점");
+        document1.setRoad_address_name("대구 중구 동성로2길 55");
+        document1.setX("128.59655091389456");
+        document1.setY("35.86845663354451");
+        document1.setCategory_name("문화,예술 > 사진 > 사진관,포토스튜디오 > 즉석사진 > 인생네컷");
+
+        KakaoDocument document2 = new KakaoDocument();
+        document2.setPlace_name("포토이즘 여의도점");
+        document2.setRoad_address_name("서울특별시 영등포구 여의도동 25-3");
+        document2.setX("126.9247");
+        document2.setY("37.5249");
+        document2.setCategory_name("문화,예술 > 사진 > 사진관,포토스튜디오 > 즉석사진 > 포토이즘");
+
+        KakaoLocalResponse kakaoResponse = new KakaoLocalResponse();
+        kakaoResponse.setDocuments(Arrays.asList(document1, document2));
+
+        // Mock the RestTemplate call
+        when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(KakaoLocalResponse.class)))
+                .thenReturn(new ResponseEntity<>(kakaoResponse, HttpStatus.OK));
+
+        // Read first item
+        PhotoBoothFindResponseDto firstResult = addPlacesReader.read();
+        assertNotNull(firstResult);
+        assertEquals("인생네컷 대구동성로1호직영점", firstResult.name());
+
+        // Read second item
+        PhotoBoothFindResponseDto secondResult = addPlacesReader.read();
+        assertNotNull(secondResult);
+        assertEquals("포토이즘 여의도점", secondResult.name());
+
+        // Read again to check for the end
+        PhotoBoothFindResponseDto thirdResult = addPlacesReader.read();
+        assertNull(thirdResult);
+    }
+
+    @Test
+    void testRead_PageHandling() throws Exception {
+        // Mock Kakao API response for pagination
+        KakaoDocument document = new KakaoDocument();
+        document.setPlace_name("인생네컷 대구동성로1호직영점");
+        document.setRoad_address_name("대구 중구 동성로2길 55");
+        document.setX("128.59655091389456");
+        document.setY("35.86845663354451");
+        document.setCategory_name("문화,예술 > 사진 > 사진관,포토스튜디오 > 즉석사진 > 인생네컷");
+
+        KakaoLocalResponse kakaoResponse = new KakaoLocalResponse();
+        kakaoResponse.setDocuments(Arrays.asList(document));
+
+        // Mock the RestTemplate call
+        when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(KakaoLocalResponse.class)))
+                .thenReturn(new ResponseEntity<>(kakaoResponse, HttpStatus.OK));
+
+        // Read first item
+        PhotoBoothFindResponseDto result = addPlacesReader.read();
+        assertNotNull(result);
+
+        // Ensure it handles pagination correctly
+        // This is a simple demonstration; in a real test, you may want to mock multiple pages
+        PhotoBoothFindResponseDto secondResult = addPlacesReader.read();
+        assertNull(secondResult);
+    }
+
 }
 
