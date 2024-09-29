@@ -19,11 +19,11 @@ public class PhotoBoothFindAdapter implements PhotoBoothFindPort {
         JpaPhotoBooth entity = photoBoothRepository.findById(id)
                 .orElseThrow(() -> new PhotoBoothCustomException(PhotoBoothErrorCode.PHOTOBOOTH_NOT_FOUND));
 
-
-        // 나중에 mapper 클래스를 하나 빼서 만들기
         return new PhotoBoothFindResponseDto(
                 entity.getPhotoBooth().getName(),
-                entity.getPhotoBooth().getLocation(),
+                entity.getPhotoBooth().getRoad(),
+                entity.getPhotoBooth().getX(),
+                entity.getPhotoBooth().getY(),
                 entity.getPhotoBooth().getPhotoBoothBrand()
         );
     }

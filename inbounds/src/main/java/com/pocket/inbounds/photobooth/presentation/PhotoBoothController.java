@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-public class PhotoBoothController implements PhotoBoothControllerDocs{
+public class PhotoBoothController implements PhotoBoothControllerDocs {
 
     private final PhotoBoothFindUseCase photoBoothFindUseCase;
 
@@ -24,7 +24,9 @@ public class PhotoBoothController implements PhotoBoothControllerDocs{
         // 여기서 dto를 response로 변환
         PhotoBoothResponse response = new PhotoBoothResponse(
                 dto.name(),
-                dto.location(),
+                dto.road(),
+                dto.x(),
+                dto.y(),
                 dto.photoBoothBrand()
         );
 

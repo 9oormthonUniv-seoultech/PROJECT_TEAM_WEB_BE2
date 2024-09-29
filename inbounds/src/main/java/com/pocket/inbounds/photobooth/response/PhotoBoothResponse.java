@@ -4,7 +4,9 @@ import com.pocket.domain.entity.photobooth.PhotoBoothBrand;
 
 public record PhotoBoothResponse(
         String name,
-        String location,
+        String road,
+        Double x,
+        Double y,
         PhotoBoothBrand photoBoothBrand
 ) {
 }
