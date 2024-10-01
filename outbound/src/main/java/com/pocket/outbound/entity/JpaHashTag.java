@@ -2,6 +2,8 @@ package com.pocket.outbound.entity;
 
 import com.pocket.domain.entity.album.HashTag;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "HASHTAG")
 @Entity
+@Builder
+@AllArgsConstructor
 public class JpaHashTag {
 
     @Id
@@ -22,8 +26,4 @@ public class JpaHashTag {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private JpaUser jpaUser;
-
-    @ManyToOne
-    @JoinColumn(name = "album_id")
-    private JpaAlbum jpaAlbum;
 }

@@ -1,5 +1,6 @@
 package com.pocket.outbound.adapter.photobooth.adpater;
 
+import com.pocket.core.aop.annotation.AdapterService;
 import com.pocket.core.exception.photobooth.PhotoBoothCustomException;
 import com.pocket.core.exception.photobooth.PhotoBoothErrorCode;
 import com.pocket.core.util.DistanceCalculator;
@@ -11,11 +12,10 @@ import com.pocket.outbound.adapter.photobooth.mapper.PhotoBoothOutBoundMapper;
 import com.pocket.outbound.entity.JpaPhotoBooth;
 import com.pocket.outbound.repository.PhotoBoothRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@AdapterService
 @RequiredArgsConstructor
 public class PhotoBoothFindAdapter implements PhotoBoothFindPort {
 
