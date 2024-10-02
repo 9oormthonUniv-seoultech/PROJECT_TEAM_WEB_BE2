@@ -1,7 +1,9 @@
 package com.pocket.inbounds.image.presentation;
 
+import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import com.pocket.core.exception.common.ApplicationResponse;
 import com.pocket.domain.dto.image.AlbumRegisterRequestDto;
+import com.pocket.domain.dto.user.UserInfoDTO;
 import com.pocket.domain.entity.User;
 import com.pocket.domain.usecase.image.PhotoRegisterUseCase;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +23,9 @@ public class ImageController implements ImageControllerDocs {
     @PostMapping
     public ApplicationResponse<String> postPhoto(
             @RequestBody AlbumRegisterRequestDto requestDto,
-            @AuthenticationPrincipal User user) {
+            @AuthenticationPrincipal UserInfoDTO user) {
 
-        String url = photoRegisterUseCase.registerPhotoResponse(requestDto, user);
+        String url = photoRegisterUseCase.registerPhotoResponse(requestDto, user.name());
         return ApplicationResponse.ok(url);// presigned Url을 리턴해줘야 함.
     }
 

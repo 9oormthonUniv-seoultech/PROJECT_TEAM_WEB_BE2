@@ -5,6 +5,6 @@ import com.pocket.domain.entity.User;
 
 public interface AlbumRegisterPort {
 
-    String registerPhoto(AlbumRegisterRequestDto albumRegisterRequestDto, User user);
+    String registerPhoto(AlbumRegisterRequestDto albumRegisterRequestDto, String name);
 
 }

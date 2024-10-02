@@ -5,6 +5,6 @@ import com.pocket.domain.entity.User;
 
 public interface PhotoRegisterUseCase {
 
-    String registerPhotoResponse(AlbumRegisterRequestDto requestDto, User user);
+    String registerPhotoResponse(AlbumRegisterRequestDto requestDto, String name);
 
 }

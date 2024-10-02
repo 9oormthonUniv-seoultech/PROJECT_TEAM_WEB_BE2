@@ -13,8 +13,8 @@ public class AlbumService implements PhotoRegisterUseCase {
 
     private final AlbumRegisterPort albumRegisterPort;
 
-    public String registerPhotoResponse(AlbumRegisterRequestDto albumRegisterRequestDto, User user) {
-        return albumRegisterPort.registerPhoto(albumRegisterRequestDto, user);
+    public String registerPhotoResponse(AlbumRegisterRequestDto albumRegisterRequestDto, String name) {
+        return albumRegisterPort.registerPhoto(albumRegisterRequestDto, name);
     }
 
 }

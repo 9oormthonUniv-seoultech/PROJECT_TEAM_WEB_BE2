@@ -30,7 +30,7 @@ public class PhotoAdapter implements AlbumRegisterPort {
     private final UserRepository userRepository;
 
     @Override
-    public String registerPhoto(AlbumRegisterRequestDto dto, User user) {
+    public String registerPhoto(AlbumRegisterRequestDto dto, String name) {
 
         // presigned Url과 파일 경로 발급
         String imageName = dto.imageName();
@@ -41,7 +41,7 @@ public class PhotoAdapter implements AlbumRegisterPort {
 
         JpaPhotoBooth photoBooth = photoBoothRepository.findById(dto.photoboothId())
                 .orElseThrow(() -> new PhotoBoothCustomException(PhotoBoothErrorCode.PHOTOBOOTH_NOT_FOUND));
-        JpaUser jpaUser = userRepository.findByUserSubId(user.getSubId()).orElseThrow(() -> new UserCustomException(UserErrorCode.NO_USER_INFO));
+        JpaUser jpaUser = userRepository.findByUserName(name).orElseThrow(() -> new UserCustomException(UserErrorCode.NO_USER_INFO));
         Memo memo = new Memo(dto.memo());
         Image image = new Image(ImageType.PHOTO);
         image.makeImage(dto, filePath);
