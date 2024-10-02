@@ -8,7 +8,6 @@ import com.pocket.core.exception.user.UserErrorCode;
 import com.pocket.core.image.dto.PresignedUrlResponse;
 import com.pocket.core.image.service.FileService;
 import com.pocket.domain.dto.image.AlbumRegisterRequestDto;
-import com.pocket.domain.entity.User;
 import com.pocket.domain.entity.album.HashTag;
 import com.pocket.domain.entity.album.Memo;
 import com.pocket.domain.entity.image.Image;
@@ -20,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @AdapterService
 @RequiredArgsConstructor
-public class PhotoAdapter implements AlbumRegisterPort {
+public class AlbumAdapter implements AlbumRegisterPort {
 
     private final PhotoRepository photoRepository;
     private final HashTagRepository hashtagRepository;

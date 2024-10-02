@@ -17,7 +17,7 @@ public class PhotoBoothFindService implements PhotoBoothFindUseCase {
 
     private final PhotoBoothFindPort photoBoothFindPort;
 
-    public PhotoBoothFindResponseDto getPhotoBoothFindResponse(Long id) {
+    public PhotoBoothFindResponseDto findPhotoBoothResponse(Long id) {
         return photoBoothFindPort.findById(id);
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface PhotoBoothFindUseCase {
 
-    PhotoBoothFindResponseDto getPhotoBoothFindResponse(Long id);
+    PhotoBoothFindResponseDto findPhotoBoothResponse(Long id);
 
     List<NearPhotoBoothInfo> findNearPhotoBooth(double lat, double lon, PhotoBoothBrand brand);
 

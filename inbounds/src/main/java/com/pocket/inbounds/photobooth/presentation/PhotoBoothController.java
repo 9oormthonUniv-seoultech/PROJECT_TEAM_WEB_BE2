@@ -20,7 +20,7 @@ public class PhotoBoothController implements PhotoBoothControllerDocs {
     @GetMapping("{id}")
     public ApplicationResponse<PhotoBoothFindResponseDto> getPhotoBoothById(@PathVariable("id") Long id) {
 
-        PhotoBoothFindResponseDto response = photoBoothFindUseCase.getPhotoBoothFindResponse(id);
+        PhotoBoothFindResponseDto response = photoBoothFindUseCase.findPhotoBoothResponse(id);
         return ApplicationResponse.ok(response);
     }
 
