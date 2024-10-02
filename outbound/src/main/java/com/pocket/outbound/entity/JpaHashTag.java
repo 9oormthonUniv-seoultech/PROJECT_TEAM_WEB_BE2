@@ -1,25 +1,27 @@
 package com.pocket.outbound.entity;
 
-import com.pocket.domain.entity.image.Image;
+import com.pocket.domain.entity.album.HashTag;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static com.pocket.domain.entity.image.ImageType.PHOTO;
-
 @Getter
 @NoArgsConstructor
-@Table(name = "IMAGE")
+@Table(name = "HASHTAG")
 @Entity
-public class JpaPhoto {
+@Builder
+@AllArgsConstructor
+public class JpaHashTag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "image_id")
+    @Column(name = "hashtag_id")
     private Long id;
 
     @Embedded
-    private Image image = new Image(PHOTO);
+    private HashTag hashTag;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
