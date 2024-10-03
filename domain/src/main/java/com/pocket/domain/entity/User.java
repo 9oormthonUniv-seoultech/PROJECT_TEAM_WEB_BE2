@@ -1,6 +1,6 @@
 package com.pocket.domain.entity;
 
-import com.pocket.domain.dto.OidcDecodePayload;
+import com.pocket.domain.dto.oauth.OidcDecodePayload;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
 

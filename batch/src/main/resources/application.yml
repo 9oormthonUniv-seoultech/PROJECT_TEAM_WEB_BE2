@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    active: prod
+  batch:
+    jdbc:
+      initialize-schema: always
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+    import: application-batch.yml, application-oauth.yml, application-redis.yml, application-s3.yml
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+    import: application-batch.yml, application-oauth.yml, application-redis.yml, application-s3.yml
+
+
+server:
+  port: 8080

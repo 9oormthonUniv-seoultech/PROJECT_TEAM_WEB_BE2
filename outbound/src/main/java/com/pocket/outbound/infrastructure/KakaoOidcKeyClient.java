@@ -1,6 +1,6 @@
 package com.pocket.outbound.infrastructure;
 
-import com.pocket.domain.dto.OidcPublicKeyListResponse;
+import com.pocket.domain.dto.oauth.OidcPublicKeyListResponse;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
