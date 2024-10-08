@@ -10,6 +10,6 @@ public interface PhotoBoothFindUseCase {
 
     PhotoBoothFindResponseDto findPhotoBoothResponse(Long id);
 
-    List<NearPhotoBoothInfo> findNearPhotoBooth(double lat, double lon, PhotoBoothBrand brand);
+    List<NearPhotoBoothInfo> findNearPhotoBooth(double lat, double lon, List<PhotoBoothBrand> brand);
 
 }

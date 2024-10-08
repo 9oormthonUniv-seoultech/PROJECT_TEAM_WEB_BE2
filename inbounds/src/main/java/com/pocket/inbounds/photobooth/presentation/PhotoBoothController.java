@@ -28,7 +28,7 @@ public class PhotoBoothController implements PhotoBoothControllerDocs {
     public ApplicationResponse<List<NearPhotoBoothInfo>> getAllPhotoBooth(
             @RequestParam("lat") double lat,
             @RequestParam("lon") double lon,
-            @RequestParam(value = "brand", required = false) PhotoBoothBrand brand
+            @RequestParam(value = "brand", required = false) List<PhotoBoothBrand> brand
     ) {
 
         List<NearPhotoBoothInfo> responses = photoBoothFindUseCase.findNearPhotoBooth(lat, lon, brand);

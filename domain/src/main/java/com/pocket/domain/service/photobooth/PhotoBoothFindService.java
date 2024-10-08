@@ -21,7 +21,7 @@ public class PhotoBoothFindService implements PhotoBoothFindUseCase {
         return photoBoothFindPort.findById(id);
     }
 
-    public List<NearPhotoBoothInfo> findNearPhotoBooth(double lat, double lon, PhotoBoothBrand brand) {
+    public List<NearPhotoBoothInfo> findNearPhotoBooth(double lat, double lon, List<PhotoBoothBrand> brand) {
         return photoBoothFindPort.getPhotoboothWithin2Km(lat, lon, brand);
     }
 }

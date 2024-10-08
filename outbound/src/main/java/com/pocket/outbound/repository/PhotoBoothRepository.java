@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface PhotoBoothRepository extends JpaRepository<JpaPhotoBooth, Long> {
 
-    List<JpaPhotoBooth> findByPhotoBoothPhotoBoothBrand(PhotoBoothBrand photoBoothBrand);
+    List<JpaPhotoBooth> findByPhotoBoothPhotoBoothBrandIn(List<PhotoBoothBrand> brands);
 }

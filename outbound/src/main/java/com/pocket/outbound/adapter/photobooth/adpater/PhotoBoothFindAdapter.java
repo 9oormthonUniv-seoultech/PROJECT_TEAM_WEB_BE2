@@ -35,14 +35,14 @@ public class PhotoBoothFindAdapter implements PhotoBoothFindPort {
         );
     }
 
-    public List<NearPhotoBoothInfo> getPhotoboothWithin2Km(double currentLat, double currentLon, PhotoBoothBrand brand) {
+    public List<NearPhotoBoothInfo> getPhotoboothWithin2Km(double currentLat, double currentLon, List<PhotoBoothBrand> brands) {
 
         // 모든 포토부스 데이터를 가져옵니다.
         List<JpaPhotoBooth> allPhotobooths;
 
-        if (brand != null) {
-            // 지정된 브랜드로 포토부스를 필터링하여 조회
-            allPhotobooths = photoBoothRepository.findByPhotoBoothPhotoBoothBrand(brand);
+        if (brands != null && !brands.isEmpty()) {
+            // 지정된 브랜드 목록으로 포토부스를 필터링하여 조회
+            allPhotobooths = photoBoothRepository.findByPhotoBoothPhotoBoothBrandIn(brands);
         } else {
             // 브랜드 필터링 없이 모든 포토부스 조회
             allPhotobooths = photoBoothRepository.findAll();

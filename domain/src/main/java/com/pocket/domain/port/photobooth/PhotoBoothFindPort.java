@@ -10,6 +10,6 @@ public interface PhotoBoothFindPort {
 
     PhotoBoothFindResponseDto findById(Long id);
 
-    List<NearPhotoBoothInfo> getPhotoboothWithin2Km(double currentLat, double currentLon, PhotoBoothBrand brand);
+    List<NearPhotoBoothInfo> getPhotoboothWithin2Km(double currentLat, double currentLon, List<PhotoBoothBrand> brand);
 
 }
