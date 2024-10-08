@@ -10,7 +10,8 @@ public class PhotoBoothOutBoundMapper {
     public NearPhotoBoothInfo toDTO(JpaPhotoBooth photoBooth) {
         return new NearPhotoBoothInfo(
                 photoBooth.getId(),
-                photoBooth.getPhotoBooth().getName()
+                photoBooth.getPhotoBooth().getName(),
+                photoBooth.getPhotoBooth().getPhotoBoothBrand()
         );
     }
 }
