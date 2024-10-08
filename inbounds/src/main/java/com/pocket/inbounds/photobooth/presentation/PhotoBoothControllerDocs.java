@@ -42,6 +42,6 @@ public interface PhotoBoothControllerDocs {
     ApplicationResponse<List<NearPhotoBoothInfo>> getAllPhotoBooth(
             @RequestParam("lat") double lat,
             @RequestParam("lon") double lon,
-            @RequestParam(value = "brand", required = false) PhotoBoothBrand brand
+            @RequestParam(value = "brand", required = false) List<PhotoBoothBrand> brand
     );
 }
