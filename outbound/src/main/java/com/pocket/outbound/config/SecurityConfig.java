@@ -2,13 +2,12 @@ package com.pocket.outbound.config;
 
 import com.pocket.core.exception.jwt.JwtAccessDeniedHandler;
 import com.pocket.core.exception.jwt.JwtAuthenticationEntryPoint;
-import com.pocket.outbound.adapter.oauth.KakaoLoginAdapter;
 import com.pocket.outbound.adapter.authentication.OAuthLoginFailureHandler;
 import com.pocket.outbound.adapter.authentication.OAuthLoginSuccessHandler;
+import com.pocket.outbound.adapter.oauth.KakaoLoginAdapter;
 import com.pocket.outbound.util.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -52,7 +51,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> {
                     authz.requestMatchers("/swagger-ui/**"
                             , "/swagger-resources/**"
-                            , "/v3/api-docs/**").permitAll();
+                            , "/v3/api-docs/**"
+                            , "/v1/photobooth/**").permitAll();
                     authz.anyRequest().authenticated();
                 })
 
