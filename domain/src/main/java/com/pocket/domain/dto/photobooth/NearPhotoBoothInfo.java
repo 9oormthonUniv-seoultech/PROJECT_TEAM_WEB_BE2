@@ -5,6 +5,8 @@ import com.pocket.domain.entity.photobooth.PhotoBoothBrand;
 public record NearPhotoBoothInfo(
         Long id,
         String name,
-        PhotoBoothBrand brand
+        PhotoBoothBrand brand,
+        double x,
+        double y
 ) {
 }

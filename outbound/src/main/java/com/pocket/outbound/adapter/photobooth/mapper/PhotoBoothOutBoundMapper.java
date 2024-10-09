@@ -11,7 +11,9 @@ public class PhotoBoothOutBoundMapper {
         return new NearPhotoBoothInfo(
                 photoBooth.getId(),
                 photoBooth.getPhotoBooth().getName(),
-                photoBooth.getPhotoBooth().getPhotoBoothBrand()
+                photoBooth.getPhotoBooth().getPhotoBoothBrand(),
+                photoBooth.getPhotoBooth().getX(),
+                photoBooth.getPhotoBooth().getY()
         );
     }
 }

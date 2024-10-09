@@ -42,7 +42,7 @@ class PhotoBoothFindAdapterTest {
         // Given: 현재 위치 설정
         double currentLat = 37.5665;
         double currentLon = 126.9780;
-        PhotoBoothBrand brand = null;
+        List<PhotoBoothBrand> brand = null;
 
         // Sample Photobooth instances
         PhotoBooth boothA = PhotoBooth.create("Booth A", "서울특별시 중구", 37.5665, 126.9780, PhotoBoothBrand.LIFE4CUT);
@@ -66,8 +66,8 @@ class PhotoBoothFindAdapterTest {
         when(photoBoothRepository.findAll()).thenReturn(allPhotobooths);
 
         // Mock mapper to convert JpaPhotoBooth to NearPhotoBoothInfo
-        NearPhotoBoothInfo info1 = new NearPhotoBoothInfo(1L, "Booth A");
-        NearPhotoBoothInfo info2 = new NearPhotoBoothInfo(2L, "Booth B");
+        NearPhotoBoothInfo info1 = new NearPhotoBoothInfo(1L, "Booth A", PhotoBoothBrand.LIFE4CUT, 37.5665, 126.9780);
+        NearPhotoBoothInfo info2 = new NearPhotoBoothInfo(2L, "Booth B", PhotoBoothBrand.DONTLXXKUP, 37.5665, 126.9780);
         // Booth C is beyond 2km, so no need to map
 
         when(photoBoothOutBoundMapper.toDTO(jpaBooth1)).thenReturn(info1);
@@ -97,7 +97,7 @@ class PhotoBoothFindAdapterTest {
         // Given: 현재 위치 설정
         double currentLat = 37.5665;
         double currentLon = 126.9780;
-        PhotoBoothBrand brand = PhotoBoothBrand.LIFE4CUT;
+        List<PhotoBoothBrand> brand = List.of();
 
         // Sample Photobooth instances
         PhotoBooth boothA = PhotoBooth.create("Booth A", "서울특별시 중구", 37.5665, 126.9780, PhotoBoothBrand.LIFE4CUT);
@@ -118,11 +118,11 @@ class PhotoBoothFindAdapterTest {
         List<JpaPhotoBooth> brandPhotobooths = Arrays.asList(jpaBooth1, jpaBooth2, jpaBooth3);
 
         // Mock repository to return allPhotobooths
-        when(photoBoothRepository.findByPhotoBoothPhotoBoothBrand(brand)).thenReturn(brandPhotobooths);
+        when(photoBoothRepository.findByPhotoBoothPhotoBoothBrandIn(brand)).thenReturn(brandPhotobooths);
 
         // Mock mapper to convert JpaPhotoBooth to NearPhotoBoothInfo
-        NearPhotoBoothInfo info1 = new NearPhotoBoothInfo(1L, "Booth A");
-        NearPhotoBoothInfo info2 = new NearPhotoBoothInfo(2L, "Booth B");
+        NearPhotoBoothInfo info1 = new NearPhotoBoothInfo(1L, "Booth A", PhotoBoothBrand.LIFE4CUT, 37.5665, 126.9780);
+        NearPhotoBoothInfo info2 = new NearPhotoBoothInfo(2L, "Booth B", PhotoBoothBrand.DONTLXXKUP, 37.5665, 126.9780);
         // Booth C is beyond 2km, so no need to map
 
         when(photoBoothOutBoundMapper.toDTO(jpaBooth1)).thenReturn(info1);
