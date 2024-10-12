@@ -1,6 +1,6 @@
 package com.pocket.domain.entity.image;
 
-import com.pocket.domain.dto.image.AlbumRegisterRequestDto;
+import com.pocket.domain.dto.album.AlbumRegisterRequestDto;
 import com.pocket.domain.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

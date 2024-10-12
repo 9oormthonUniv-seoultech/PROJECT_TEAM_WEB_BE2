@@ -5,9 +5,9 @@ import com.pocket.core.exception.photobooth.PhotoBoothCustomException;
 import com.pocket.core.exception.photobooth.PhotoBoothErrorCode;
 import com.pocket.core.exception.user.UserCustomException;
 import com.pocket.core.exception.user.UserErrorCode;
-import com.pocket.core.image.dto.PresignedUrlResponse;
 import com.pocket.core.image.service.FileService;
-import com.pocket.domain.dto.image.AlbumRegisterRequestDto;
+import com.pocket.domain.dto.album.AlbumRegisterRequestDto;
+import com.pocket.domain.dto.album.AlbumRegisterResponseDto;
 import com.pocket.domain.entity.album.HashTag;
 import com.pocket.domain.entity.album.Memo;
 import com.pocket.domain.entity.image.Image;
@@ -24,53 +24,38 @@ public class AlbumAdapter implements AlbumRegisterPort {
     private final PhotoRepository photoRepository;
     private final HashTagRepository hashtagRepository;
     private final AlbumHashTagRepository photoHashtagRepository;
-    private final FileService fileService;
     private final PhotoBoothRepository photoBoothRepository;
     private final UserRepository userRepository;
+    private final AlbumMapper albumMapper;
 
     @Override
-    public String registerPhoto(AlbumRegisterRequestDto dto, String name) {
-
-        // presigned Url과 파일 경로 발급
-        String imageName = dto.imageName();
-        String prefix = dto.prefix();
-        PresignedUrlResponse response = fileService.getUploadPresignedUrl(prefix, imageName);
-        String presignedUrl = response.getUrl();
-        String filePath = response.getFilePath();
+    public AlbumRegisterResponseDto registerPhoto(AlbumRegisterRequestDto dto, String name) {
 
         JpaPhotoBooth photoBooth = photoBoothRepository.findById(dto.photoboothId())
                 .orElseThrow(() -> new PhotoBoothCustomException(PhotoBoothErrorCode.PHOTOBOOTH_NOT_FOUND));
-        JpaUser jpaUser = userRepository.findByUserName(name).orElseThrow(() -> new UserCustomException(UserErrorCode.NO_USER_INFO));
-        Memo memo = new Memo(dto.memo());
-        Image image = new Image(ImageType.PHOTO);
-        image.makeImage(dto, filePath);
 
-        JpaAlbum photoEntity = JpaAlbum.builder()
-                .photoBooth(photoBooth)
-                .jpaUser(jpaUser)
-                .memo(memo)
-                .image(image)
-                .build();
+        JpaUser jpaUser = userRepository.findByUserName(name)
+                .orElseThrow(() -> new UserCustomException(UserErrorCode.NO_USER_INFO));
 
+        JpaAlbum photoEntity = albumMapper.toJpaAlbum(dto, photoBooth, jpaUser);
         photoRepository.save(photoEntity);
 
         for (String hashtag : dto.hashtag()) {
-
-            HashTag hashTag = new HashTag(hashtag);
-
-            JpaHashTag hashtagEntity = JpaHashTag.builder()
-                    .jpaUser(jpaUser)
-                    .hashTag(hashTag)
-                    .build();
-            JpaAlbumHashTag imageHashtagEntity = JpaAlbumHashTag.builder()
-                    .jpaAlbum(photoEntity)
-                    .jpaHashtag(hashtagEntity)
-                    .build();
+            JpaHashTag hashtagEntity = albumMapper.toJpaHashTag(hashtag, jpaUser);
+            JpaAlbumHashTag imageHashtagEntity = albumMapper.toJpaAlbumHashTag(photoEntity, hashtagEntity);
 
             hashtagRepository.save(hashtagEntity);
             photoHashtagRepository.save(imageHashtagEntity);
         }
 
-        return presignedUrl; // presigned Url 반환
+        return new AlbumRegisterResponseDto(
+                dto.photoboothId(),
+                dto.year(),
+                dto.month(),
+                dto.date(),
+                dto.hashtag(),
+                dto.memo(),
+                dto.filePath()
+        );
     }
 }
