@@ -5,13 +5,8 @@ import com.pocket.core.exception.photobooth.PhotoBoothCustomException;
 import com.pocket.core.exception.photobooth.PhotoBoothErrorCode;
 import com.pocket.core.exception.user.UserCustomException;
 import com.pocket.core.exception.user.UserErrorCode;
-import com.pocket.core.image.service.FileService;
 import com.pocket.domain.dto.album.AlbumRegisterRequestDto;
 import com.pocket.domain.dto.album.AlbumRegisterResponseDto;
-import com.pocket.domain.entity.album.HashTag;
-import com.pocket.domain.entity.album.Memo;
-import com.pocket.domain.entity.image.Image;
-import com.pocket.domain.entity.image.ImageType;
 import com.pocket.domain.port.album.AlbumRegisterPort;
 import com.pocket.outbound.entity.*;
 import com.pocket.outbound.repository.*;
@@ -21,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AlbumAdapter implements AlbumRegisterPort {
 
-    private final PhotoRepository photoRepository;
+    private final AlbumRepository albumRepository;
     private final HashTagRepository hashtagRepository;
     private final AlbumHashTagRepository photoHashtagRepository;
     private final PhotoBoothRepository photoBoothRepository;
@@ -38,7 +33,7 @@ public class AlbumAdapter implements AlbumRegisterPort {
                 .orElseThrow(() -> new UserCustomException(UserErrorCode.NO_USER_INFO));
 
         JpaAlbum photoEntity = albumMapper.toJpaAlbum(dto, photoBooth, jpaUser);
-        photoRepository.save(photoEntity);
+        albumRepository.save(photoEntity);
 
         for (String hashtag : dto.hashtag()) {
             JpaHashTag hashtagEntity = albumMapper.toJpaHashTag(hashtag, jpaUser);

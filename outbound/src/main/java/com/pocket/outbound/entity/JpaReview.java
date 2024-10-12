@@ -2,6 +2,8 @@ package com.pocket.outbound.entity;
 
 import com.pocket.domain.entity.review.Review;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "REVIEW")
+@Builder
+@AllArgsConstructor
 public class JpaReview {
 
     @Id
@@ -17,7 +21,7 @@ public class JpaReview {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private JpaUser user;
+    private JpaUser jpaUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private JpaPhotoBooth photoBooth;

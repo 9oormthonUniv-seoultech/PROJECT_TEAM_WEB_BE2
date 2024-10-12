@@ -1,10 +1,10 @@
-package com.pocket.inbounds.album.presentation;
+package com.pocket.inbounds.review.presentation;
 
 import com.pocket.core.exception.common.ApplicationResponse;
-import com.pocket.domain.dto.album.AlbumRegisterRequestDto;
-import com.pocket.domain.dto.album.AlbumRegisterResponseDto;
+import com.pocket.domain.dto.review.ReviewRegisterRequestDto;
+import com.pocket.domain.dto.review.ReviewRegisterResponseDto;
 import com.pocket.domain.dto.user.UserInfoDTO;
-import com.pocket.domain.usecase.image.AlbumRegisterUseCase;
+import com.pocket.domain.usecase.review.ReviewRegisterUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,17 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/album")
-public class AlbumController implements AlbumContollerDocs{
+@RequestMapping("/api/v1/review")
+public class ReviewController implements ReviewControllerDocs {
 
-    private final AlbumRegisterUseCase albumRegisterUseCase;
+    private final ReviewRegisterUseCase reviewRegisterUseCase;
 
     @PostMapping
-    public ApplicationResponse<AlbumRegisterResponseDto> postPhoto(
-            @RequestBody AlbumRegisterRequestDto requestDto,
+    public ApplicationResponse<ReviewRegisterResponseDto> postReview(
+            @RequestBody ReviewRegisterRequestDto requestDto,
             @AuthenticationPrincipal UserInfoDTO user) {
-
-        AlbumRegisterResponseDto response = albumRegisterUseCase.registerPhotoResponse(requestDto, user.name());
+        ReviewRegisterResponseDto response = reviewRegisterUseCase.registerReviewResponse(requestDto, user.name());
         return ApplicationResponse.ok(response);
     }
 

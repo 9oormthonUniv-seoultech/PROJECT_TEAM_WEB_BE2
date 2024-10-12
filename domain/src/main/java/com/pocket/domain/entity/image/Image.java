@@ -1,6 +1,7 @@
 package com.pocket.domain.entity.image;
 
 import com.pocket.domain.dto.album.AlbumRegisterRequestDto;
+import com.pocket.domain.dto.review.ReviewRegisterRequestDto;
 import com.pocket.domain.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -30,11 +31,16 @@ public class Image extends BaseEntity {
         this.type = type;
     }
 
-    public void makeImage(AlbumRegisterRequestDto dto, String filePath) {
+    public void makeAlbumImage(AlbumRegisterRequestDto dto, String filePath) {
         this.type = ImageType.PHOTO;
         this.imageUrl = filePath;
         this.year = dto.year();
         this.month = dto.month();
         this.date = dto.date();
+    }
+
+    public void makeReviewImage(String filePath) {
+        this.type = ImageType.REVIEW;
+        this.imageUrl = filePath;
     }
 }

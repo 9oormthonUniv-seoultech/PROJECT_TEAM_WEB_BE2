@@ -20,7 +20,7 @@ public class AlbumMapper {
     public JpaAlbum toJpaAlbum(AlbumRegisterRequestDto dto, JpaPhotoBooth photoBooth, JpaUser jpaUser) {
         Memo memo = new Memo(dto.memo());
         Image image = new Image(ImageType.PHOTO);
-        image.makeImage(dto, dto.filePath());
+        image.makeAlbumImage(dto, dto.filePath());
 
         return JpaAlbum.builder()
                 .photoBooth(photoBooth)

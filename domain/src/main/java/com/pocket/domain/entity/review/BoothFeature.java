@@ -21,4 +21,14 @@ public enum BoothFeature {
     public String getDescription() {
         return description;
     }
+
+    // 한글 설명을 받아 enum을 반환하는 메소드
+    public static BoothFeature fromDescription(String description) {
+        for (BoothFeature feature : BoothFeature.values()) {
+            if (feature.getDescription().equals(description)) {
+                return feature;
+            }
+        }
+        throw new IllegalArgumentException("해당 설명에 맞는 BoothFeature가 없습니다: " + description);
+    }
 }

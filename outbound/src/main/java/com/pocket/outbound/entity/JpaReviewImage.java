@@ -2,6 +2,8 @@ package com.pocket.outbound.entity;
 
 import com.pocket.domain.entity.image.Image;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +13,8 @@ import static com.pocket.domain.entity.image.ImageType.REVIEW;
 @NoArgsConstructor
 @Entity
 @Table(name = "REVIEWIMAGE")
+@Builder
+@AllArgsConstructor
 public class JpaReviewImage {
 
     @Id

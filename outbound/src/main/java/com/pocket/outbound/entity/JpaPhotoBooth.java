@@ -23,4 +23,8 @@ public class JpaPhotoBooth {
         this.photoBooth = photoBooth;
     }
 
+    public void updateRating(int newRating) {
+        photoBooth.updateRating(newRating);
+    }
+
 }
