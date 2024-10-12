@@ -26,44 +26,29 @@ public class AlbumAdapter implements AlbumRegisterPort {
     private final AlbumHashTagRepository photoHashtagRepository;
     private final PhotoBoothRepository photoBoothRepository;
     private final UserRepository userRepository;
+    private final AlbumMapper albumMapper;
 
     @Override
     public AlbumRegisterResponseDto registerPhoto(AlbumRegisterRequestDto dto, String name) {
 
         JpaPhotoBooth photoBooth = photoBoothRepository.findById(dto.photoboothId())
                 .orElseThrow(() -> new PhotoBoothCustomException(PhotoBoothErrorCode.PHOTOBOOTH_NOT_FOUND));
-        JpaUser jpaUser = userRepository.findByUserName(name).orElseThrow(() -> new UserCustomException(UserErrorCode.NO_USER_INFO));
-        Memo memo = new Memo(dto.memo());
-        Image image = new Image(ImageType.PHOTO);
-        image.makeImage(dto, dto.filePath());
 
-        JpaAlbum photoEntity = JpaAlbum.builder()
-                .photoBooth(photoBooth)
-                .jpaUser(jpaUser)
-                .memo(memo)
-                .image(image)
-                .build();
+        JpaUser jpaUser = userRepository.findByUserName(name)
+                .orElseThrow(() -> new UserCustomException(UserErrorCode.NO_USER_INFO));
 
+        JpaAlbum photoEntity = albumMapper.toJpaAlbum(dto, photoBooth, jpaUser);
         photoRepository.save(photoEntity);
 
         for (String hashtag : dto.hashtag()) {
-
-            HashTag hashTag = new HashTag(hashtag);
-
-            JpaHashTag hashtagEntity = JpaHashTag.builder()
-                    .jpaUser(jpaUser)
-                    .hashTag(hashTag)
-                    .build();
-            JpaAlbumHashTag imageHashtagEntity = JpaAlbumHashTag.builder()
-                    .jpaAlbum(photoEntity)
-                    .jpaHashtag(hashtagEntity)
-                    .build();
+            JpaHashTag hashtagEntity = albumMapper.toJpaHashTag(hashtag, jpaUser);
+            JpaAlbumHashTag imageHashtagEntity = albumMapper.toJpaAlbumHashTag(photoEntity, hashtagEntity);
 
             hashtagRepository.save(hashtagEntity);
             photoHashtagRepository.save(imageHashtagEntity);
         }
 
-        AlbumRegisterResponseDto response = new AlbumRegisterResponseDto(
+        return new AlbumRegisterResponseDto(
                 dto.photoboothId(),
                 dto.year(),
                 dto.month(),
@@ -72,7 +57,5 @@ public class AlbumAdapter implements AlbumRegisterPort {
                 dto.memo(),
                 dto.filePath()
         );
-
-        return response;
     }
 }
