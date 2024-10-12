@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class AlbumMapper {
+public class AlbumOutBoundMapper {
 
     public JpaAlbum toJpaAlbum(AlbumRegisterRequestDto dto, JpaPhotoBooth photoBooth, JpaUser jpaUser) {
         Memo memo = new Memo(dto.memo());

@@ -21,7 +21,7 @@ public class AlbumAdapter implements AlbumRegisterPort {
     private final AlbumHashTagRepository photoHashtagRepository;
     private final PhotoBoothRepository photoBoothRepository;
     private final UserRepository userRepository;
-    private final AlbumMapper albumMapper;
+    private final AlbumOutBoundMapper albumOutBoundMapper;
 
     @Override
     public AlbumRegisterResponseDto registerPhoto(AlbumRegisterRequestDto dto, String name) {
@@ -32,12 +32,12 @@ public class AlbumAdapter implements AlbumRegisterPort {
         JpaUser jpaUser = userRepository.findByUserName(name)
                 .orElseThrow(() -> new UserCustomException(UserErrorCode.NO_USER_INFO));
 
-        JpaAlbum photoEntity = albumMapper.toJpaAlbum(dto, photoBooth, jpaUser);
+        JpaAlbum photoEntity = albumOutBoundMapper.toJpaAlbum(dto, photoBooth, jpaUser);
         albumRepository.save(photoEntity);
 
         for (String hashtag : dto.hashtag()) {
-            JpaHashTag hashtagEntity = albumMapper.toJpaHashTag(hashtag, jpaUser);
-            JpaAlbumHashTag imageHashtagEntity = albumMapper.toJpaAlbumHashTag(photoEntity, hashtagEntity);
+            JpaHashTag hashtagEntity = albumOutBoundMapper.toJpaHashTag(hashtag, jpaUser);
+            JpaAlbumHashTag imageHashtagEntity = albumOutBoundMapper.toJpaAlbumHashTag(photoEntity, hashtagEntity);
 
             hashtagRepository.save(hashtagEntity);
             photoHashtagRepository.save(imageHashtagEntity);

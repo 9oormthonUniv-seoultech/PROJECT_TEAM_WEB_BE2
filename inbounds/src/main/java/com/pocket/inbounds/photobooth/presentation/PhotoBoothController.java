@@ -5,9 +5,11 @@ import com.pocket.domain.dto.photobooth.NearPhotoBoothInfo;
 import com.pocket.domain.dto.photobooth.PhotoBoothFindResponseDto;
 import com.pocket.domain.entity.photobooth.PhotoBoothBrand;
 import com.pocket.domain.usecase.photobooth.PhotoBoothFindUseCase;
+import com.pocket.domain.usecase.photobooth.PhotoBoothGetRatingUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -16,6 +18,7 @@ import java.util.List;
 public class PhotoBoothController implements PhotoBoothControllerDocs {
 
     private final PhotoBoothFindUseCase photoBoothFindUseCase;
+    private final PhotoBoothGetRatingUseCase photoBoothGetRatingUseCase;
 
     @GetMapping("{id}")
     public ApplicationResponse<PhotoBoothFindResponseDto> getPhotoBoothById(@PathVariable("id") Long id) {
@@ -33,6 +36,12 @@ public class PhotoBoothController implements PhotoBoothControllerDocs {
 
         List<NearPhotoBoothInfo> responses = photoBoothFindUseCase.findNearPhotoBooth(lat, lon, brand);
         return ApplicationResponse.ok(responses);
+    }
+
+    @GetMapping("/rating/{id}")
+    public ApplicationResponse<BigDecimal> getPhotoBoothRating(@PathVariable("id") Long id) {
+        BigDecimal response = photoBoothGetRatingUseCase.getPhotoBoothRating(id);
+        return ApplicationResponse.ok(response);
     }
 
 }

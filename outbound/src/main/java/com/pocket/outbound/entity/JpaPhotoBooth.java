@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Getter
 @NoArgsConstructor
 @Entity
@@ -25,6 +27,10 @@ public class JpaPhotoBooth {
 
     public void updateRating(int newRating) {
         photoBooth.updateRating(newRating);
+    }
+
+    public BigDecimal getRating() {
+        return photoBooth.getAverageRating();
     }
 
 }

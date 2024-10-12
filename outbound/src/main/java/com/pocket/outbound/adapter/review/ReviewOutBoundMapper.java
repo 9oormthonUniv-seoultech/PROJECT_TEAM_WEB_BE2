@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class ReviewMapper {
+public class ReviewOutBoundMapper {
 
     public JpaReview toJpaReview(ReviewRegisterRequestDto dto, JpaPhotoBooth photoBooth, JpaUser jpaUser) {
 

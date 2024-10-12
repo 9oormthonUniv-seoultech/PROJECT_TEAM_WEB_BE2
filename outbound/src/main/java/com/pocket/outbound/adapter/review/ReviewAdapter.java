@@ -26,7 +26,7 @@ public class ReviewAdapter implements ReviewRegisterPort {
     private final PhotoBoothRepository photoBoothRepository;
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
-    private final ReviewMapper reviewMapper;
+    private final ReviewOutBoundMapper reviewOutBoundMapper;
     private final ReviewImageRepository reviewImageRepository;
 
 
@@ -39,7 +39,7 @@ public class ReviewAdapter implements ReviewRegisterPort {
         JpaUser jpaUser = userRepository.findByUserName(name)
                 .orElseThrow(() -> new UserCustomException(UserErrorCode.NO_USER_INFO));
 
-        JpaReview reviewEntity = reviewMapper.toJpaReview(dto, photoBooth, jpaUser);
+        JpaReview reviewEntity = reviewOutBoundMapper.toJpaReview(dto, photoBooth, jpaUser);
         reviewRepository.save(reviewEntity);
 
 
