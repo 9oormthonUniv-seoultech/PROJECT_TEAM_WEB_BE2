@@ -1,0 +1,35 @@
+spring:
+
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://pocket.chui4gsumgdj.ap-northeast-2.rds.amazonaws.com:3306/pocket
+    username: pocket
+    password: pocketdatabase
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show_sql: false # hibernate 로그 남길지
+
+  data:
+    redis:
+      host: redis
+      port: 6379
+
+jwt:
+  secret: aGFuZXVtLWZvb2Rnby1qd3Qtc2VjcmV0LWtleQo=
+  token:
+    access-expiration-time: 86400000 # 24 * 60 * 60 * 1000 = 1일
+    refresh-expiration-time: 604800000 # 7 * 24 * 60 * 60 * 1000 = 7일
+
+logging:
+  level:
+    org:
+      hibernate.sql: debug

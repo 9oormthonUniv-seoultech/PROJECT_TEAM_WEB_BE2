@@ -1,4 +1,4 @@
-package com.pocket.domain.dto.image;
+package com.pocket.domain.dto.album;
 
 import java.util.List;
 
@@ -9,7 +9,6 @@ public record AlbumRegisterRequestDto(
         String date,
         List<String> hashtag,
         String memo,
-        String imageName, // 이미지 이름
-        String prefix // S3 버킷 내에 저장할 경로
+        String filePath
 ) {
 }

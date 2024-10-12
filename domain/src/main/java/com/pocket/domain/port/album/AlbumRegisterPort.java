@@ -1,10 +1,10 @@
 package com.pocket.domain.port.album;
 
-import com.pocket.domain.dto.image.AlbumRegisterRequestDto;
-import com.pocket.domain.entity.User;
+import com.pocket.domain.dto.album.AlbumRegisterRequestDto;
+import com.pocket.domain.dto.album.AlbumRegisterResponseDto;
 
 public interface AlbumRegisterPort {
 
-    String registerPhoto(AlbumRegisterRequestDto albumRegisterRequestDto, String name);
+    AlbumRegisterResponseDto registerPhoto(AlbumRegisterRequestDto albumRegisterRequestDto, String name);
 
 }
