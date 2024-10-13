@@ -1,4 +1,4 @@
-package com.pocket.outbound.adapter.photobooth.adpater;
+package com.pocket.outbound.adapter.photobooth.adapter;
 
 import com.pocket.core.aop.annotation.AdapterService;
 import com.pocket.core.exception.photobooth.PhotoBoothCustomException;

@@ -1,4 +1,4 @@
-package com.pocket.outbound.adapter.album;
+package com.pocket.outbound.adapter.album.adapter;
 
 import com.pocket.core.aop.annotation.AdapterService;
 import com.pocket.core.exception.photobooth.PhotoBoothCustomException;
@@ -8,13 +8,14 @@ import com.pocket.core.exception.user.UserErrorCode;
 import com.pocket.domain.dto.album.AlbumRegisterRequestDto;
 import com.pocket.domain.dto.album.AlbumRegisterResponseDto;
 import com.pocket.domain.port.album.AlbumRegisterPort;
+import com.pocket.outbound.adapter.album.mapper.AlbumOutBoundMapper;
 import com.pocket.outbound.entity.*;
 import com.pocket.outbound.repository.*;
 import lombok.RequiredArgsConstructor;
 
 @AdapterService
 @RequiredArgsConstructor
-public class AlbumAdapter implements AlbumRegisterPort {
+public class AlbumRegisterAdapter implements AlbumRegisterPort {
 
     private final AlbumRepository albumRepository;
     private final HashTagRepository hashtagRepository;

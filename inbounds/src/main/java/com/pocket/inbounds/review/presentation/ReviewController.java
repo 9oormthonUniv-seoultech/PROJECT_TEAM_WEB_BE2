@@ -1,16 +1,15 @@
 package com.pocket.inbounds.review.presentation;
 
 import com.pocket.core.exception.common.ApplicationResponse;
+import com.pocket.domain.dto.review.ReviewGet6ImagesResponseDto;
 import com.pocket.domain.dto.review.ReviewRegisterRequestDto;
 import com.pocket.domain.dto.review.ReviewRegisterResponseDto;
 import com.pocket.domain.dto.user.UserInfoDTO;
+import com.pocket.domain.usecase.review.ReviewGet6ImagesUseCase;
 import com.pocket.domain.usecase.review.ReviewRegisterUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,12 +17,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReviewController implements ReviewControllerDocs {
 
     private final ReviewRegisterUseCase reviewRegisterUseCase;
+    private final ReviewGet6ImagesUseCase reviewGet6ImagesUseCase;
 
     @PostMapping
     public ApplicationResponse<ReviewRegisterResponseDto> postReview(
             @RequestBody ReviewRegisterRequestDto requestDto,
             @AuthenticationPrincipal UserInfoDTO user) {
         ReviewRegisterResponseDto response = reviewRegisterUseCase.registerReviewResponse(requestDto, user.name());
+        return ApplicationResponse.ok(response);
+    }
+
+    @GetMapping("/images/{photobooth_id}")
+    public ApplicationResponse<ReviewGet6ImagesResponseDto> getReviewHomeImage(
+            @PathVariable("photobooth_id") Long photoboothId
+    ) {
+        ReviewGet6ImagesResponseDto response = reviewGet6ImagesUseCase.get6Images(photoboothId);
         return ApplicationResponse.ok(response);
     }
 

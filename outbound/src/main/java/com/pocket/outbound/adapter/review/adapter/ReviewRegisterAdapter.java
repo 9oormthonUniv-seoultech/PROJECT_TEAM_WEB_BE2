@@ -1,4 +1,4 @@
-package com.pocket.outbound.adapter.review;
+package com.pocket.outbound.adapter.review.adapter;
 
 import com.pocket.core.aop.annotation.AdapterService;
 import com.pocket.core.exception.photobooth.PhotoBoothCustomException;
@@ -10,6 +10,7 @@ import com.pocket.domain.dto.review.ReviewRegisterResponseDto;
 import com.pocket.domain.entity.image.Image;
 import com.pocket.domain.entity.image.ImageType;
 import com.pocket.domain.port.review.ReviewRegisterPort;
+import com.pocket.outbound.adapter.review.mapper.ReviewOutBoundMapper;
 import com.pocket.outbound.entity.JpaPhotoBooth;
 import com.pocket.outbound.entity.JpaReview;
 import com.pocket.outbound.entity.JpaReviewImage;
@@ -20,9 +21,8 @@ import lombok.RequiredArgsConstructor;
 
 @AdapterService
 @RequiredArgsConstructor
-public class ReviewAdapter implements ReviewRegisterPort {
+public class ReviewRegisterAdapter implements ReviewRegisterPort {
 
-    private final AlbumRepository albumRepository;
     private final PhotoBoothRepository photoBoothRepository;
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;

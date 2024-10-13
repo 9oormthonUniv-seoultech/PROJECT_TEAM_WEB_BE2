@@ -1,4 +1,4 @@
-package com.pocket.outbound.adapter.photobooth.adpater;
+package com.pocket.outbound.adapter.photobooth.adapter;
 
 import com.pocket.domain.dto.photobooth.NearPhotoBoothInfo;
 import com.pocket.domain.entity.photobooth.PhotoBooth;

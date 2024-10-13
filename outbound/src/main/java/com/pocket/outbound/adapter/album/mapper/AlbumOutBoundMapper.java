@@ -1,4 +1,4 @@
-package com.pocket.outbound.adapter.album;
+package com.pocket.outbound.adapter.album.mapper;
 
 import com.pocket.domain.dto.album.AlbumRegisterRequestDto;
 import com.pocket.domain.entity.album.HashTag;

@@ -1,4 +1,4 @@
-package com.pocket.outbound.adapter.review;
+package com.pocket.outbound.adapter.review.mapper;
 
 import com.pocket.domain.dto.review.ReviewRegisterRequestDto;
 import com.pocket.domain.entity.review.BoothFeature;
