@@ -27,7 +27,7 @@ public class ReviewGetRecentAdapter implements ReviewGetRecentPort {
     public ReviewGetRecentResponseDto getRecentReview(Long photoboothId) {
         int totalReviewCount = reviewRepository.countByPhotoBoothId(photoboothId);
 
-        List<JpaReview> recentReviews = reviewRepository.findTop3ByPhotoBoothIdOrderByIdDesc(photoboothId);
+        List<JpaReview> recentReviews = reviewRepository.findTop2ByPhotoBoothIdOrderByIdDesc(photoboothId);
 
         List<ReviewPreviewDto> reviewPreviews = recentReviews.stream().map(review -> {
             List<JpaReviewImage> images = reviewImageRepository.findByReviewId(review.getId());
