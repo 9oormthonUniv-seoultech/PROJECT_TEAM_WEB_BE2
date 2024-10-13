@@ -21,11 +21,14 @@ public class ReviewGet6ImagesAdapter implements ReviewGet6ImagesPort {
     public ReviewGet6ImagesResponseDto get6Images(Long photoboothId) {
         List<JpaReviewImage> reviewImages = reviewImageRepository.findTop6ByPhotoBoothOrderByReviewIdDesc(photoboothId);
 
+        // 포토부스에 해당하는 전체 리뷰 이미지 개수 구하기
+        int totalImageCount = reviewImageRepository.countByPhotoBoothId(photoboothId);
+
         List<String> imageUrls = reviewImages.stream()
                 .map(reviewImage -> reviewImage.getImage().getImageUrl())
                 .collect(Collectors.toList());
 
-        return new ReviewGet6ImagesResponseDto(imageUrls);
+        return new ReviewGet6ImagesResponseDto(imageUrls, totalImageCount);
     }
 
 
