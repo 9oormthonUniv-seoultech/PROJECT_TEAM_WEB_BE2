@@ -7,11 +7,14 @@ import com.pocket.domain.dto.review.ReviewRegisterRequestDto;
 import com.pocket.domain.dto.review.ReviewRegisterResponseDto;
 import com.pocket.domain.dto.user.UserInfoDTO;
 import com.pocket.domain.usecase.review.ReviewGet6ImagesUseCase;
+import com.pocket.domain.usecase.review.ReviewGetAllImagesUseCase;
 import com.pocket.domain.usecase.review.ReviewGetRecentUseCase;
 import com.pocket.domain.usecase.review.ReviewRegisterUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +24,7 @@ public class ReviewController implements ReviewControllerDocs {
     private final ReviewRegisterUseCase reviewRegisterUseCase;
     private final ReviewGet6ImagesUseCase reviewGet6ImagesUseCase;
     private final ReviewGetRecentUseCase reviewGetRecentUseCase;
+    private final ReviewGetAllImagesUseCase reviewGetAllImagesUseCase;
 
     @PostMapping
     public ApplicationResponse<ReviewRegisterResponseDto> postReview(
@@ -43,6 +47,14 @@ public class ReviewController implements ReviewControllerDocs {
             @PathVariable("photobooth_id") Long photoboothId
     ) {
         ReviewGetRecentResponseDto response = reviewGetRecentUseCase.getRecentReview(photoboothId);
+        return ApplicationResponse.ok(response);
+    }
+
+    @GetMapping("/allimages/{photobooth_id}")
+    public ApplicationResponse<List<String>> getReviewImages(
+            @PathVariable("photobooth_id") Long photoboothId
+    ) {
+        List<String> response = reviewGetAllImagesUseCase.getAllImages(photoboothId);
         return ApplicationResponse.ok(response);
     }
 
