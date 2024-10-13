@@ -27,6 +27,8 @@ public class PhotoBoothController implements PhotoBoothControllerDocs {
         return ApplicationResponse.ok(response);
     }
 
+
+
     @GetMapping()
     public ApplicationResponse<List<NearPhotoBoothInfo>> getAllPhotoBooth(
             @RequestParam("lat") double lat,

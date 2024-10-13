@@ -21,6 +21,7 @@ public class ReviewController implements ReviewControllerDocs {
     private final ReviewGetRecentUseCase reviewGetRecentUseCase;
     private final ReviewGetAllImagesUseCase reviewGetAllImagesUseCase;
     private final ReviewBoothFeatureUseCase reviewBoothFeatureUseCase;
+    private final ReviewPhotoFeatureUseCase reviewPhotoFeatureUseCase;
 
     @PostMapping
     public ApplicationResponse<ReviewRegisterResponseDto> postReview(
@@ -59,6 +60,14 @@ public class ReviewController implements ReviewControllerDocs {
             @PathVariable("photobooth_id") Long photoboothId
     ) {
         List<ReviewBoothFeatureDto> response = reviewBoothFeatureUseCase.getReviewBoothFeatures(photoboothId);
+        return ApplicationResponse.ok(response);
+    }
+
+    @GetMapping("/photofeatures/{photobooth_id}")
+    public ApplicationResponse<List<ReviewPhotoFeatureDto>> getReviewPhotoFeatures(
+            @PathVariable("photobooth_id") Long photoboothId
+    ) {
+        List<ReviewPhotoFeatureDto> response = reviewPhotoFeatureUseCase.getReviewPhotoFeatures(photoboothId);
         return ApplicationResponse.ok(response);
     }
 

@@ -11,13 +11,16 @@ import java.util.List;
 
 @DomainService
 @RequiredArgsConstructor
-public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUseCase, ReviewGetRecentUseCase, ReviewGetAllImagesUseCase, ReviewBoothFeatureUseCase {
+public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUseCase, ReviewGetRecentUseCase, ReviewGetAllImagesUseCase, ReviewBoothFeatureUseCase, ReviewPhotoFeatureUseCase
+
+{
 
     private final ReviewRegisterPort reviewRegisterPort;
     private final ReviewGet6ImagesPort reviewGet6ImagesPort;
     private final ReviewGetRecentPort reviewGetRecentPort;
     private final ReviewGetAllImagesPort reviewGetAllImagesPort;
     private final ReviewBoothFeaturePort reviewBoothFeaturePort;
+    private final ReviewPhotoFeaturePort reviewPhotoFeaturePort;
 
     @Override
     public ReviewRegisterResponseDto registerReviewResponse(ReviewRegisterRequestDto reviewRegisterRequestDto, String name) {
@@ -35,7 +38,6 @@ public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUse
         return reviewGetRecentPort.getRecentReview(photoboothId);
     }
 
-
     @Override
     public List<String> getAllImages(Long photoboothId) {
         return reviewGetAllImagesPort.getAllImages(photoboothId);
@@ -44,5 +46,10 @@ public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUse
     @Override
     public List<ReviewBoothFeatureDto> getReviewBoothFeatures(Long photoboothId) {
         return reviewBoothFeaturePort.getReviewBoothFeature(photoboothId);
+    }
+
+    @Override
+    public List<ReviewPhotoFeatureDto> getReviewPhotoFeatures(Long photoboothId) {
+        return reviewPhotoFeaturePort.getReviewPhotoFeature(photoboothId);
     }
 }
