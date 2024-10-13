@@ -1,17 +1,12 @@
 package com.pocket.inbounds.review.presentation;
 
 import com.pocket.core.exception.common.ApplicationResponse;
-import com.pocket.domain.dto.review.ReviewGet6ImagesResponseDto;
-import com.pocket.domain.dto.review.ReviewGetRecentResponseDto;
-import com.pocket.domain.dto.review.ReviewRegisterRequestDto;
-import com.pocket.domain.dto.review.ReviewRegisterResponseDto;
+import com.pocket.domain.dto.review.*;
 import com.pocket.domain.dto.user.UserInfoDTO;
-import com.pocket.domain.usecase.review.ReviewGet6ImagesUseCase;
-import com.pocket.domain.usecase.review.ReviewGetAllImagesUseCase;
-import com.pocket.domain.usecase.review.ReviewGetRecentUseCase;
-import com.pocket.domain.usecase.review.ReviewRegisterUseCase;
+import com.pocket.domain.usecase.review.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +20,7 @@ public class ReviewController implements ReviewControllerDocs {
     private final ReviewGet6ImagesUseCase reviewGet6ImagesUseCase;
     private final ReviewGetRecentUseCase reviewGetRecentUseCase;
     private final ReviewGetAllImagesUseCase reviewGetAllImagesUseCase;
+    private final ReviewBoothFeatureUseCase reviewBoothFeatureUseCase;
 
     @PostMapping
     public ApplicationResponse<ReviewRegisterResponseDto> postReview(
@@ -55,6 +51,14 @@ public class ReviewController implements ReviewControllerDocs {
             @PathVariable("photobooth_id") Long photoboothId
     ) {
         List<String> response = reviewGetAllImagesUseCase.getAllImages(photoboothId);
+        return ApplicationResponse.ok(response);
+    }
+
+    @GetMapping("/boothfeatures/{photobooth_id}")
+    public ApplicationResponse<List<ReviewBoothFeatureDto>> getReviewBoothFeatures(
+            @PathVariable("photobooth_id") Long photoboothId
+    ) {
+        List<ReviewBoothFeatureDto> response = reviewBoothFeatureUseCase.getReviewBoothFeatures(photoboothId);
         return ApplicationResponse.ok(response);
     }
 
