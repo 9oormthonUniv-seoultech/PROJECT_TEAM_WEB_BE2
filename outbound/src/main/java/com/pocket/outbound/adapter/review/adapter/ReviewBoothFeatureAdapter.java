@@ -5,7 +5,6 @@ import com.pocket.core.aop.annotation.AdapterService;
 import com.pocket.domain.dto.review.ReviewBoothFeatureDto;
 import com.pocket.domain.entity.review.BoothFeature;
 import com.pocket.domain.port.review.ReviewBoothFeaturePort;
-import com.pocket.domain.port.review.ReviewRegisterPort;
 import com.pocket.outbound.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 

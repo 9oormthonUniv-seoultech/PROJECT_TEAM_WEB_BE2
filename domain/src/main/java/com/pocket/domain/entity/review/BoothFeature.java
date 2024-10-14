@@ -1,6 +1,9 @@
 package com.pocket.domain.entity.review;
 
 
+import com.pocket.core.exception.review.ReviewCustomException;
+import com.pocket.core.exception.review.ReviewErrorCode;
+
 public enum BoothFeature {
     CLEAN_PROPS("깔끔한 소품"),
     PRETTY_SELFIE_ZONE("예쁜 셀카존"),
@@ -29,6 +32,6 @@ public enum BoothFeature {
                 return feature;
             }
         }
-        throw new IllegalArgumentException("해당 설명에 맞는 BoothFeature가 없습니다: " + description);
+        throw new ReviewCustomException(ReviewErrorCode.BOOTH_FEATURE_NOT_FOUND);
     }
 }

@@ -19,7 +19,7 @@ public class ReviewGetAllImagesAdapter implements ReviewGetAllImagesPort {
     @Override
     public List<String> getAllImages(Long photoboothId) {
 
-        List<JpaReviewImage> reviewImages = reviewImageRepository.findAllByPhotoBoothId(photoboothId);
+        List<JpaReviewImage> reviewImages = reviewImageRepository.findByReviewPhotoBoothId(photoboothId);
 
         return reviewImages.stream()
                 .map(reviewImage -> reviewImage.getImage().getImageUrl())

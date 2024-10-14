@@ -9,16 +9,12 @@ import java.util.List;
 
 public interface ReviewImageRepository extends JpaRepository<JpaReviewImage, Long> {
 
-    @Query("SELECT ri FROM JpaReviewImage ri JOIN ri.review r WHERE r.photoBooth.id = :photoboothId ORDER BY r.id DESC")
-    List<JpaReviewImage> findTop6ByPhotoBoothOrderByReviewIdDesc(@Param("photoboothId") Long photoboothId);
+    List<JpaReviewImage> findTop6ByReviewPhotoBoothIdOrderByReviewIdDesc(Long photoboothId);
 
-    @Query("SELECT COUNT(ri) FROM JpaReviewImage ri JOIN ri.review r WHERE r.photoBooth.id = :photoboothId")
-    int countByPhotoBoothId(@Param("photoboothId") Long photoboothId);
+    int countByReviewPhotoBoothId(Long photoboothId);
 
-    @Query("SELECT ri FROM JpaReviewImage ri WHERE ri.review.id = :reviewId")
-    List<JpaReviewImage> findByReviewId(@Param("reviewId") Long reviewId);
+    List<JpaReviewImage> findByReviewId(Long reviewId);
 
-    @Query("SELECT ri FROM JpaReviewImage ri JOIN ri.review r WHERE r.photoBooth.id = :photoboothId")
-        List<JpaReviewImage> findAllByPhotoBoothId(@Param("photoboothId") Long photoboothId);
+    List<JpaReviewImage> findByReviewPhotoBoothId(Long photoboothId);
 
 }

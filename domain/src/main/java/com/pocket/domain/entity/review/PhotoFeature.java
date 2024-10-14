@@ -1,5 +1,8 @@
 package com.pocket.domain.entity.review;
 
+import com.pocket.core.exception.review.ReviewCustomException;
+import com.pocket.core.exception.review.ReviewErrorCode;
+
 public enum PhotoFeature {
     NO_GLARE("빛번짐 없음"),
     HIGH_DEFINITION("선명한 화질"),
@@ -26,6 +29,6 @@ public enum PhotoFeature {
                 return feature;
             }
         }
-        throw new IllegalArgumentException("해당 설명에 맞는 PhotoFeature가 없습니다: " + description);
+        throw new ReviewCustomException(ReviewErrorCode.PHOTO_FEATURE_NOT_FOUND);
     }
 }
