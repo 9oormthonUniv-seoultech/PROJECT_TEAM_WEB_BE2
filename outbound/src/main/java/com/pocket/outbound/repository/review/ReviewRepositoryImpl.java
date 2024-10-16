@@ -5,19 +5,14 @@ import com.pocket.outbound.adapter.review.dto.PhotoFeatureDTO;
 import com.pocket.outbound.entity.QJpaReview;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
-import org.springframework.stereotype.Repository;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-@Repository
+@RequiredArgsConstructor
 public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
-
-    public ReviewRepositoryImpl(EntityManager entityManager) {
-        this.queryFactory = new JPAQueryFactory(entityManager);
-    }
 
     @Override
     public List<BoothFeatureDTO> findTop4ByBoothFeature(Long photoboothId) {
