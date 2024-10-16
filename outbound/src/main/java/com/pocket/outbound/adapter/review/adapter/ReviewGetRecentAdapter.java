@@ -9,7 +9,7 @@ import com.pocket.outbound.adapter.review.mapper.ReviewOutBoundMapper;
 import com.pocket.outbound.entity.JpaReview;
 import com.pocket.outbound.entity.JpaReviewImage;
 import com.pocket.outbound.repository.ReviewImageRepository;
-import com.pocket.outbound.repository.ReviewRepository;
+import com.pocket.outbound.repository.review.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

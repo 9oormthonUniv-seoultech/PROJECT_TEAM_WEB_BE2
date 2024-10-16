@@ -16,6 +16,7 @@ import com.pocket.outbound.entity.JpaReview;
 import com.pocket.outbound.entity.JpaReviewImage;
 import com.pocket.outbound.entity.JpaUser;
 import com.pocket.outbound.repository.*;
+import com.pocket.outbound.repository.review.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 
 
