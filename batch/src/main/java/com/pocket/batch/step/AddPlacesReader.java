@@ -117,8 +117,8 @@ public class AddPlacesReader implements ItemReader<PhotoBoothFindResponseDto> {
             PhotoBoothFindResponseDto dto = new PhotoBoothFindResponseDto(
                     document.getPlace_name(),
                     document.getRoad_address_name(),
-                    Double.parseDouble(document.getX()),
                     Double.parseDouble(document.getY()),
+                    Double.parseDouble(document.getX()),
                     mapToBrand(document.getCategory_name())
             );
             dtoList.add(dto);

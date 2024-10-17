@@ -2,7 +2,7 @@ package com.pocket.batch.step;
 
 import com.pocket.domain.dto.photobooth.PhotoBoothFindResponseDto;
 import com.pocket.domain.entity.photobooth.PhotoBoothBrand;
-import com.pocket.outbound.entity.JpaPhotoBooth;
+import com.pocket.outbound.entity.photobooth.JpaPhotoBooth;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

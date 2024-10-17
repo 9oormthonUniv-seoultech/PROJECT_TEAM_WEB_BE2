@@ -1,7 +1,8 @@
 package com.pocket.inbounds.album.presentation;
 
 import com.pocket.core.exception.common.ApplicationResponse;
-import com.pocket.domain.dto.image.AlbumRegisterRequestDto;
+import com.pocket.domain.dto.album.AlbumRegisterRequestDto;
+import com.pocket.domain.dto.album.AlbumRegisterResponseDto;
 import com.pocket.domain.dto.user.UserInfoDTO;
 import com.pocket.domain.usecase.image.AlbumRegisterUseCase;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +20,12 @@ public class AlbumController implements AlbumContollerDocs{
     private final AlbumRegisterUseCase albumRegisterUseCase;
 
     @PostMapping
-    public ApplicationResponse<String> postPhoto(
+    public ApplicationResponse<AlbumRegisterResponseDto> postPhoto(
             @RequestBody AlbumRegisterRequestDto requestDto,
             @AuthenticationPrincipal UserInfoDTO user) {
 
-        String url = albumRegisterUseCase.registerPhotoResponse(requestDto, user.name());
-        return ApplicationResponse.ok(url);// presigned Url을 리턴해줘야 함.
+        AlbumRegisterResponseDto response = albumRegisterUseCase.registerPhotoResponse(requestDto, user.name());
+        return ApplicationResponse.ok(response);
     }
 
 }

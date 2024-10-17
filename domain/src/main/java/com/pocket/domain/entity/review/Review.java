@@ -1,16 +1,15 @@
 package com.pocket.domain.entity.review;
 
+import com.pocket.domain.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.util.List;
 
 @Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Review {
+@AllArgsConstructor
+public class Review extends BaseEntity {
 
     @Column(name = "rating")
     private int rating;

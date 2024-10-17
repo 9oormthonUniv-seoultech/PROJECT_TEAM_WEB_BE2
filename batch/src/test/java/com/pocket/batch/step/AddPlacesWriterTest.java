@@ -2,8 +2,8 @@ package com.pocket.batch.step;
 
 import com.pocket.domain.entity.photobooth.PhotoBooth;
 import com.pocket.domain.entity.photobooth.PhotoBoothBrand;
-import com.pocket.outbound.entity.JpaPhotoBooth;
-import com.pocket.outbound.repository.PhotoBoothRepository;
+import com.pocket.outbound.entity.photobooth.JpaPhotoBooth;
+import com.pocket.outbound.repository.photobooth.PhotoBoothRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
