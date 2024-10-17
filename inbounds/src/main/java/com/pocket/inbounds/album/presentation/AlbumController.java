@@ -24,8 +24,8 @@ public class AlbumController implements AlbumContollerDocs{
             @RequestBody AlbumRegisterRequestDto requestDto,
             @AuthenticationPrincipal UserInfoDTO user) {
 
-        AlbumRegisterResponseDto url = albumRegisterUseCase.registerPhotoResponse(requestDto, user.name());
-        return ApplicationResponse.ok(url); // presigned Url을 리턴해줘야 함.
+        AlbumRegisterResponseDto response = albumRegisterUseCase.registerPhotoResponse(requestDto, user.name());
+        return ApplicationResponse.ok(response);
     }
 
 }

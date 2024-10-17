@@ -4,7 +4,7 @@ import com.pocket.batch.step.AddPlacesProcessor;
 import com.pocket.batch.step.AddPlacesReader;
 import com.pocket.batch.step.AddPlacesWriter;
 import com.pocket.domain.dto.photobooth.PhotoBoothFindResponseDto;
-import com.pocket.outbound.entity.JpaPhotoBooth;
+import com.pocket.outbound.entity.photobooth.JpaPhotoBooth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;

@@ -1,7 +1,7 @@
 package com.pocket.outbound.adapter.photobooth.mapper;
 
 import com.pocket.domain.dto.photobooth.NearPhotoBoothInfo;
-import com.pocket.outbound.entity.JpaPhotoBooth;
+import com.pocket.outbound.entity.photobooth.JpaPhotoBooth;
 import org.springframework.stereotype.Component;
 
 @Component
