@@ -10,7 +10,15 @@ import com.pocket.domain.dto.album.AlbumRegisterResponseDto;
 import com.pocket.domain.port.album.AlbumRegisterPort;
 import com.pocket.outbound.adapter.album.mapper.AlbumOutBoundMapper;
 import com.pocket.outbound.entity.*;
+import com.pocket.outbound.entity.album.JpaAlbum;
+import com.pocket.outbound.entity.album.JpaAlbumHashTag;
+import com.pocket.outbound.entity.album.JpaHashTag;
+import com.pocket.outbound.entity.photobooth.JpaPhotoBooth;
 import com.pocket.outbound.repository.*;
+import com.pocket.outbound.repository.album.AlbumHashTagRepository;
+import com.pocket.outbound.repository.album.AlbumRepository;
+import com.pocket.outbound.repository.album.HashTagRepository;
+import com.pocket.outbound.repository.photobooth.PhotoBoothRepository;
 import lombok.RequiredArgsConstructor;
 
 @AdapterService

@@ -1,32 +1,32 @@
-package com.pocket.outbound.entity;
+package com.pocket.outbound.entity.review;
 
-import com.pocket.domain.entity.review.Review;
+import com.pocket.domain.entity.image.Image;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import static com.pocket.domain.entity.image.ImageType.REVIEW;
+
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "REVIEW")
+@Table(name = "REVIEWIMAGE")
 @Builder
 @AllArgsConstructor
-public class JpaReview {
+public class JpaReviewImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "review_id")
+    @Column(name = "reviewImage_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private JpaUser jpaUser;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private JpaPhotoBooth photoBooth;
-
     @Embedded
-    private Review review;
+    private Image image = new Image(REVIEW);
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private JpaReview review;
 
 }
+

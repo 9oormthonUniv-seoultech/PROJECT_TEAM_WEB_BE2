@@ -4,8 +4,8 @@ import com.pocket.core.aop.annotation.AdapterService;
 import com.pocket.core.exception.photobooth.PhotoBoothCustomException;
 import com.pocket.core.exception.photobooth.PhotoBoothErrorCode;
 import com.pocket.domain.port.photobooth.PhotoBoothGetRatingPort;
-import com.pocket.outbound.entity.JpaPhotoBooth;
-import com.pocket.outbound.repository.PhotoBoothRepository;
+import com.pocket.outbound.entity.photobooth.JpaPhotoBooth;
+import com.pocket.outbound.repository.photobooth.PhotoBoothRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;

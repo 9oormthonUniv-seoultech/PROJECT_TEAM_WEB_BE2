@@ -1,7 +1,7 @@
-package com.pocket.outbound.repository;
+package com.pocket.outbound.repository.photobooth;
 
 import com.pocket.domain.entity.photobooth.PhotoBoothBrand;
-import com.pocket.outbound.entity.JpaPhotoBooth;
+import com.pocket.outbound.entity.photobooth.JpaPhotoBooth;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

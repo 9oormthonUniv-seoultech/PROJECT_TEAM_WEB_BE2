@@ -13,4 +13,5 @@ public record ReviewPreviewDto(
         String imageUrl,
         int imageCount
 ) {
+
 }

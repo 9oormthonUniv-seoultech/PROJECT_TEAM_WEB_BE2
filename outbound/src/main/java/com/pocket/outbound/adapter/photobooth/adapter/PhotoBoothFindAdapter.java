@@ -9,8 +9,8 @@ import com.pocket.domain.dto.photobooth.PhotoBoothFindResponseDto;
 import com.pocket.domain.entity.photobooth.PhotoBoothBrand;
 import com.pocket.domain.port.photobooth.PhotoBoothFindPort;
 import com.pocket.outbound.adapter.photobooth.mapper.PhotoBoothOutBoundMapper;
-import com.pocket.outbound.entity.JpaPhotoBooth;
-import com.pocket.outbound.repository.PhotoBoothRepository;
+import com.pocket.outbound.entity.photobooth.JpaPhotoBooth;
+import com.pocket.outbound.repository.photobooth.PhotoBoothRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

@@ -1,5 +1,6 @@
-package com.pocket.outbound.entity;
+package com.pocket.outbound.entity.photobooth;
 
+import com.pocket.outbound.entity.JpaUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

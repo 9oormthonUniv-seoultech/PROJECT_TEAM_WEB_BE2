@@ -1,4 +1,4 @@
-package com.pocket.outbound.entity;
+package com.pocket.outbound.entity.photobooth;
 
 import com.pocket.domain.entity.photobooth.PhotoBooth;
 import jakarta.persistence.*;

@@ -1,7 +1,9 @@
-package com.pocket.outbound.entity;
+package com.pocket.outbound.entity.album;
 
 import com.pocket.domain.entity.album.Memo;
 import com.pocket.domain.entity.image.Image;
+import com.pocket.outbound.entity.photobooth.JpaPhotoBooth;
+import com.pocket.outbound.entity.JpaUser;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

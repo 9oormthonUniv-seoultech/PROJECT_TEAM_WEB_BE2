@@ -4,8 +4,8 @@ package com.pocket.outbound.adapter.review.adapter;
 import com.pocket.core.aop.annotation.AdapterService;
 import com.pocket.domain.dto.review.ReviewGet6ImagesResponseDto;
 import com.pocket.domain.port.review.ReviewGet6ImagesPort;
-import com.pocket.outbound.entity.JpaReviewImage;
-import com.pocket.outbound.repository.ReviewImageRepository;
+import com.pocket.outbound.entity.review.JpaReviewImage;
+import com.pocket.outbound.repository.review.ReviewImageRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

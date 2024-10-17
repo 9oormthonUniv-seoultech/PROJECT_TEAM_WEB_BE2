@@ -1,7 +1,7 @@
 package com.pocket.batch.step;
 
-import com.pocket.outbound.entity.JpaPhotoBooth;
-import com.pocket.outbound.repository.PhotoBoothRepository;
+import com.pocket.outbound.entity.photobooth.JpaPhotoBooth;
+import com.pocket.outbound.repository.photobooth.PhotoBoothRepository;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;

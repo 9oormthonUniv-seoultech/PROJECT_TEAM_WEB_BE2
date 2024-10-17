@@ -1,4 +1,4 @@
-package com.pocket.outbound.entity;
+package com.pocket.outbound.entity.album;
 
 import jakarta.persistence.*;
 import lombok.Builder;

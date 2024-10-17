@@ -11,7 +11,7 @@ import java.util.List;
 
 @DomainService
 @RequiredArgsConstructor
-public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUseCase, ReviewGetRecentUseCase, ReviewGetAllImagesUseCase, ReviewBoothFeatureUseCase, ReviewPhotoFeatureUseCase
+public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUseCase, ReviewGetRecentUseCase, ReviewGetAllImagesUseCase, ReviewBoothFeatureCountUseCase, ReviewPhotoFeatureCountUseCase, ReviewGetBoothFeatureUseCase, ReviewGetPhotoFeatureUseCase
 
 {
 
@@ -19,14 +19,15 @@ public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUse
     private final ReviewGet6ImagesPort reviewGet6ImagesPort;
     private final ReviewGetRecentPort reviewGetRecentPort;
     private final ReviewGetAllImagesPort reviewGetAllImagesPort;
-    private final ReviewBoothFeaturePort reviewBoothFeaturePort;
-    private final ReviewPhotoFeaturePort reviewPhotoFeaturePort;
+    private final ReviewBoothFeatureCountPort reviewBoothFeatureCountPort;
+    private final ReviewPhotoFeatureCountPort reviewPhotoFeatureCountPort;
+    private final ReviewGetBoothFeaturePort reviewGetBoothFeaturePort;
+    private final ReviewGetPhotoFeaturePort reviewGetPhotoFeaturePort;
 
     @Override
     public ReviewRegisterResponseDto registerReviewResponse(ReviewRegisterRequestDto reviewRegisterRequestDto, String name) {
         return reviewRegisterPort.registerReview(reviewRegisterRequestDto, name);
     }
-
 
     @Override
     public ReviewGet6ImagesResponseDto get6Images(Long photoboothId) {
@@ -44,12 +45,22 @@ public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUse
     }
 
     @Override
-    public List<ReviewBoothFeatureDto> getReviewBoothFeatures(Long photoboothId) {
-        return reviewBoothFeaturePort.getReviewBoothFeature(photoboothId);
+    public List<BoothFeatureCountDto> getReviewBoothFeatures(Long photoboothId) {
+        return reviewBoothFeatureCountPort.getReviewBoothFeature(photoboothId);
     }
 
     @Override
-    public List<ReviewPhotoFeatureDto> getReviewPhotoFeatures(Long photoboothId) {
-        return reviewPhotoFeaturePort.getReviewPhotoFeature(photoboothId);
+    public List<PhotoFeatureCountDto> getReviewPhotoFeatures(Long photoboothId) {
+        return reviewPhotoFeatureCountPort.getReviewPhotoFeature(photoboothId);
+    }
+
+    @Override
+    public List<BoothFeatureDto> getBoothFeatures() {
+        return reviewGetBoothFeaturePort.getBoothFeatures();
+    }
+
+    @Override
+    public List<PhotoFeatureDto> getPhotoFeatures() {
+        return reviewGetPhotoFeaturePort.getPhotoFeatures();
     }
 }

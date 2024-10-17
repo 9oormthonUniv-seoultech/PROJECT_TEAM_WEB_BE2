@@ -1,6 +1,7 @@
-package com.pocket.outbound.entity;
+package com.pocket.outbound.entity.album;
 
 import com.pocket.domain.entity.album.HashTag;
+import com.pocket.outbound.entity.JpaUser;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

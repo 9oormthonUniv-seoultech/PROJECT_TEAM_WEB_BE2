@@ -1,37 +1,16 @@
 package com.pocket.domain.entity.review;
 
+import jakarta.persistence.Embeddable;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import com.pocket.core.exception.review.ReviewCustomException;
-import com.pocket.core.exception.review.ReviewErrorCode;
+@Getter
+@Embeddable
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+public class BoothFeature {
 
-public enum BoothFeature {
-    CLEAN_PROPS("깔끔한 소품"),
-    PRETTY_SELFIE_ZONE("예쁜 셀카존"),
-    SPACIOUS_BOOTH("넓은 부스 공간"),
-    SPACIOUS_WAITING_AREA("넓은 대기 공간"),
-    OUTPUT_PRINT_AVAILABLE("출력 가능"),
-    GOOD_POWDER_ROOM("좋은 파우더룸"),
-    CLEAN_BOOTH("청결한 부스"),
-    VARIED_BACKGROUNDS("다양한 배경색"),
-    VARIED_FRAMES("다양한 프레임");
-
-    private final String description;
-
-    BoothFeature(String description) {
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    // 한글 설명을 받아 enum을 반환하는 메소드
-    public static BoothFeature fromDescription(String description) {
-        for (BoothFeature feature : BoothFeature.values()) {
-            if (feature.getDescription().equals(description)) {
-                return feature;
-            }
-        }
-        throw new ReviewCustomException(ReviewErrorCode.BOOTH_FEATURE_NOT_FOUND);
-    }
+    private String description;
 }

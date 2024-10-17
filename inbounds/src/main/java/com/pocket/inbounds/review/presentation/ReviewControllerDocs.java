@@ -76,7 +76,7 @@ public interface ReviewControllerDocs {
                     content = {@Content(schema = @Schema(implementation = ErrorResponse.class))})
     })
     @Operation(summary = "포토부스 특징 조회", description = "특정 포토부스의 특징을 조회하는 API")
-    ApplicationResponse<List<ReviewBoothFeatureDto>> getReviewBoothFeatures(
+    ApplicationResponse<List<BoothFeatureCountDto>> getReviewBoothFeatures(
             @PathVariable("photobooth_id") Long photoboothId
     );
 
@@ -88,7 +88,7 @@ public interface ReviewControllerDocs {
                     content = {@Content(schema = @Schema(implementation = ErrorResponse.class))})
     })
     @Operation(summary = "포토 특징 조회", description = "특정 포토부스에서 찍힌 사진의 특징을 조회하는 API")
-    ApplicationResponse<List<ReviewPhotoFeatureDto>> getReviewPhotoFeatures(
+    ApplicationResponse<List<PhotoFeatureCountDto>> getReviewPhotoFeatures(
             @PathVariable("photobooth_id") Long photoboothId
     );
 }

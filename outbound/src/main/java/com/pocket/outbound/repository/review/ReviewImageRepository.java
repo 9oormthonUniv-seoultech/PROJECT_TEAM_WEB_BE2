@@ -1,9 +1,7 @@
-package com.pocket.outbound.repository;
+package com.pocket.outbound.repository.review;
 
-import com.pocket.outbound.entity.JpaReviewImage;
+import com.pocket.outbound.entity.review.JpaReviewImage;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
