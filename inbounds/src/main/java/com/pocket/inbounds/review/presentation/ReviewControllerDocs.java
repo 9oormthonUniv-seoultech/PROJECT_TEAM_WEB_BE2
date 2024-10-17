@@ -91,4 +91,24 @@ public interface ReviewControllerDocs {
     ApplicationResponse<List<PhotoFeatureCountDto>> getReviewPhotoFeatures(
             @PathVariable("photobooth_id") Long photoboothId
     );
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))})
+    })
+    @Operation(summary = "포토부스의 모든 특징 조회", description = "포토부스의 모든 특징을 가져오는 API")
+    ApplicationResponse<List<BoothFeatureDto>> getAllBoothFeature();
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))})
+    })
+    @Operation(summary = "포토부스의 모든 사진 특징 조회", description = "포토부스에서 찍힌 모든 사진의 특징을 가져오는 API")
+    ApplicationResponse<List<PhotoFeatureDto>> getAllPhotoFeature();
 }
