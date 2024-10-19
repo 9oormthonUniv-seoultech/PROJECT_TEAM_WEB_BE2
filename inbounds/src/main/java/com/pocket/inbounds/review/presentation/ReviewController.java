@@ -24,8 +24,6 @@ public class ReviewController implements ReviewControllerDocs {
     private final ReviewGetBoothFeatureUseCase reviewGetBoothFeatureUseCase;
     private final ReviewGetPhotoFeatureUseCase reviewGetPhotoFeatureUseCase;
 
-
-
     @PostMapping
     public ApplicationResponse<ReviewRegisterResponseDto> postReview(
             @RequestBody ReviewRegisterRequestDto requestDto,
