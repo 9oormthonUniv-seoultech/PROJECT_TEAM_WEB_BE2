@@ -4,6 +4,7 @@ import com.nimbusds.oauth2.sdk.ErrorResponse;
 import com.pocket.core.exception.common.ApplicationResponse;
 import com.pocket.domain.dto.photobooth.NearPhotoBoothInfo;
 import com.pocket.domain.dto.photobooth.PhotoBoothFindResponseDto;
+import com.pocket.domain.dto.photobooth.PhotoBoothSearchDto;
 import com.pocket.domain.entity.photobooth.PhotoBoothBrand;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -66,4 +67,16 @@ public interface PhotoBoothControllerDocs {
     @Operation(summary = "포토부스 평점 조회", description = "해당 id의 포토부스에 대한 평점을 제공하는 API")
     ApplicationResponse<BigDecimal> getPhotoBoothRating(
             @PathVariable("id") Long id);
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))})
+    })
+    @Operation(summary = "포토부스 검색", description = "keyword를 주면 해당 keyword가 포함된 이름의 포토부스 id와 이름을 제공하는 API")
+    ApplicationResponse<List<PhotoBoothSearchDto>> searchPhotoBooth(
+            @RequestParam("keyword") String keyword
+    );
 }
