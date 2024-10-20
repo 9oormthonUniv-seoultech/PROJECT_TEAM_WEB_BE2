@@ -77,6 +77,6 @@ public interface PhotoBoothControllerDocs {
     })
     @Operation(summary = "포토부스 검색", description = "keyword를 주면 해당 keyword가 포함된 이름의 포토부스 id와 이름을 제공하는 API")
     ApplicationResponse<List<PhotoBoothSearchDto>> searchPhotoBooth(
-            @PathVariable("keyword") String keyword
+            @RequestParam("keyword") String keyword
     );
 }
