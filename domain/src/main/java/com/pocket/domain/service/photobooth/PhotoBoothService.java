@@ -43,8 +43,7 @@ public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNa
         return photoBoothGetRatingPort.getRating(photoboothId);
     }
 
-    @Override
-    public List<PhotoBoothSearchDto> SearchPhotoBooth(String keyword) {
+    public List<PhotoBoothSearchDto> searchPhotoBooth(String keyword) {
         return photoBoothSearchPort.searchPhotoBooth(keyword);
     }
 }

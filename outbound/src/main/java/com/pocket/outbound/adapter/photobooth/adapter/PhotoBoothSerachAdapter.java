@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AdapterService
 @RequiredArgsConstructor
@@ -19,11 +20,12 @@ public class PhotoBoothSerachAdapter implements PhotoBoothSearchPort {
 
     public List<PhotoBoothSearchDto> searchPhotoBooth(String keyword) {
         List<JpaPhotoBooth> photoBoothList = photoBoothRepository.findByPhotoBoothNameContaining(keyword);
-        List<PhotoBoothSearchDto> photoBooths = new ArrayList<>();
-        for (JpaPhotoBooth jpaPhotoBooth : photoBoothList) {
-            photoBooths.add(new PhotoBoothSearchDto(jpaPhotoBooth.getId(), jpaPhotoBooth.getPhotoBooth().getName()));
-        }
-        return photoBooths;
+
+        return photoBoothList.stream()
+                .map(jpaPhotoBooth -> new PhotoBoothSearchDto(
+                        jpaPhotoBooth.getId(),
+                        jpaPhotoBooth.getPhotoBooth().getName()))
+                .collect(Collectors.toList());
     }
 
 }

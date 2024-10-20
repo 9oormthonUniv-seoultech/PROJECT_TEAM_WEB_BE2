@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface PhotoBoothSearchUseCase {
 
-    List<PhotoBoothSearchDto> SearchPhotoBooth(String keyword);
+    List<PhotoBoothSearchDto> searchPhotoBooth(String keyword);
 
 }

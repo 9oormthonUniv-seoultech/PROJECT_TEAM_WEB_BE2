@@ -1,0 +1,15 @@
+# S3
+cloud:
+  aws:
+    s3:
+      bucket: imagedata-ec2-pocket4cut
+      url: https://imagedata-ec2-pocket4cut.s3.ap-northeast-2.amazonaws.com/
+      expTime: 900000 # 15분
+    credentials:
+      access-key: AKIA5FTY6F7TUYFDUPFZ
+      secret-key: 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
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false

@@ -56,9 +56,9 @@ public class PhotoBoothController implements PhotoBoothControllerDocs {
         return ApplicationResponse.ok(response);
     }
 
-    @GetMapping("/search/{keyword}")
-    public ApplicationResponse<List<PhotoBoothSearchDto>> searchPhotoBooth(@PathVariable("keyword") String keyword) {
-        List<PhotoBoothSearchDto> response = photoBoothSearchUseCase.SearchPhotoBooth(keyword);
+    @GetMapping("/search")
+    public ApplicationResponse<List<PhotoBoothSearchDto>> searchPhotoBooth(@RequestParam("keyword") String keyword) {
+        List<PhotoBoothSearchDto> response = photoBoothSearchUseCase.searchPhotoBooth(keyword);
         return ApplicationResponse.ok(response);
     }
 }

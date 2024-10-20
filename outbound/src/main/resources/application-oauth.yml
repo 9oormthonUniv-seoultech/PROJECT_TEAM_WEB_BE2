@@ -1,0 +1,41 @@
+security:
+  jwt:
+    secret: aGFuZXVtLWZvb2Rnby1qd3Qtc2VjcmV0LWtleQo=
+    token:
+      access-expiration-time: 86400000 # 24 * 60 * 60 * 1000 = 1일
+      refresh-expiration-time: 604800000 # 7 * 24 * 60 * 60 * 1000 = 7일
+      redirect-uri: http://localhost:3000/token
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    openfeign:
+      client:
+        config:
+          kakao-oidc-key-client:
+            url: https://kauth.kakao.com
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: 154ebd8a46f07d3d82f872f6e5118e7d
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            authorization-grant-type: authorization_code
+            scope: openid, profile_nickname, account_email  # OIDC scope 추가
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            jwk-set-uri: https://kauth.kakao.com/.well-known/jwks.json
+
+oauth:
+  kakao:
+    iss: https://kauth.kakao.com
+    client-id: 154ebd8a46f07d3d82f872f6e5118e7d
+
+logging:
+  level:
+    org.springframework.security: DEBUG
