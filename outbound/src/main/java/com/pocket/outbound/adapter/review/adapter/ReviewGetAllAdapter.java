@@ -6,7 +6,7 @@ import com.pocket.core.exception.review.ReviewCustomException;
 import com.pocket.core.exception.review.ReviewErrorCode;
 import com.pocket.domain.dto.review.ReviewGetResponseDto;
 import com.pocket.domain.dto.review.ReviewPreviewDto;
-import com.pocket.domain.port.review.ReviewGetRecentPort;
+import com.pocket.domain.port.review.ReviewGetAllPort;
 import com.pocket.outbound.adapter.review.mapper.ReviewOutBoundMapper;
 import com.pocket.outbound.entity.review.JpaBoothFeature;
 import com.pocket.outbound.entity.review.JpaPhotoFeature;
@@ -14,6 +14,8 @@ import com.pocket.outbound.entity.review.JpaReview;
 import com.pocket.outbound.entity.review.JpaReviewImage;
 import com.pocket.outbound.repository.review.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ import java.util.stream.Collectors;
 
 @AdapterService
 @RequiredArgsConstructor
-public class ReviewGetRecentAdapter implements ReviewGetRecentPort {
+public class ReviewGetAllAdapter implements ReviewGetAllPort {
 
     private final ReviewRepository reviewRepository;
     private final ReviewImageRepository reviewImageRepository;
@@ -32,12 +34,12 @@ public class ReviewGetRecentAdapter implements ReviewGetRecentPort {
     private final ReviewOutBoundMapper reviewOutBoundMapper;
 
     @Override
-    public ReviewGetResponseDto getRecentReview(Long photoboothId) {
+    public ReviewGetResponseDto getAllReviews(Long photoboothId, Pageable pageable) {
         int totalReviewCount = reviewRepository.countByPhotoBoothId(photoboothId);
 
-        List<JpaReview> recentReviews = reviewRepository.findTop2ByPhotoBoothIdOrderByIdDesc(photoboothId);
+        Page<JpaReview> reviews = reviewRepository.findByPhotoBoothId(photoboothId, pageable);
 
-        List<ReviewPreviewDto> reviewPreviews = recentReviews.stream().map(review -> {
+        List<ReviewPreviewDto> reviewPreviews = reviews.stream().map(review -> {
             List<JpaReviewImage> images = reviewImageRepository.findByReviewId(review.getId());
             String imageUrl = images.isEmpty() ? "" : images.get(0).getImage().getImageUrl();
             int imageCount = images.size();
@@ -63,10 +65,10 @@ public class ReviewGetRecentAdapter implements ReviewGetRecentPort {
             // PhotoFeature descriptions
             photoFeatures.forEach(photoFeature -> descriptions.add(photoFeature.getPhotoFeature().getDescription()));
 
-
             return reviewOutBoundMapper.toReviewPreviewDto(descriptions, review, imageUrl, imageCount);
         }).collect(Collectors.toList());
 
         return new ReviewGetResponseDto(totalReviewCount, reviewPreviews);
     }
+
 }
