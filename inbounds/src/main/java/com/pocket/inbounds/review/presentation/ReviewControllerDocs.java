@@ -66,9 +66,10 @@ public interface ReviewControllerDocs {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
                     content = {@Content(schema = @Schema(implementation = ErrorResponse.class))})
     })
-    @Operation(summary = "포토부스 전체 리뷰 이미지 조회", description = "특정 포토부스에 대한 전체 리뷰 이미지를 조회하는 API")
+    @Operation(summary = "포토부스 전체 리뷰 이미지 조회", description = "특정 포토부스에 대한 전체 리뷰 이미지를 조회하는 API (ex. /api/v1/review/allimages/336?page=0&size=10&sort=id,desc)")
     ApplicationResponse<List<String>> getReviewImages(
-            @PathVariable("photobooth_id") Long photoboothId
+            @PathVariable("photobooth_id") Long photoboothId,
+            @ParameterObject Pageable pageable
     );
 
     @ApiResponses(value = {

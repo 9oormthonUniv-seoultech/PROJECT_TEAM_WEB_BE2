@@ -42,8 +42,8 @@ public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUse
     }
 
     @Override
-    public List<String> getAllImages(Long photoboothId) {
-        return reviewGetAllImagesPort.getAllImages(photoboothId);
+    public List<String> getAllImages(Long photoboothId, Pageable pageable) {
+        return reviewGetAllImagesPort.getAllImages(photoboothId, pageable);
     }
 
     @Override

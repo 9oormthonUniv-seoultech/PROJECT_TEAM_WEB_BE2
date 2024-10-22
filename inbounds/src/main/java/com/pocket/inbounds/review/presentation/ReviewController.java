@@ -66,9 +66,10 @@ public class ReviewController implements ReviewControllerDocs {
 
     @GetMapping("/allimages/{photobooth_id}")
     public ApplicationResponse<List<String>> getReviewImages(
-            @PathVariable("photobooth_id") Long photoboothId
+            @PathVariable("photobooth_id") Long photoboothId,
+            @ParameterObject final Pageable pageable
     ) {
-        List<String> response = reviewGetAllImagesUseCase.getAllImages(photoboothId);
+        List<String> response = reviewGetAllImagesUseCase.getAllImages(photoboothId, pageable);
         return ApplicationResponse.ok(response);
     }
 
