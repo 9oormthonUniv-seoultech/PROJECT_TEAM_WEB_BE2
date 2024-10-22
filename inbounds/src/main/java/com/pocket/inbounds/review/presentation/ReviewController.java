@@ -6,7 +6,6 @@ import com.pocket.domain.dto.user.UserInfoDTO;
 import com.pocket.domain.usecase.review.*;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +25,7 @@ public class ReviewController implements ReviewControllerDocs {
     private final ReviewPhotoFeatureCountUseCase reviewPhotoFeatureCountUseCase;
     private final ReviewGetBoothFeatureUseCase reviewGetBoothFeatureUseCase;
     private final ReviewGetPhotoFeatureUseCase reviewGetPhotoFeatureUseCase;
+    private final ReviewGetAllUseCase reviewGetAllUseCase;
 
     @PostMapping
     public ApplicationResponse<ReviewRegisterResponseDto> postReview(
@@ -47,6 +47,7 @@ public class ReviewController implements ReviewControllerDocs {
         return ApplicationResponse.ok(response);
     }
 
+
     @GetMapping("/images/{photobooth_id}")
     public ApplicationResponse<ReviewGet6ImagesResponseDto> getReviewHomeImage(
             @PathVariable("photobooth_id") Long photoboothId
@@ -56,10 +57,10 @@ public class ReviewController implements ReviewControllerDocs {
     }
 
     @GetMapping("/reviews/{photobooth_id}")
-    public ApplicationResponse<ReviewGetRecentResponseDto> getRecentReview(
+    public ApplicationResponse<ReviewGetResponseDto> getRecentReview(
             @PathVariable("photobooth_id") Long photoboothId
     ) {
-        ReviewGetRecentResponseDto response = reviewGetRecentUseCase.getRecentReview(photoboothId);
+        ReviewGetResponseDto response = reviewGetRecentUseCase.getRecentReview(photoboothId);
         return ApplicationResponse.ok(response);
     }
 
@@ -85,6 +86,15 @@ public class ReviewController implements ReviewControllerDocs {
             @PathVariable("photobooth_id") Long photoboothId
     ) {
         List<PhotoFeatureCountDto> response = reviewPhotoFeatureCountUseCase.getReviewPhotoFeatures(photoboothId);
+        return ApplicationResponse.ok(response);
+    }
+
+    @GetMapping("/allreviews/{photobooth_id}")
+    public ApplicationResponse<ReviewGetResponseDto> getAllReviews(
+            @PathVariable("photobooth_id") Long photoboothId,
+            @ParameterObject final Pageable pageable
+    ) {
+        ReviewGetResponseDto response = reviewGetAllUseCase.getAllReviews(photoboothId, pageable);
         return ApplicationResponse.ok(response);
     }
 
