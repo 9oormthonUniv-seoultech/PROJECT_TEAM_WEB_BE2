@@ -4,7 +4,7 @@ package com.pocket.outbound.adapter.review.adapter;
 import com.pocket.core.aop.annotation.AdapterService;
 import com.pocket.core.exception.review.ReviewCustomException;
 import com.pocket.core.exception.review.ReviewErrorCode;
-import com.pocket.domain.dto.review.ReviewGetRecentResponseDto;
+import com.pocket.domain.dto.review.ReviewGetResponseDto;
 import com.pocket.domain.dto.review.ReviewPreviewDto;
 import com.pocket.domain.port.review.ReviewGetRecentPort;
 import com.pocket.outbound.adapter.review.mapper.ReviewOutBoundMapper;
@@ -32,7 +32,7 @@ public class ReviewGetRecentAdapter implements ReviewGetRecentPort {
     private final ReviewOutBoundMapper reviewOutBoundMapper;
 
     @Override
-    public ReviewGetRecentResponseDto getRecentReview(Long photoboothId) {
+    public ReviewGetResponseDto getRecentReview(Long photoboothId) {
         int totalReviewCount = reviewRepository.countByPhotoBoothId(photoboothId);
 
         List<JpaReview> recentReviews = reviewRepository.findTop2ByPhotoBoothIdOrderByIdDesc(photoboothId);
@@ -67,6 +67,6 @@ public class ReviewGetRecentAdapter implements ReviewGetRecentPort {
             return reviewOutBoundMapper.toReviewPreviewDto(descriptions, review, imageUrl, imageCount);
         }).collect(Collectors.toList());
 
-        return new ReviewGetRecentResponseDto(totalReviewCount, reviewPreviews);
+        return new ReviewGetResponseDto(totalReviewCount, reviewPreviews);
     }
 }
