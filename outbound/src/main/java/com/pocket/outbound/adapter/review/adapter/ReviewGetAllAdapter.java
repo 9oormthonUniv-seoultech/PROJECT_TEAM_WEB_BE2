@@ -39,36 +39,59 @@ public class ReviewGetAllAdapter implements ReviewGetAllPort {
 
         Page<JpaReview> reviews = reviewRepository.findByPhotoBoothId(photoboothId, pageable);
 
-        List<ReviewPreviewDto> reviewPreviews = reviews.stream().map(review -> {
-            List<JpaReviewImage> images = reviewImageRepository.findByReviewId(review.getId());
-            String imageUrl = images.isEmpty() ? "" : images.get(0).getImage().getImageUrl();
-            int imageCount = images.size();
-
-
-            // Booth Features 찾기
-            List<Long> boothFeatureIds = reviewBoothFeatureRepository.findBoothFeatureIdByReviewId(review.getId());
-            List<JpaBoothFeature> boothFeatures = boothFeatureIds.stream()
-                    .map(boothFeatureId -> boothFeatureRepository.findById(boothFeatureId)
-                            .orElseThrow(() -> new ReviewCustomException(ReviewErrorCode.BOOTH_FEATURE_NOT_FOUND)))
-                    .toList();
-
-            // Photo Features 찾기
-            List<Long> photoFeatureIds = reviewPhotoFeatureRepository.findPhotoFeatureIdByReviewId(review.getId());
-            List<JpaPhotoFeature> photoFeatures = photoFeatureIds.stream()
-                    .map(photoFeatureId -> photoFeatureRepository.findById(photoFeatureId)
-                            .orElseThrow(() -> new ReviewCustomException(ReviewErrorCode.PHOTO_FEATURE_NOT_FOUND)))
-                    .toList();
-
-            List<String> descriptions = new ArrayList<>();
-            // BoothFeature descriptions
-            boothFeatures.forEach(boothFeature -> descriptions.add(boothFeature.getBoothFeature().getDescription()));
-            // PhotoFeature descriptions
-            photoFeatures.forEach(photoFeature -> descriptions.add(photoFeature.getPhotoFeature().getDescription()));
-
-            return reviewOutBoundMapper.toReviewPreviewDto(descriptions, review, imageUrl, imageCount);
-        }).collect(Collectors.toList());
+        List<ReviewPreviewDto> reviewPreviews = reviews.stream()
+                .map(this::createReviewPreview)
+                .collect(Collectors.toList());
 
         return new ReviewGetResponseDto(totalReviewCount, reviewPreviews);
     }
+
+    private ReviewPreviewDto createReviewPreview(JpaReview review) {
+        String imageUrl = getFirstImageUrlForReview(review.getId());
+        int imageCount = getReviewImageCount(review.getId());
+
+        List<String> descriptions = getDescriptionsForReview(review);
+
+        return reviewOutBoundMapper.toReviewPreviewDto(descriptions, review, imageUrl, imageCount);
+    }
+
+    private String getFirstImageUrlForReview(Long reviewId) {
+        List<JpaReviewImage> images = reviewImageRepository.findByReviewId(reviewId);
+        return images.isEmpty() ? "" : images.get(0).getImage().getImageUrl();
+    }
+
+    private int getReviewImageCount(Long reviewId) {
+        List<JpaReviewImage> images = reviewImageRepository.findByReviewId(reviewId);
+        return images.size();
+    }
+
+    private List<String> getDescriptionsForReview(JpaReview review) {
+        List<String> descriptions = new ArrayList<>();
+
+        List<Long> boothFeatureIds = reviewBoothFeatureRepository.findBoothFeatureIdByReviewId(review.getId());
+        List<JpaBoothFeature> boothFeatures = getBoothFeatures(boothFeatureIds);
+        boothFeatures.forEach(boothFeature -> descriptions.add(boothFeature.getBoothFeature().getDescription()));
+
+        List<Long> photoFeatureIds = reviewPhotoFeatureRepository.findPhotoFeatureIdByReviewId(review.getId());
+        List<JpaPhotoFeature> photoFeatures = getPhotoFeatures(photoFeatureIds);
+        photoFeatures.forEach(photoFeature -> descriptions.add(photoFeature.getPhotoFeature().getDescription()));
+
+        return descriptions;
+    }
+
+    private List<JpaBoothFeature> getBoothFeatures(List<Long> boothFeatureIds) {
+        return boothFeatureIds.stream()
+                .map(boothFeatureId -> boothFeatureRepository.findById(boothFeatureId)
+                        .orElseThrow(() -> new ReviewCustomException(ReviewErrorCode.BOOTH_FEATURE_NOT_FOUND)))
+                .collect(Collectors.toList());
+    }
+
+    private List<JpaPhotoFeature> getPhotoFeatures(List<Long> photoFeatureIds) {
+        return photoFeatureIds.stream()
+                .map(photoFeatureId -> photoFeatureRepository.findById(photoFeatureId)
+                        .orElseThrow(() -> new ReviewCustomException(ReviewErrorCode.PHOTO_FEATURE_NOT_FOUND)))
+                .collect(Collectors.toList());
+    }
+
 
 }
