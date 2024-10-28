@@ -6,4 +6,5 @@ public record ReviewGetResponseDto(
         int reviewCount,
         List<ReviewPreviewDto> reviews
 ) {
+
 }

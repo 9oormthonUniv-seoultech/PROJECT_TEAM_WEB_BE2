@@ -1,9 +1,9 @@
 package com.pocket.inbounds.file.presentation;
 
 import com.pocket.core.exception.common.ApplicationResponse;
-import com.pocket.core.image.dto.PresignedUrlRequest;
-import com.pocket.core.image.dto.PresignedUrlResponse;
-import com.pocket.core.image.service.FileService;
+import com.pocket.domain.dto.file.PresignedUrlRequest;
+import com.pocket.domain.dto.file.PresignedUrlResponse;
+import com.pocket.domain.service.file.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

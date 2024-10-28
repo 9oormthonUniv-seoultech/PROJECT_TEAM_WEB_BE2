@@ -1,4 +1,4 @@
-package com.pocket.core.image.config;
+package com.pocket.core.config;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
