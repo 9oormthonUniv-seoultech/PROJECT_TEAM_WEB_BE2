@@ -1,4 +1,4 @@
-package com.pocket.core.image.dto;
+package com.pocket.domain.dto.file;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

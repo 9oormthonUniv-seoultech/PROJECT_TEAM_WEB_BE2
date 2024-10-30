@@ -2,8 +2,8 @@ package com.pocket.inbounds.file.presentation;
 
 import com.nimbusds.oauth2.sdk.ErrorResponse;
 import com.pocket.core.exception.common.ApplicationResponse;
-import com.pocket.core.image.dto.PresignedUrlRequest;
-import com.pocket.core.image.dto.PresignedUrlResponse;
+import com.pocket.domain.dto.file.PresignedUrlRequest;
+import com.pocket.domain.dto.file.PresignedUrlResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -4,7 +4,7 @@ import com.pocket.core.aop.annotation.DomainService;
 import com.pocket.domain.dto.album.AlbumRegisterRequestDto;
 import com.pocket.domain.dto.album.AlbumRegisterResponseDto;
 import com.pocket.domain.port.album.AlbumRegisterPort;
-import com.pocket.domain.usecase.image.AlbumRegisterUseCase;
+import com.pocket.domain.usecase.album.AlbumRegisterUseCase;
 import lombok.RequiredArgsConstructor;
 
 @DomainService
