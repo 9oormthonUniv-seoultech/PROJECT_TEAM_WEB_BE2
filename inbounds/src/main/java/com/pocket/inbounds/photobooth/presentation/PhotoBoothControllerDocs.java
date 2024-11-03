@@ -4,6 +4,7 @@ import com.nimbusds.oauth2.sdk.ErrorResponse;
 import com.pocket.core.exception.common.ApplicationResponse;
 import com.pocket.domain.dto.photobooth.NearPhotoBoothInfo;
 import com.pocket.domain.dto.photobooth.PhotoBoothFindResponseDto;
+import com.pocket.domain.dto.photobooth.PhotoBoothModalDto;
 import com.pocket.domain.dto.photobooth.PhotoBoothSearchDto;
 import com.pocket.domain.entity.photobooth.PhotoBoothBrand;
 import io.swagger.v3.oas.annotations.Operation;
@@ -79,4 +80,17 @@ public interface PhotoBoothControllerDocs {
     ApplicationResponse<List<PhotoBoothSearchDto>> searchPhotoBooth(
             @RequestParam("keyword") String keyword
     );
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))})
+    })
+    @Operation(summary = "포토부스 모달창 정보 조회", description = "포토부스 모달창 정보(이름, 좌표, 특징, 별점, 이미지 개수, 리뷰 개수)")
+    ApplicationResponse<PhotoBoothModalDto> getPhotoBoothModal(
+            @PathVariable("id") Long id
+    );
+
 }

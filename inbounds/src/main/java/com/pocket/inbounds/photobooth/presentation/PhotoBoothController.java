@@ -3,13 +3,11 @@ package com.pocket.inbounds.photobooth.presentation;
 import com.pocket.core.exception.common.ApplicationResponse;
 import com.pocket.domain.dto.photobooth.NearPhotoBoothInfo;
 import com.pocket.domain.dto.photobooth.PhotoBoothFindResponseDto;
+import com.pocket.domain.dto.photobooth.PhotoBoothModalDto;
 import com.pocket.domain.dto.photobooth.PhotoBoothSearchDto;
 import com.pocket.domain.entity.photobooth.PhotoBoothBrand;
 import com.pocket.domain.port.photobooth.PhotoBoothGetNamePort;
-import com.pocket.domain.usecase.photobooth.PhotoBoothFindUseCase;
-import com.pocket.domain.usecase.photobooth.PhotoBoothGetNameUseCase;
-import com.pocket.domain.usecase.photobooth.PhotoBoothGetRatingUseCase;
-import com.pocket.domain.usecase.photobooth.PhotoBoothSearchUseCase;
+import com.pocket.domain.usecase.photobooth.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +23,7 @@ public class PhotoBoothController implements PhotoBoothControllerDocs {
     private final PhotoBoothGetRatingUseCase photoBoothGetRatingUseCase;
     private final PhotoBoothGetNameUseCase photoBoothGetNameUseCase;
     private final PhotoBoothSearchUseCase photoBoothSearchUseCase;
+    private final PhotoBoothGetModalUseCase photoBoothGetModalUseCase;
 
     @GetMapping("{id}")
     public ApplicationResponse<PhotoBoothFindResponseDto> getPhotoBoothById(@PathVariable("id") Long id) {
@@ -59,6 +58,12 @@ public class PhotoBoothController implements PhotoBoothControllerDocs {
     @GetMapping("/search")
     public ApplicationResponse<List<PhotoBoothSearchDto>> searchPhotoBooth(@RequestParam("keyword") String keyword) {
         List<PhotoBoothSearchDto> response = photoBoothSearchUseCase.searchPhotoBooth(keyword);
+        return ApplicationResponse.ok(response);
+    }
+
+    @GetMapping("/modal/{id}")
+    public ApplicationResponse<PhotoBoothModalDto> getPhotoBoothModal(@PathVariable("id") Long id) {
+        PhotoBoothModalDto response = photoBoothGetModalUseCase.getPhotoBoothModal(id);
         return ApplicationResponse.ok(response);
     }
 }
