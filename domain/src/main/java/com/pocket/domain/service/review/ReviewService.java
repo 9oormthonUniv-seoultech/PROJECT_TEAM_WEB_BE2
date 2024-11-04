@@ -3,15 +3,18 @@ package com.pocket.domain.service.review;
 
 import com.pocket.core.aop.annotation.DomainService;
 import com.pocket.domain.dto.review.*;
+import com.pocket.domain.port.file.FileDownloadPort;
 import com.pocket.domain.port.review.*;
 import com.pocket.domain.usecase.review.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @DomainService
 @RequiredArgsConstructor
-public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUseCase, ReviewGetRecentUseCase, ReviewGetAllImagesUseCase, ReviewBoothFeatureCountUseCase, ReviewPhotoFeatureCountUseCase, ReviewGetBoothFeatureUseCase, ReviewGetPhotoFeatureUseCase
+public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUseCase, ReviewGetRecentUseCase, ReviewGetAllImagesUseCase, ReviewBoothFeatureCountUseCase, ReviewPhotoFeatureCountUseCase, ReviewGetBoothFeatureUseCase, ReviewGetPhotoFeatureUseCase, ReviewGetAllUseCase
 
 {
 
@@ -23,6 +26,8 @@ public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUse
     private final ReviewPhotoFeatureCountPort reviewPhotoFeatureCountPort;
     private final ReviewGetBoothFeaturePort reviewGetBoothFeaturePort;
     private final ReviewGetPhotoFeaturePort reviewGetPhotoFeaturePort;
+    private final ReviewGetAllPort reviewGetAllPort;
+    private final FileDownloadPort fileDownloadPort;
 
     @Override
     public ReviewRegisterResponseDto registerReviewResponse(ReviewRegisterRequestDto reviewRegisterRequestDto, String name) {
@@ -31,17 +36,44 @@ public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUse
 
     @Override
     public ReviewGet6ImagesResponseDto get6Images(Long photoboothId) {
-        return reviewGet6ImagesPort.get6Images(photoboothId);
+        ReviewGet6ImagesResponseDto response = reviewGet6ImagesPort.get6Images(photoboothId);
+
+        List<String> presignedUrls = response.filePaths().stream()
+                .map(fileDownloadPort::getDownloadPresignedUrl)
+                .collect(Collectors.toList());
+
+        return new ReviewGet6ImagesResponseDto(presignedUrls, response.totalImageCount());
     }
 
     @Override
-    public ReviewGetRecentResponseDto getRecentReview(Long photoboothId) {
-        return reviewGetRecentPort.getRecentReview(photoboothId);
+    public ReviewGetResponseDto getRecentReview(Long photoboothId) {
+        ReviewGetResponseDto response = reviewGetRecentPort.getRecentReview(photoboothId);
+
+        List<ReviewPreviewDto> reviewPreviewsWithPresignedUrls = response.reviews().stream().map(review -> {
+            String presignedUrl = review.imageUrl().isEmpty() ? "" : fileDownloadPort.getDownloadPresignedUrl(review.imageUrl());
+            return new ReviewPreviewDto(
+                    review.photoboothId(),
+                    review.name(),
+                    review.year(),
+                    review.month(),
+                    review.date(),
+                    review.contents(),
+                    review.features(),
+                    presignedUrl,
+                    review.imageCount()
+            );
+        }).collect(Collectors.toList());
+
+        return new ReviewGetResponseDto(response.reviewCount(), reviewPreviewsWithPresignedUrls);
     }
 
     @Override
-    public List<String> getAllImages(Long photoboothId) {
-        return reviewGetAllImagesPort.getAllImages(photoboothId);
+    public List<String> getAllImages(Long photoboothId, Pageable pageable) {
+        List<String> rawImagePaths = reviewGetAllImagesPort.getAllImages(photoboothId, pageable);
+
+        return rawImagePaths.stream()
+                .map(fileDownloadPort::getDownloadPresignedUrl)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -62,5 +94,27 @@ public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUse
     @Override
     public List<PhotoFeatureDto> getPhotoFeatures() {
         return reviewGetPhotoFeaturePort.getPhotoFeatures();
+    }
+
+    @Override
+    public ReviewGetResponseDto getAllReviews(Long photoboothId, Pageable pageable) {
+        ReviewGetResponseDto response = reviewGetAllPort.getAllReviews(photoboothId, pageable);
+
+        List<ReviewPreviewDto> reviewPreviewsWithPresignedUrls = response.reviews().stream().map(review -> {
+            String presignedUrl = review.imageUrl().isEmpty() ? "" : fileDownloadPort.getDownloadPresignedUrl(review.imageUrl());
+            return new ReviewPreviewDto(
+                    review.photoboothId(),
+                    review.name(),
+                    review.year(),
+                    review.month(),
+                    review.date(),
+                    review.contents(),
+                    review.features(),
+                    presignedUrl,
+                    review.imageCount()
+            );
+        }).collect(Collectors.toList());
+
+        return new ReviewGetResponseDto(response.reviewCount(), reviewPreviewsWithPresignedUrls);
     }
 }

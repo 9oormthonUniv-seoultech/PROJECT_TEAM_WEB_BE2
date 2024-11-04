@@ -4,7 +4,7 @@ import com.pocket.core.exception.common.ApplicationResponse;
 import com.pocket.domain.dto.album.AlbumRegisterRequestDto;
 import com.pocket.domain.dto.album.AlbumRegisterResponseDto;
 import com.pocket.domain.dto.user.UserInfoDTO;
-import com.pocket.domain.usecase.image.AlbumRegisterUseCase;
+import com.pocket.domain.usecase.album.AlbumRegisterUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;

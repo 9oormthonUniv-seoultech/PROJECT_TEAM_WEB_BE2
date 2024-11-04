@@ -49,10 +49,22 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(authz -> {
-                    authz.requestMatchers("/swagger-ui/**"
-                            , "/swagger-resources/**"
-                            , "/v3/api-docs/**"
-                            , "/v1/photobooth/**").permitAll();
+                    // 접근 허용
+                    authz.requestMatchers("/swagger-ui/**",
+                            "/swagger-resources/**",
+                            "/v3/api-docs/**",
+                            "/api/v1/photobooth/**",
+                            "/api/v1/review/**",
+                            "/api/v1/album/**",
+                            "/v1/public/**",
+                            "/page").permitAll();
+
+                    // 로그인 필요
+                    authz.requestMatchers("/v1/user/**",
+                            "/api/v1/album",
+                            "/api/v1/review").authenticated();
+
+                    // 그 외의 모든 요청은 인증 필요
                     authz.anyRequest().authenticated();
                 })
 
@@ -92,3 +104,4 @@ public class SecurityConfig {
     }
 
 }
+

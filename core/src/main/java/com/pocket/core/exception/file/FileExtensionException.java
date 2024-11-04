@@ -1,4 +1,4 @@
-package com.pocket.core.image.exception;
+package com.pocket.core.exception.file;
 
 import com.pocket.core.exception.common.BaseErrorCode;
 

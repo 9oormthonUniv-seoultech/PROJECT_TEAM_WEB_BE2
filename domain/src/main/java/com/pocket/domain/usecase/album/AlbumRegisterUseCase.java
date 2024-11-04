@@ -1,4 +1,4 @@
-package com.pocket.domain.usecase.image;
+package com.pocket.domain.usecase.album;
 
 import com.pocket.domain.dto.album.AlbumRegisterRequestDto;
 import com.pocket.domain.dto.album.AlbumRegisterResponseDto;

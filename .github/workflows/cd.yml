@@ -82,6 +82,7 @@ jobs:
             echo "${{ secrets.DOCKER_COMPOSE }}" > ./docker-compose.yml
             sudo docker stop $(sudo docker ps -a -q) 
             sudo docker rm -f $(sudo docker ps -qa)
+            sudo docker pull ${{ secrets.DOCKER_FRONT_IMG }}
             sudo docker pull ${{ secrets.DOCKER_IMG }}
             sudo docker-compose -f docker-compose.yml up -d
             sudo docker image prune -f

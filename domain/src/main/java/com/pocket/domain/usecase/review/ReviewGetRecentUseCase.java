@@ -1,10 +1,10 @@
 package com.pocket.domain.usecase.review;
 
-import com.pocket.domain.dto.review.ReviewGetRecentResponseDto;
+import com.pocket.domain.dto.review.ReviewGetResponseDto;
 
 
 public interface ReviewGetRecentUseCase {
 
-    ReviewGetRecentResponseDto getRecentReview(Long photoboohtId);
+    ReviewGetResponseDto getRecentReview(Long photoboohtId);
 
 }

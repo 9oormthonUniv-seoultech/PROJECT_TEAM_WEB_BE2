@@ -12,4 +12,7 @@ public interface PhotoBoothRepository extends JpaRepository<JpaPhotoBooth, Long>
     Optional<JpaPhotoBooth> findByPhotoBoothNameAndPhotoBoothXAndPhotoBoothY(String name, double x, double y);
 
     List<JpaPhotoBooth> findByPhotoBoothPhotoBoothBrandIn(List<PhotoBoothBrand> brands);
+
+    List<JpaPhotoBooth> findByPhotoBoothNameContaining(String keyword);
+
 }
