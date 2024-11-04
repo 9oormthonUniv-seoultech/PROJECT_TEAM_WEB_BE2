@@ -56,7 +56,8 @@ public class SecurityConfig {
                             "/api/v1/photobooth/**",
                             "/api/v1/review/**",
                             "/api/v1/album/**",
-                            "/v1/public/**").permitAll();
+                            "/v1/public/**",
+                            "/page").permitAll();
 
                     // 로그인 필요
                     authz.requestMatchers("/v1/user/**",

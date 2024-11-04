@@ -2,7 +2,7 @@ name: Backend CD # actions 이름
 
 on:
   push:
-    branches: [ cicd/#48 ]
+    branches: [ develop ]
 
 jobs:
   deploy:
