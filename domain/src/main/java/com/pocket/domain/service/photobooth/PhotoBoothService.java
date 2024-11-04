@@ -2,16 +2,11 @@ package com.pocket.domain.service.photobooth;
 
 import com.pocket.domain.dto.photobooth.NearPhotoBoothInfo;
 import com.pocket.domain.dto.photobooth.PhotoBoothFindResponseDto;
+import com.pocket.domain.dto.photobooth.PhotoBoothModalDto;
 import com.pocket.domain.dto.photobooth.PhotoBoothSearchDto;
 import com.pocket.domain.entity.photobooth.PhotoBoothBrand;
-import com.pocket.domain.port.photobooth.PhotoBoothFindPort;
-import com.pocket.domain.port.photobooth.PhotoBoothGetNamePort;
-import com.pocket.domain.port.photobooth.PhotoBoothGetRatingPort;
-import com.pocket.domain.port.photobooth.PhotoBoothSearchPort;
-import com.pocket.domain.usecase.photobooth.PhotoBoothFindUseCase;
-import com.pocket.domain.usecase.photobooth.PhotoBoothGetNameUseCase;
-import com.pocket.domain.usecase.photobooth.PhotoBoothGetRatingUseCase;
-import com.pocket.domain.usecase.photobooth.PhotoBoothSearchUseCase;
+import com.pocket.domain.port.photobooth.*;
+import com.pocket.domain.usecase.photobooth.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +16,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNameUseCase, PhotoBoothGetRatingUseCase, PhotoBoothSearchUseCase {
+public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNameUseCase, PhotoBoothGetRatingUseCase, PhotoBoothSearchUseCase, PhotoBoothGetModalUseCase {
 
     private final PhotoBoothFindPort photoBoothFindPort;
     private final PhotoBoothGetRatingPort photoBoothGetRatingPort;
     private final PhotoBoothGetNamePort photoBoothGetNamePort;
     private final PhotoBoothSearchPort photoBoothSearchPort;
+    private final PhotoBoothGetModalPort photoBoothGetModalPort;
 
     public PhotoBoothFindResponseDto findPhotoBoothResponse(Long id) {
         return photoBoothFindPort.findById(id);
@@ -45,5 +41,10 @@ public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNa
 
     public List<PhotoBoothSearchDto> searchPhotoBooth(String keyword) {
         return photoBoothSearchPort.searchPhotoBooth(keyword);
+    }
+
+    @Override
+    public PhotoBoothModalDto getPhotoBoothModal(Long photoboothId) {
+        return photoBoothGetModalPort.getPhotoBoothModal(photoboothId);
     }
 }

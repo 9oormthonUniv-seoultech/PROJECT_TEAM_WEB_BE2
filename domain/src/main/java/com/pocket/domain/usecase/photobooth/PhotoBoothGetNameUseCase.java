@@ -4,5 +4,4 @@ public interface PhotoBoothGetNameUseCase {
 
     String getPhotoBoothName(Long photoboothId);
 
-
 }
