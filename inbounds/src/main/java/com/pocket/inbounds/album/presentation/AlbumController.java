@@ -4,11 +4,9 @@ import com.pocket.core.exception.common.ApplicationResponse;
 import com.pocket.domain.dto.album.AlbumRegisterRequestDto;
 import com.pocket.domain.dto.album.AlbumRegisterResponseDto;
 import com.pocket.domain.dto.album.AlbumResponseDto;
+import com.pocket.domain.dto.album.NearAlbumInfo;
 import com.pocket.domain.dto.user.UserInfoDTO;
-import com.pocket.domain.usecase.album.AlbumGetByBrandUseCase;
-import com.pocket.domain.usecase.album.AlbumGetByDateUseCase;
-import com.pocket.domain.usecase.album.AlbumLikeUseCase;
-import com.pocket.domain.usecase.album.AlbumRegisterUseCase;
+import com.pocket.domain.usecase.album.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,6 +23,7 @@ public class AlbumController implements AlbumContollerDocs{
     private final AlbumLikeUseCase albumLikeUseCase;
     private final AlbumGetByDateUseCase albumGetByDateUseCase;
     private final AlbumGetByBrandUseCase albumGetByBrandUseCase;
+    private final AlbumGetByLocationUseCase albumGetByLocationUseCase;
 
     @PostMapping
     public ApplicationResponse<AlbumRegisterResponseDto> postPhoto(
@@ -66,6 +65,15 @@ public class AlbumController implements AlbumContollerDocs{
     }
 
     // 위치별 조회?
+    @GetMapping("/location")
+    public ApplicationResponse<List<NearAlbumInfo>> getAlbumByLocation(
+            @RequestParam("lat") double lat,
+            @RequestParam("lon") double lon,
+            @AuthenticationPrincipal UserInfoDTO user
+    ) {
+        List<NearAlbumInfo> nearAlbumInfos = albumGetByLocationUseCase.getAlbumByLocation(lat, lon, user.email());
+        return ApplicationResponse.ok(nearAlbumInfos);
+    }
 
 
     // 해시태그 검색 기능

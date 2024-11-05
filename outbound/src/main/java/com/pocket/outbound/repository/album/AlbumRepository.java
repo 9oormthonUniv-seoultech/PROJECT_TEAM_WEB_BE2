@@ -12,4 +12,6 @@ public interface AlbumRepository extends JpaRepository<JpaAlbum, Long> {
 
     List<JpaAlbum> findByImageYearAndImageMonth(Integer year, Integer month);
 
+    List<JpaAlbum> findByJpaUser_Id(Long id);
+
 }
