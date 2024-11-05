@@ -5,6 +5,7 @@ import com.pocket.domain.dto.album.AlbumRegisterRequestDto;
 import com.pocket.domain.dto.album.AlbumRegisterResponseDto;
 import com.pocket.domain.dto.album.AlbumResponseDto;
 import com.pocket.domain.dto.user.UserInfoDTO;
+import com.pocket.domain.usecase.album.AlbumGetByBrandUseCase;
 import com.pocket.domain.usecase.album.AlbumGetByDateUseCase;
 import com.pocket.domain.usecase.album.AlbumLikeUseCase;
 import com.pocket.domain.usecase.album.AlbumRegisterUseCase;
@@ -23,6 +24,7 @@ public class AlbumController implements AlbumContollerDocs{
     private final AlbumRegisterUseCase albumRegisterUseCase;
     private final AlbumLikeUseCase albumLikeUseCase;
     private final AlbumGetByDateUseCase albumGetByDateUseCase;
+    private final AlbumGetByBrandUseCase albumGetByBrandUseCase;
 
     @PostMapping
     public ApplicationResponse<AlbumRegisterResponseDto> postPhoto(
@@ -54,10 +56,14 @@ public class AlbumController implements AlbumContollerDocs{
         return ApplicationResponse.ok(response);
     }
 
-
     // 포토부스별 조회
-
-
+    @GetMapping("/photobooth/{brand_name}")
+    public ApplicationResponse<List<AlbumResponseDto>> getAlbumByBrand(
+            @PathVariable("brand_name") String brandName
+    ) {
+        List<AlbumResponseDto> response = albumGetByBrandUseCase.getAlbumByBrand(brandName);
+        return ApplicationResponse.ok(response);
+    }
 
     // 위치별 조회?
 
