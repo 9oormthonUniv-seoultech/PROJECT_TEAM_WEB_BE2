@@ -1,10 +1,7 @@
 package com.pocket.inbounds.album.presentation;
 
 import com.pocket.core.exception.common.ApplicationResponse;
-import com.pocket.domain.dto.album.AlbumRegisterRequestDto;
-import com.pocket.domain.dto.album.AlbumRegisterResponseDto;
-import com.pocket.domain.dto.album.AlbumResponseDto;
-import com.pocket.domain.dto.album.NearAlbumInfo;
+import com.pocket.domain.dto.album.*;
 import com.pocket.domain.dto.user.UserInfoDTO;
 import com.pocket.domain.usecase.album.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -25,6 +22,7 @@ public class AlbumController implements AlbumContollerDocs{
     private final AlbumGetByBrandUseCase albumGetByBrandUseCase;
     private final AlbumGetByLocationUseCase albumGetByLocationUseCase;
     private final AlbumDeleteUseCase albumDeleteUseCase;
+    private final AlbumHashtagUseCase albumHashtagUseCase;
 
     @PostMapping
     public ApplicationResponse<AlbumRegisterResponseDto> postPhoto(
@@ -74,19 +72,29 @@ public class AlbumController implements AlbumContollerDocs{
             @RequestParam("lon") double lon,
             @AuthenticationPrincipal UserInfoDTO user
     ) {
-        List<NearAlbumInfo> nearAlbumInfos = albumGetByLocationUseCase.getAlbumByLocation(lat, lon, user.email());
-        return ApplicationResponse.ok(nearAlbumInfos);
+        List<NearAlbumInfo> response = albumGetByLocationUseCase.getAlbumByLocation(lat, lon, user.email());
+        return ApplicationResponse.ok(response);
     }
 
 
     // 삭제 기능
     @DeleteMapping("/{album_id}")
-    public ApplicationResponse<String> deleteAlbum(@PathVariable("album_id") Long albumId) {
+    public ApplicationResponse<String> deleteAlbum(
+            @PathVariable("album_id") Long albumId
+    ) {
         albumDeleteUseCase.deleteAlbum(albumId);
         return ApplicationResponse.ok("Success");
     }
 
 
     // 해시태그 검색 기능
+    @GetMapping("/hashtag/{hashtag}")
+    public ApplicationResponse<List<AlbumHashtagResponseDto>> getAlbumByHashtag(
+            @PathVariable("hashtag") String hashtag,
+            @AuthenticationPrincipal UserInfoDTO user
+    ) {
+        List<AlbumHashtagResponseDto> response = albumHashtagUseCase.getAlbumByHashtag(hashtag, user.email());
+        return ApplicationResponse.ok(response);
+    }
 
 }

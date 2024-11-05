@@ -1,10 +1,7 @@
 package com.pocket.domain.service.album;
 
 import com.pocket.core.aop.annotation.DomainService;
-import com.pocket.domain.dto.album.AlbumRegisterRequestDto;
-import com.pocket.domain.dto.album.AlbumRegisterResponseDto;
-import com.pocket.domain.dto.album.AlbumResponseDto;
-import com.pocket.domain.dto.album.NearAlbumInfo;
+import com.pocket.domain.dto.album.*;
 import com.pocket.domain.port.album.*;
 import com.pocket.domain.port.file.FileDownloadPort;
 import com.pocket.domain.usecase.album.*;
@@ -15,7 +12,7 @@ import java.util.stream.Collectors;
 
 @DomainService
 @RequiredArgsConstructor
-public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, AlbumGetByDateUseCase, AlbumGetByBrandUseCase, AlbumGetByLocationUseCase, AlbumDeleteUseCase {
+public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, AlbumGetByDateUseCase, AlbumGetByBrandUseCase, AlbumGetByLocationUseCase, AlbumDeleteUseCase, AlbumHashtagUseCase {
 
     private final FileDownloadPort fileDownloadPort;
     private final AlbumRegisterPort albumRegisterPort;
@@ -24,6 +21,7 @@ public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, Alb
     private final AlbumGetByBrandPort albumGetByBrandPort;
     private final AlbumGetByLocationPort albumGetByLocationPort;
     private final AlbumDeletePort albumDeletePort;
+    private final AlbumHashtagPort albumHashtagPort;
 
     public AlbumRegisterResponseDto registerPhotoResponse(AlbumRegisterRequestDto albumRegisterRequestDto, String name) {
         return albumRegisterPort.registerPhoto(albumRegisterRequestDto, name);
@@ -74,4 +72,15 @@ public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, Alb
         albumDeletePort.deleteAlbum(albumId);
     }
 
+    @Override
+    public List<AlbumHashtagResponseDto> getAlbumByHashtag(String hashtag, String userEmail) {
+        List<AlbumHashtagResponseDto> albumHashtagResponseDtos = albumHashtagPort.getAlbumByHashtag(hashtag, userEmail);
+
+        return albumHashtagResponseDtos.stream()
+                .map(dto -> {
+                    String presignedUrl = dto.photoUrl().isEmpty() ? "" : fileDownloadPort.getDownloadPresignedUrl(dto.photoUrl());
+                    return new AlbumHashtagResponseDto(presignedUrl, dto.hashtags(), dto.year(), dto.month(), dto.date(), dto.memo(), dto.isLiked());
+                })
+                .collect(Collectors.toList());
+    }
 }
