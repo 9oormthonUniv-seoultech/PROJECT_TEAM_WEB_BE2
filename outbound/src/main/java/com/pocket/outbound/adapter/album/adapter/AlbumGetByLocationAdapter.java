@@ -26,9 +26,7 @@ public class AlbumGetByLocationAdapter implements AlbumGetByLocationPort {
 
     @Override
     public List<NearAlbumInfo> getAlbumByLocation(double currentLat, double currentLon, String userEmail) {
-        JpaUser user = userRepository.findByUserEmail(userEmail)
-                .orElseThrow(() -> new UserCustomException(UserErrorCode.NO_USER_INFO));
-        List<JpaAlbum> allAlbums = albumRepository.findByJpaUser_Id(user.getId());
+        List<JpaAlbum> allAlbums = albumRepository.findByJpaUserUserEmail(userEmail);
 
         List<JpaAlbum> albumList = allAlbums.stream()
                 .filter(album -> {

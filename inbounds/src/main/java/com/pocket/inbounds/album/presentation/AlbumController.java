@@ -49,18 +49,20 @@ public class AlbumController implements AlbumContollerDocs{
     @GetMapping("/date/{year}/{month}")
     public ApplicationResponse<List<AlbumResponseDto>> getAlbumByDate(
             @PathVariable("year") Integer year,
-            @PathVariable("month") Integer month
+            @PathVariable("month") Integer month,
+            @AuthenticationPrincipal UserInfoDTO user
     ) {
-        List<AlbumResponseDto> response = albumGetByDateUseCase.getAlbumByDate(year, month);
+        List<AlbumResponseDto> response = albumGetByDateUseCase.getAlbumByDate(year, month, user.email());
         return ApplicationResponse.ok(response);
     }
 
     // 포토부스별 조회
     @GetMapping("/photobooth/{brand_name}")
     public ApplicationResponse<List<AlbumResponseDto>> getAlbumByBrand(
-            @PathVariable("brand_name") String brandName
+            @PathVariable("brand_name") String brandName,
+            @AuthenticationPrincipal UserInfoDTO user
     ) {
-        List<AlbumResponseDto> response = albumGetByBrandUseCase.getAlbumByBrand(brandName);
+        List<AlbumResponseDto> response = albumGetByBrandUseCase.getAlbumByBrand(brandName, user.email());
         return ApplicationResponse.ok(response);
     }
 

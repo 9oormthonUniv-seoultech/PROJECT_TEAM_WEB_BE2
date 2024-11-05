@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface AlbumGetByBrandPort {
 
-    List<AlbumResponseDto> getAlbumByBrand(String brandName);
+    List<AlbumResponseDto> getAlbumByBrand(String brandName, String userEmail);
 
 }

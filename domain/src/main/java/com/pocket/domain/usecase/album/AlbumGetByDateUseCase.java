@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface AlbumGetByDateUseCase {
 
-    List<AlbumResponseDto> getAlbumByDate(Integer year, Integer month);
+    List<AlbumResponseDto> getAlbumByDate(Integer year, Integer month, String userEmail);
 
 }

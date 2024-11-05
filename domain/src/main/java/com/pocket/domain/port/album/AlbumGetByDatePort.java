@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface AlbumGetByDatePort {
 
-    List<AlbumResponseDto> getAlbumByDate(Integer year, Integer month);
+    List<AlbumResponseDto> getAlbumByDate(Integer year, Integer month, String userEmail);
 
 }

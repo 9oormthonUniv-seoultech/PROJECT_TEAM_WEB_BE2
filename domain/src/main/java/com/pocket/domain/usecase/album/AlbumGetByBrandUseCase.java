@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface AlbumGetByBrandUseCase {
 
-    List<AlbumResponseDto> getAlbumByBrand(String brandName);
+    List<AlbumResponseDto> getAlbumByBrand(String brandName, String userEmail);
 
 }

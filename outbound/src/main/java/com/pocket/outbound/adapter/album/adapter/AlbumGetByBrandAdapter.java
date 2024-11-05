@@ -18,9 +18,9 @@ public class AlbumGetByBrandAdapter implements AlbumGetByBrandPort {
     private final AlbumRepository albumRepository;
 
     @Override
-    public List<AlbumResponseDto> getAlbumByBrand(String brandName) {
+    public List<AlbumResponseDto> getAlbumByBrand(String brandName, String userEmail) {
         PhotoBoothBrand brand = PhotoBoothBrand.fromKoreanName(brandName);
-        List<JpaAlbum> albums = albumRepository.findByPhotoBoothPhotoBoothPhotoBoothBrand(brand);
+        List<JpaAlbum> albums = albumRepository.findByJpaUserUserEmailAndPhotoBoothPhotoBoothPhotoBoothBrand(userEmail,brand);
 
         return albums.stream()
                 .map(jpaAlbum -> new AlbumResponseDto(

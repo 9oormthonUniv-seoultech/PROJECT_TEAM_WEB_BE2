@@ -34,8 +34,8 @@ public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, Alb
     }
 
     @Override
-    public List<AlbumResponseDto> getAlbumByDate(Integer year, Integer month) {
-        List<AlbumResponseDto> albumResponseDtos = albumGetByDatePort.getAlbumByDate(year, month);
+    public List<AlbumResponseDto> getAlbumByDate(Integer year, Integer month, String userEmail) {
+        List<AlbumResponseDto> albumResponseDtos = albumGetByDatePort.getAlbumByDate(year, month, userEmail);
 
         return albumResponseDtos.stream()
                 .map(dto -> {
@@ -47,8 +47,8 @@ public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, Alb
 
 
     @Override
-    public List<AlbumResponseDto> getAlbumByBrand(String brandName) {
-        List<AlbumResponseDto> albumResponseDtos = albumGetByBrandPort.getAlbumByBrand(brandName);
+    public List<AlbumResponseDto> getAlbumByBrand(String brandName, String userEmail) {
+        List<AlbumResponseDto> albumResponseDtos = albumGetByBrandPort.getAlbumByBrand(brandName, userEmail);
 
         return albumResponseDtos.stream()
                 .map(dto -> {

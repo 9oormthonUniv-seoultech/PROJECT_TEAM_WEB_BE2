@@ -18,8 +18,8 @@ public class AlbumGetByDateAdapter implements AlbumGetByDatePort {
     private final AlbumRepository albumRepository;
 
     @Override
-    public List<AlbumResponseDto> getAlbumByDate(Integer year, Integer month) {
-        List<JpaAlbum> albums = albumRepository.findByImageYearAndImageMonth(year, month);
+    public List<AlbumResponseDto> getAlbumByDate(Integer year, Integer month, String userEmail) {
+        List<JpaAlbum> albums = albumRepository.findByJpaUserUserEmailAndImageYearAndImageMonth(userEmail, year, month);
 
         return albums.stream()
                 .map(jpaAlbum -> new AlbumResponseDto(

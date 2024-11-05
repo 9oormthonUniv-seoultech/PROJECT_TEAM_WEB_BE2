@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface AlbumRepository extends JpaRepository<JpaAlbum, Long> {
 
-    List<JpaAlbum> findByPhotoBoothPhotoBoothPhotoBoothBrand(PhotoBoothBrand brand);
+    List<JpaAlbum> findByJpaUserUserEmailAndPhotoBoothPhotoBoothPhotoBoothBrand(String userEmail, PhotoBoothBrand brand);
 
-    List<JpaAlbum> findByImageYearAndImageMonth(Integer year, Integer month);
+    List<JpaAlbum> findByJpaUserUserEmailAndImageYearAndImageMonth(String userEmail, Integer year, Integer month);
 
-    List<JpaAlbum> findByJpaUser_Id(Long id);
+    List<JpaAlbum> findByJpaUserUserEmail(String userEmail);
 
 }
