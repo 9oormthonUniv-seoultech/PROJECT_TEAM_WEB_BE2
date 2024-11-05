@@ -39,5 +39,10 @@ public class JpaAlbum {
     @JoinColumn(name = "photobooth_id")
     private JpaPhotoBooth photoBooth;
 
+    private boolean isLiked;
+
+    public void toggleLike() {
+        this.isLiked = !this.isLiked;
+    }
 
 }

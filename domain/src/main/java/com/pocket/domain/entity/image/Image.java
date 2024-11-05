@@ -23,9 +23,9 @@ public class Image extends BaseEntity {
     @Column(name = "image_url")
     private String imageUrl;
 
-    private String year;
-    private String month;
-    private String date;
+    private Integer year;
+    private Integer month;
+    private Integer date;
 
     public Image(ImageType type) {
         this.type = type;
@@ -34,9 +34,9 @@ public class Image extends BaseEntity {
     public void makeAlbumImage(AlbumRegisterRequestDto dto, String filePath) {
         this.type = ImageType.PHOTO;
         this.imageUrl = filePath;
-        this.year = dto.year();
-        this.month = dto.month();
-        this.date = dto.date();
+        this.year = Integer.parseInt(dto.year());
+        this.month = Integer.parseInt(dto.month());
+        this.date = Integer.parseInt(dto.date());
     }
 
     public void makeReviewImage(String filePath) {
