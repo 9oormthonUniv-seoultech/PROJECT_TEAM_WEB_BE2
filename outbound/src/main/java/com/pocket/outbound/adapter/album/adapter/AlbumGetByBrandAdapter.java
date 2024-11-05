@@ -24,6 +24,7 @@ public class AlbumGetByBrandAdapter implements AlbumGetByBrandPort {
 
         return albums.stream()
                 .map(jpaAlbum -> new AlbumResponseDto(
+                        jpaAlbum.getId(),
                         jpaAlbum.getImage().getImageUrl(),
                         jpaAlbum.isLiked()))
                 .collect(Collectors.toList());

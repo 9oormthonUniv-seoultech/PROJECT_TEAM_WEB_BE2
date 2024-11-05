@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @DomainService
 @RequiredArgsConstructor
-public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, AlbumGetByDateUseCase, AlbumGetByBrandUseCase, AlbumGetByLocationUseCase {
+public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, AlbumGetByDateUseCase, AlbumGetByBrandUseCase, AlbumGetByLocationUseCase, AlbumDeleteUseCase {
 
     private final FileDownloadPort fileDownloadPort;
     private final AlbumRegisterPort albumRegisterPort;
@@ -23,6 +23,7 @@ public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, Alb
     private final AlbumGetByDatePort albumGetByDatePort;
     private final AlbumGetByBrandPort albumGetByBrandPort;
     private final AlbumGetByLocationPort albumGetByLocationPort;
+    private final AlbumDeletePort albumDeletePort;
 
     public AlbumRegisterResponseDto registerPhotoResponse(AlbumRegisterRequestDto albumRegisterRequestDto, String name) {
         return albumRegisterPort.registerPhoto(albumRegisterRequestDto, name);
@@ -40,7 +41,7 @@ public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, Alb
         return albumResponseDtos.stream()
                 .map(dto -> {
                     String presignedUrl = dto.photoUrl().isEmpty() ? "" : fileDownloadPort.getDownloadPresignedUrl(dto.photoUrl());
-                    return new AlbumResponseDto(presignedUrl, dto.like());
+                    return new AlbumResponseDto(dto.albumId(), presignedUrl, dto.like());
                 })
                 .collect(Collectors.toList());
     }
@@ -53,7 +54,7 @@ public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, Alb
         return albumResponseDtos.stream()
                 .map(dto -> {
                     String presignedUrl = dto.photoUrl().isEmpty() ? "" : fileDownloadPort.getDownloadPresignedUrl(dto.photoUrl());
-                    return new AlbumResponseDto(presignedUrl, dto.like());
+                    return new AlbumResponseDto(dto.albumId(), presignedUrl, dto.like());
                 })
                 .collect(Collectors.toList());
     }
@@ -67,6 +68,10 @@ public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, Alb
                     return new NearAlbumInfo(presignedUrl, dto.x(), dto.y());
                 })
                 .collect(Collectors.toList());
+    }
+
+    public void deleteAlbum(Long albumId) {
+        albumDeletePort.deleteAlbum(albumId);
     }
 
 }

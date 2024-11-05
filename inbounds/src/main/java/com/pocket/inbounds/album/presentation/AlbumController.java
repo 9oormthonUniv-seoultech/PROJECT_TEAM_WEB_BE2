@@ -24,6 +24,7 @@ public class AlbumController implements AlbumContollerDocs{
     private final AlbumGetByDateUseCase albumGetByDateUseCase;
     private final AlbumGetByBrandUseCase albumGetByBrandUseCase;
     private final AlbumGetByLocationUseCase albumGetByLocationUseCase;
+    private final AlbumDeleteUseCase albumDeleteUseCase;
 
     @PostMapping
     public ApplicationResponse<AlbumRegisterResponseDto> postPhoto(
@@ -78,10 +79,14 @@ public class AlbumController implements AlbumContollerDocs{
     }
 
 
-    // 해시태그 검색 기능
-
-
     // 삭제 기능
+    @DeleteMapping("/{album_id}")
+    public ApplicationResponse<String> deleteAlbum(@PathVariable("album_id") Long albumId) {
+        albumDeleteUseCase.deleteAlbum(albumId);
+        return ApplicationResponse.ok("Success");
+    }
 
+
+    // 해시태그 검색 기능
 
 }

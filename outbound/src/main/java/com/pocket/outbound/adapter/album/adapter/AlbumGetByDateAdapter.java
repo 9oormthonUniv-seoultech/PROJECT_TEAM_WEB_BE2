@@ -23,6 +23,7 @@ public class AlbumGetByDateAdapter implements AlbumGetByDatePort {
 
         return albums.stream()
                 .map(jpaAlbum -> new AlbumResponseDto(
+                        jpaAlbum.getId(),
                         jpaAlbum.getImage().getImageUrl(),
                         jpaAlbum.isLiked()))
                 .collect(Collectors.toList());

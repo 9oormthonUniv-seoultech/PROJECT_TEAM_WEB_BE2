@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AlbumGetByLocationAdapter implements AlbumGetByLocationPort {
 
-    private final UserRepository userRepository;
     private final AlbumRepository albumRepository;
 
     @Override
