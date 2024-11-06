@@ -116,7 +116,7 @@ public class AlbumController implements AlbumContollerDocs {
     ) {
 
         Long token = albumShareUseCase.saveShareTable(user.email(), albumId);
-        return ApplicationResponse.ok("https://pocket4cut.link/page/share?token" + token);
+        return ApplicationResponse.ok("https://pocket4cut.link/page/share?token=" + token);
     }
 
     // 공유자 데이터 정보 저장

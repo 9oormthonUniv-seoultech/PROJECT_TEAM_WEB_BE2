@@ -56,7 +56,7 @@ public class AlbumRegisterAdapter implements AlbumRegisterPort, AlbumSharePort {
 
         // 앨범 생성
         JpaAlbum photoEntity = albumOutBoundMapper.toJpaAlbum(dto, photoBooth, jpaUser);
-        albumRepository.save(photoEntity);
+        final JpaAlbum jpaAlbum = albumRepository.save(photoEntity);
 
         // 해시태그 처리
         for (String hashtag : dto.hashtag()) {
@@ -75,6 +75,7 @@ public class AlbumRegisterAdapter implements AlbumRegisterPort, AlbumSharePort {
         // 응답 DTO 생성 및 반환
         return new AlbumRegisterResponseDto(
                 dto.photoboothId(),
+                jpaAlbum.getId(),
                 dto.year(),
                 dto.month(),
                 dto.date(),
