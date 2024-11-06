@@ -4,7 +4,6 @@ import com.pocket.core.exception.common.ApplicationResponse;
 import com.pocket.domain.dto.album.*;
 import com.pocket.domain.dto.user.UserInfoDTO;
 import com.pocket.domain.usecase.album.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/album")
-public class AlbumController implements AlbumContollerDocs{
+public class AlbumController implements AlbumContollerDocs {
 
     private final AlbumRegisterUseCase albumRegisterUseCase;
     private final AlbumLikeUseCase albumLikeUseCase;
@@ -24,6 +23,7 @@ public class AlbumController implements AlbumContollerDocs{
     private final AlbumDeleteUseCase albumDeleteUseCase;
     private final AlbumHashtagUseCase albumHashtagUseCase;
     private final AlbumFavoriteUseCase albumFavoriteUseCase;
+    private final AlbumShareUseCase albumShareUseCase;
 
     @PostMapping
     public ApplicationResponse<AlbumRegisterResponseDto> postPhoto(
@@ -106,6 +106,28 @@ public class AlbumController implements AlbumContollerDocs{
     ) {
         List<AlbumResponseDto> response = albumFavoriteUseCase.getFavoriteAlbums(user.email());
         return ApplicationResponse.ok(response);
+    }
+
+    // 공유링크 생성
+    @PostMapping("/share")
+    public ApplicationResponse<String> shareLink(
+            @AuthenticationPrincipal UserInfoDTO user,
+            @RequestParam Long albumId
+    ) {
+
+        Long token = albumShareUseCase.saveShareTable(user.email(), albumId);
+        return ApplicationResponse.ok("https://pocket4cut.link/page/share?token" + token);
+    }
+
+    // 공유자 데이터 정보 저장
+    @PostMapping("/{token}/saveShare")
+    public ApplicationResponse<String> saveShareInfos(
+            @AuthenticationPrincipal UserInfoDTO user,
+            @PathVariable Long token
+    ) {
+
+        albumShareUseCase.saveNewData(user.email(), token);
+        return ApplicationResponse.ok("Saved");
     }
 
 }
