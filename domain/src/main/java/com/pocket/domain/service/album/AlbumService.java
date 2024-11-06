@@ -12,7 +12,8 @@ import java.util.stream.Collectors;
 
 @DomainService
 @RequiredArgsConstructor
-public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, AlbumGetByDateUseCase, AlbumGetByBrandUseCase, AlbumGetByLocationUseCase, AlbumDeleteUseCase, AlbumHashtagUseCase {
+public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, AlbumGetByDateUseCase, AlbumGetByBrandUseCase, AlbumGetByLocationUseCase, AlbumDeleteUseCase, AlbumHashtagUseCase, AlbumFavoriteUseCase
+{
 
     private final FileDownloadPort fileDownloadPort;
     private final AlbumRegisterPort albumRegisterPort;
@@ -22,6 +23,7 @@ public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, Alb
     private final AlbumGetByLocationPort albumGetByLocationPort;
     private final AlbumDeletePort albumDeletePort;
     private final AlbumHashtagPort albumHashtagPort;
+    private final AlbumFavoritePort albumFavoritePort;
 
     public AlbumRegisterResponseDto registerPhotoResponse(AlbumRegisterRequestDto albumRegisterRequestDto, String name) {
         return albumRegisterPort.registerPhoto(albumRegisterRequestDto, name);
@@ -80,6 +82,19 @@ public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, Alb
                 .map(dto -> {
                     String presignedUrl = dto.photoUrl().isEmpty() ? "" : fileDownloadPort.getDownloadPresignedUrl(dto.photoUrl());
                     return new AlbumHashtagResponseDto(presignedUrl, dto.hashtags(), dto.year(), dto.month(), dto.date(), dto.memo(), dto.isLiked());
+                })
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public List<AlbumResponseDto> getFavoriteAlbums(String userEmail) {
+        List<AlbumResponseDto> albumResponseDtos = albumFavoritePort.getFavoriteAlbums(userEmail);
+
+        return albumResponseDtos.stream()
+                .map(dto -> {
+                    String presignedUrl = dto.photoUrl().isEmpty() ? "" : fileDownloadPort.getDownloadPresignedUrl(dto.photoUrl());
+                    return new AlbumResponseDto(dto.albumId(), presignedUrl, dto.like());
                 })
                 .collect(Collectors.toList());
     }

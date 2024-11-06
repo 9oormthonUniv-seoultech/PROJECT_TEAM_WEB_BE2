@@ -101,4 +101,15 @@ public interface AlbumContollerDocs {
     ApplicationResponse<List<AlbumHashtagResponseDto>> getAlbumByHashtag(
             @PathVariable("hashtag") String hashtag,
             @AuthenticationPrincipal UserInfoDTO user);
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))})
+    })
+    @Operation(summary = "즐겨찾기 앨범 검색 (마이페이지)", description = "좋아요가 눌린 앨범을 조회하는 API")
+    ApplicationResponse<List<AlbumResponseDto>> getFavoriteAlbums(
+            @AuthenticationPrincipal UserInfoDTO user);
 }

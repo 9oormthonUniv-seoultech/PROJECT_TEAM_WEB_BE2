@@ -23,6 +23,7 @@ public class AlbumController implements AlbumContollerDocs{
     private final AlbumGetByLocationUseCase albumGetByLocationUseCase;
     private final AlbumDeleteUseCase albumDeleteUseCase;
     private final AlbumHashtagUseCase albumHashtagUseCase;
+    private final AlbumFavoriteUseCase albumFavoriteUseCase;
 
     @PostMapping
     public ApplicationResponse<AlbumRegisterResponseDto> postPhoto(
@@ -94,6 +95,16 @@ public class AlbumController implements AlbumContollerDocs{
             @AuthenticationPrincipal UserInfoDTO user
     ) {
         List<AlbumHashtagResponseDto> response = albumHashtagUseCase.getAlbumByHashtag(hashtag, user.email());
+        return ApplicationResponse.ok(response);
+    }
+
+
+    // 즐겨찾기 검색
+    @GetMapping("/favorite")
+    public ApplicationResponse<List<AlbumResponseDto>> getFavoriteAlbums(
+            @AuthenticationPrincipal UserInfoDTO user
+    ) {
+        List<AlbumResponseDto> response = albumFavoriteUseCase.getFavoriteAlbums(user.email());
         return ApplicationResponse.ok(response);
     }
 
