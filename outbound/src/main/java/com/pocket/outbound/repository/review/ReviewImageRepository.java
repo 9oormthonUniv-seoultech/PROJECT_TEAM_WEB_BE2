@@ -11,6 +11,8 @@ public interface ReviewImageRepository extends JpaRepository<JpaReviewImage, Lon
 
     List<JpaReviewImage> findTop6ByReviewPhotoBoothIdOrderByReviewIdDesc(Long photoboothId);
 
+    JpaReviewImage findTop1ByReviewIdOrderByReviewIdDesc(Long reviewId);
+
     int countByReviewPhotoBoothId(Long photoboothId);
 
     List<JpaReviewImage> findByReviewId(Long reviewId);

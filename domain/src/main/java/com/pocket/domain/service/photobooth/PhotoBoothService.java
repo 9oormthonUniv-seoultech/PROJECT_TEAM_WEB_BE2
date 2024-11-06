@@ -1,9 +1,6 @@
 package com.pocket.domain.service.photobooth;
 
-import com.pocket.domain.dto.photobooth.NearPhotoBoothInfo;
-import com.pocket.domain.dto.photobooth.PhotoBoothFindResponseDto;
-import com.pocket.domain.dto.photobooth.PhotoBoothModalDto;
-import com.pocket.domain.dto.photobooth.PhotoBoothSearchDto;
+import com.pocket.domain.dto.photobooth.*;
 import com.pocket.domain.entity.photobooth.PhotoBoothBrand;
 import com.pocket.domain.port.photobooth.*;
 import com.pocket.domain.usecase.photobooth.*;
@@ -16,13 +13,14 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNameUseCase, PhotoBoothGetRatingUseCase, PhotoBoothSearchUseCase, PhotoBoothGetModalUseCase {
+public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNameUseCase, PhotoBoothGetRatingUseCase, PhotoBoothSearchUseCase, PhotoBoothGetModalUseCase, PhotoBoothVisitedUseCase {
 
     private final PhotoBoothFindPort photoBoothFindPort;
     private final PhotoBoothGetRatingPort photoBoothGetRatingPort;
     private final PhotoBoothGetNamePort photoBoothGetNamePort;
     private final PhotoBoothSearchPort photoBoothSearchPort;
     private final PhotoBoothGetModalPort photoBoothGetModalPort;
+    private final PhotoBoothVisitedPort photoBoothVisitedPort;
 
     public PhotoBoothFindResponseDto findPhotoBoothResponse(Long id) {
         return photoBoothFindPort.findById(id);
@@ -46,5 +44,10 @@ public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNa
     @Override
     public PhotoBoothModalDto getPhotoBoothModal(Long photoboothId) {
         return photoBoothGetModalPort.getPhotoBoothModal(photoboothId);
+    }
+
+    @Override
+    public List<PhotoBoothVisitedDto> getVisitedPhotoBooths(String userEmail) {
+        return photoBoothVisitedPort.getVisitedPhotoBooths(userEmail);
     }
 }

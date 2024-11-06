@@ -20,4 +20,6 @@ public interface ReviewRepository extends JpaRepository<JpaReview, Long> {
     List<Long> findReviewIdsByPhotoBoothId(@Param("photoBoothId") Long photoBoothId);
 
     Page<JpaReview> findByPhotoBoothId(Long photoboothId, Pageable pageable);
+
+    List<JpaReview> findByJpaUser_User_Email(String email);
 }

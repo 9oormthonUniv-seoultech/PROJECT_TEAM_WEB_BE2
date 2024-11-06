@@ -14,4 +14,7 @@ public interface AlbumRepository extends JpaRepository<JpaAlbum, Long> {
 
     List<JpaAlbum> findByJpaUserUserEmail(String userEmail);
 
+    List<JpaAlbum> findByJpaUser_User_Email(String email);
+
 }
+
