@@ -1,11 +1,12 @@
 package com.pocket.inbounds.user.presentation;
 
-import com.pocket.core.aop.annotation.NameAuthenticated;
 import com.pocket.core.exception.common.ApplicationResponse;
+import com.pocket.domain.dto.user.LoginResponse;
 import com.pocket.domain.dto.user.UserInfoDTO;
 import com.pocket.domain.usecase.user.LoginUseCase;
 import com.pocket.inbounds.user.response.UserResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,5 +27,13 @@ public class UserController implements UserControllerDocs {
 
         UserResponse response = new UserResponse(userInfoDTO.name(), userInfoDTO.email(), userInfoDTO.image());
         return ApplicationResponse.ok(response);
+    }
+
+    @GetMapping(value = "/reissue", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ApplicationResponse<LoginResponse> refresh(
+            @AuthenticationPrincipal UserInfoDTO userInfoDTO
+    ) {
+        LoginResponse tokenResponse = loginUseCase.reissueToken(userInfoDTO.email());
+        return ApplicationResponse.ok(tokenResponse);
     }
 }
