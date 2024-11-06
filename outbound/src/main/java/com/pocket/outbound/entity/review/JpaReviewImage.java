@@ -1,6 +1,6 @@
 package com.pocket.outbound.entity.review;
 
-import com.pocket.domain.entity.image.Image;
+import com.pocket.domain.entity.image.  Image;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -27,6 +27,7 @@ public class AlbumOutBoundMapper {
                 .jpaUser(jpaUser)
                 .memo(memo)
                 .image(image)
+                .isLiked(false)
                 .build();
     }
 

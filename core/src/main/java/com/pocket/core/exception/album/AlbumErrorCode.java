@@ -1,4 +1,4 @@
-package com.pocket.core.exception.photobooth;
+package com.pocket.core.exception.album;
 
 import com.pocket.core.exception.common.ApiResponse;
 import com.pocket.core.exception.common.BaseErrorCode;
@@ -8,9 +8,8 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
-public enum PhotoBoothErrorCode implements BaseErrorCode {
-    PHOTOBOOTH_NOT_FOUND(HttpStatus.BAD_REQUEST, "400", "해당 포토부스가 존재하지 않습니다."),
-    PHOTOBOOTHBRAND_NOT_FOUND(HttpStatus.BAD_REQUEST, "400", "해당 포토부스 브랜드가 존재하지 않습니다.");
+public enum AlbumErrorCode implements BaseErrorCode {
+    ALBUM_NOT_FOUND(HttpStatus.BAD_REQUEST, "400", "해당 앨범이 존재하지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
@@ -20,4 +19,6 @@ public enum PhotoBoothErrorCode implements BaseErrorCode {
     public ApiResponse<Void> getErrorResponse() {
         return ApiResponse.onFailure(code, message);
     }
+
+
 }

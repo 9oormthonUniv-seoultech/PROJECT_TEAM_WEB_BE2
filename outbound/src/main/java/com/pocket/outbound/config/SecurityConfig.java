@@ -55,13 +55,12 @@ public class SecurityConfig {
                             "/v3/api-docs/**",
                             "/api/v1/photobooth/**",
                             "/api/v1/review/**",
-                            "/api/v1/album/**",
                             "/v1/public/**",
                             "/page").permitAll();
 
                     // 로그인 필요
                     authz.requestMatchers("/v1/user/**",
-                            "/api/v1/album",
+                            "/api/v1/album/**",
                             "/api/v1/review").authenticated();
 
                     // 그 외의 모든 요청은 인증 필요

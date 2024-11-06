@@ -35,23 +35,33 @@ public class AlbumRegisterAdapter implements AlbumRegisterPort {
     @Override
     public AlbumRegisterResponseDto registerPhoto(AlbumRegisterRequestDto dto, String name) {
 
+        // 포토 부스 찾기
         JpaPhotoBooth photoBooth = photoBoothRepository.findById(dto.photoboothId())
                 .orElseThrow(() -> new PhotoBoothCustomException(PhotoBoothErrorCode.PHOTOBOOTH_NOT_FOUND));
 
+        // 사용자 찾기
         JpaUser jpaUser = userRepository.findByUserName(name)
                 .orElseThrow(() -> new UserCustomException(UserErrorCode.NO_USER_INFO));
 
+        // 앨범 생성
         JpaAlbum photoEntity = albumOutBoundMapper.toJpaAlbum(dto, photoBooth, jpaUser);
         albumRepository.save(photoEntity);
 
+        // 해시태그 처리
         for (String hashtag : dto.hashtag()) {
-            JpaHashTag hashtagEntity = albumOutBoundMapper.toJpaHashTag(hashtag, jpaUser);
-            JpaAlbumHashTag imageHashtagEntity = albumOutBoundMapper.toJpaAlbumHashTag(photoEntity, hashtagEntity);
+            JpaHashTag hashtagEntity = hashtagRepository.findByHashTag_ContentAndJpaUser_Id(hashtag, jpaUser.getId())
+                    .orElseGet(() -> {
+                        // 해시태그가 존재하지 않으면 새로 생성
+                        JpaHashTag newHashTag = albumOutBoundMapper.toJpaHashTag(hashtag, jpaUser);
+                        return hashtagRepository.save(newHashTag);
+                    });
 
-            hashtagRepository.save(hashtagEntity);
-            photoHashtagRepository.save(imageHashtagEntity);
+            // 앨범-해시태그 매핑 엔티티 생성 및 저장
+            JpaAlbumHashTag albumHashtagEntity = albumOutBoundMapper.toJpaAlbumHashTag(photoEntity, hashtagEntity);
+            photoHashtagRepository.save(albumHashtagEntity);
         }
 
+        // 응답 DTO 생성 및 반환
         return new AlbumRegisterResponseDto(
                 dto.photoboothId(),
                 dto.year(),
