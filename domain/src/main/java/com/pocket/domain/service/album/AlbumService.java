@@ -12,8 +12,9 @@ import java.util.stream.Collectors;
 
 @DomainService
 @RequiredArgsConstructor
-public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, AlbumGetByDateUseCase, AlbumGetByBrandUseCase, AlbumGetByLocationUseCase, AlbumDeleteUseCase, AlbumHashtagUseCase, AlbumFavoriteUseCase
-{
+public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase,
+        AlbumGetByDateUseCase, AlbumGetByBrandUseCase, AlbumGetByLocationUseCase,
+        AlbumDeleteUseCase, AlbumHashtagUseCase, AlbumFavoriteUseCase, AlbumShareUseCase {
 
     private final FileDownloadPort fileDownloadPort;
     private final AlbumRegisterPort albumRegisterPort;
@@ -24,6 +25,8 @@ public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, Alb
     private final AlbumDeletePort albumDeletePort;
     private final AlbumHashtagPort albumHashtagPort;
     private final AlbumFavoritePort albumFavoritePort;
+    private final AlbumSharePort albumSharePort;
+
 
     public AlbumRegisterResponseDto registerPhotoResponse(AlbumRegisterRequestDto albumRegisterRequestDto, String name) {
         return albumRegisterPort.registerPhoto(albumRegisterRequestDto, name);
@@ -97,5 +100,17 @@ public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, Alb
                     return new AlbumResponseDto(dto.albumId(), presignedUrl, dto.like());
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Long saveShareTable(String email, Long albumId) {
+
+        return albumSharePort.saveShareTable(email, albumId);
+    }
+
+    @Override
+    public void saveNewData(String email, Long token) {
+
+        albumSharePort.saveNewData(email, token);
     }
 }
