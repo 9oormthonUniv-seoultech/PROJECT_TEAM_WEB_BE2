@@ -24,6 +24,7 @@ public class PhotoBoothController implements PhotoBoothControllerDocs {
     private final PhotoBoothSearchUseCase photoBoothSearchUseCase;
     private final PhotoBoothGetModalUseCase photoBoothGetModalUseCase;
     private final PhotoBoothVisitedUseCase photoBoothVisitedUseCase;
+    private final PhotoBoothLikeUseCase photoBoothLikeUseCase;
 
     @GetMapping("{id}")
     public ApplicationResponse<PhotoBoothFindResponseDto> getPhotoBoothById(@PathVariable("id") Long id) {
@@ -74,4 +75,14 @@ public class PhotoBoothController implements PhotoBoothControllerDocs {
         List<PhotoBoothVisitedDto> response = photoBoothVisitedUseCase.getVisitedPhotoBooths(user.email());
         return ApplicationResponse.ok(response);
     }
+
+    @PostMapping("/like/{id}")
+    public ApplicationResponse<String> likePhotoBooth(
+            @PathVariable("id") Long id,
+            @AuthenticationPrincipal UserInfoDTO user
+    ) {
+        photoBoothLikeUseCase.photoBoothLike(id,user.email());
+        return ApplicationResponse.ok("success");
+    }
+
 }
