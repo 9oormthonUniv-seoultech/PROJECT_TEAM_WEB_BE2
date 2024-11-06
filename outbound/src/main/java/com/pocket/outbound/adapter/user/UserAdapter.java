@@ -25,12 +25,6 @@ public class UserAdapter implements LoadUserInfoPort {
         return new UserInfoDTO(user.getUser().getName(), user.getUser().getEmail(), user.getUser().getPicture());
     }
 
-    public UserInfoDTO loadUserInfoByEmail(String email) {
-
-        final JpaUser user = findUser(email);
-        return new UserInfoDTO(user.getUser().getName(), user.getUser().getEmail(), user.getUser().getPicture());
-    }
-
     public LoginResponse createToken(String email) {
 
         final JpaUser user = findUser(email);
