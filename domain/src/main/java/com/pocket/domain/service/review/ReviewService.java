@@ -53,6 +53,7 @@ public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUse
             String presignedUrl = review.imageUrl().isEmpty() ? "" : fileDownloadPort.getDownloadPresignedUrl(review.imageUrl());
             return new ReviewPreviewDto(
                     review.photoboothId(),
+                    review.profileUrl(),
                     review.name(),
                     review.year(),
                     review.month(),
@@ -104,6 +105,7 @@ public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUse
             String presignedUrl = review.imageUrl().isEmpty() ? "" : fileDownloadPort.getDownloadPresignedUrl(review.imageUrl());
             return new ReviewPreviewDto(
                     review.photoboothId(),
+                    review.profileUrl(),
                     review.name(),
                     review.year(),
                     review.month(),

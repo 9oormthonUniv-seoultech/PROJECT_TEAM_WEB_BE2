@@ -4,6 +4,7 @@ import java.util.List;
 
 public record ReviewPreviewDto(
         Long photoboothId,
+        String profileUrl,
         String name,
         String year,
         String month,
