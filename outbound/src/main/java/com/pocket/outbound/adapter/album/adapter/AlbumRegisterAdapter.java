@@ -1,6 +1,10 @@
 package com.pocket.outbound.adapter.album.adapter;
 
 import com.pocket.core.aop.annotation.AdapterService;
+import com.pocket.core.exception.album.AlbumCustomException;
+import com.pocket.core.exception.album.AlbumErrorCode;
+import com.pocket.core.exception.hashtag.HashTagCustomException;
+import com.pocket.core.exception.hashtag.HashTagErrorCode;
 import com.pocket.core.exception.photobooth.PhotoBoothCustomException;
 import com.pocket.core.exception.photobooth.PhotoBoothErrorCode;
 import com.pocket.core.exception.user.UserCustomException;
@@ -8,22 +12,27 @@ import com.pocket.core.exception.user.UserErrorCode;
 import com.pocket.domain.dto.album.AlbumRegisterRequestDto;
 import com.pocket.domain.dto.album.AlbumRegisterResponseDto;
 import com.pocket.domain.port.album.AlbumRegisterPort;
+import com.pocket.domain.port.album.AlbumSharePort;
 import com.pocket.outbound.adapter.album.mapper.AlbumOutBoundMapper;
-import com.pocket.outbound.entity.*;
+import com.pocket.outbound.entity.JpaUser;
 import com.pocket.outbound.entity.album.JpaAlbum;
 import com.pocket.outbound.entity.album.JpaAlbumHashTag;
+import com.pocket.outbound.entity.album.JpaAlbumShare;
 import com.pocket.outbound.entity.album.JpaHashTag;
 import com.pocket.outbound.entity.photobooth.JpaPhotoBooth;
-import com.pocket.outbound.repository.*;
+import com.pocket.outbound.repository.UserRepository;
 import com.pocket.outbound.repository.album.AlbumHashTagRepository;
 import com.pocket.outbound.repository.album.AlbumRepository;
+import com.pocket.outbound.repository.album.AlbumShareRepository;
 import com.pocket.outbound.repository.album.HashTagRepository;
 import com.pocket.outbound.repository.photobooth.PhotoBoothRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @AdapterService
 @RequiredArgsConstructor
-public class AlbumRegisterAdapter implements AlbumRegisterPort {
+public class AlbumRegisterAdapter implements AlbumRegisterPort, AlbumSharePort {
 
     private final AlbumRepository albumRepository;
     private final HashTagRepository hashtagRepository;
@@ -31,6 +40,8 @@ public class AlbumRegisterAdapter implements AlbumRegisterPort {
     private final PhotoBoothRepository photoBoothRepository;
     private final UserRepository userRepository;
     private final AlbumOutBoundMapper albumOutBoundMapper;
+    private final AlbumShareRepository albumShareRepository;
+    private final AlbumHashTagRepository albumHashTagRepository;
 
     @Override
     public AlbumRegisterResponseDto registerPhoto(AlbumRegisterRequestDto dto, String name) {
@@ -71,5 +82,54 @@ public class AlbumRegisterAdapter implements AlbumRegisterPort {
                 dto.memo(),
                 dto.filePath()
         );
+    }
+
+    @Override
+    public Long saveShareTable(String email, Long albumId) {
+
+        JpaAlbum album = albumRepository.findById(albumId).orElseThrow(() -> new AlbumCustomException(AlbumErrorCode.ALBUM_NOT_FOUND));
+        JpaUser jpaUser = userRepository.findByUserEmail(email)
+                .orElseThrow(() -> new UserCustomException(UserErrorCode.NO_USER_INFO));
+
+        JpaAlbumShare share = JpaAlbumShare.builder()
+                .album(album)
+                .user(jpaUser)
+                .build();
+
+        final JpaAlbumShare jpaAlbumShare = albumShareRepository.save(share);
+        return jpaAlbumShare.getId();
+    }
+
+    @Override
+    public void saveNewData(String email, Long token) {
+
+        JpaAlbumShare albumShare = albumShareRepository.findById(token).orElseThrow(() -> new AlbumCustomException(AlbumErrorCode.ALBUM_SHARE_NOT_FOUND));
+        JpaUser jpaUser = userRepository.findByUserEmail(email)
+                .orElseThrow(() -> new UserCustomException(UserErrorCode.NO_USER_INFO));
+
+        // 앨범 저장
+        JpaAlbum album = albumRepository.findById(albumShare.getAlbum().getId()).orElseThrow(() -> new AlbumCustomException(AlbumErrorCode.ALBUM_NOT_FOUND));
+        JpaAlbum newAlbum = JpaAlbum.builder()
+                .image(album.getImage())
+                .jpaUser(jpaUser)
+                .photoBooth(album.getPhotoBooth())
+                .isLiked(album.isLiked())
+                .memo(album.getMemo())
+                .build();
+        albumRepository.save(newAlbum);
+
+        // 해시태그들 저장
+        List<JpaAlbumHashTag> albumHashTagList = albumHashTagRepository.findByJpaAlbum_Id(album.getId());
+
+        for (JpaAlbumHashTag a : albumHashTagList) {
+            JpaHashTag hashTag = hashtagRepository.findById(a.getJpaHashtag().getId()).orElseThrow(() -> new HashTagCustomException(HashTagErrorCode.HASHTAG_NOT_FOUND));
+
+            JpaHashTag newTag = JpaHashTag.builder()
+                    .hashTag(hashTag.getHashTag())
+                    .jpaUser(jpaUser)
+                    .build();
+
+            hashtagRepository.save(newTag);
+        }
     }
 }
