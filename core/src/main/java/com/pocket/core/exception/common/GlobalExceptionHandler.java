@@ -1,7 +1,6 @@
 package com.pocket.core.exception.common;
 
 import com.pocket.core.exception.jwt.SecurityCustomException;
-import com.pocket.core.exception.jwt.SecurityErrorCode;
 import com.pocket.core.exception.photobooth.PhotoBoothCustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +21,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(SecurityCustomException.class)
     public ResponseEntity<ApplicationResponse<String>> handleSecurityException(SecurityCustomException ex) {
+
         ApplicationResponse<String> response = new ApplicationResponse<>(
                 new ApplicationResult(Integer.parseInt(ex.getErrorCode().getCode()), ex.getErrorCode().getMessage()),
                 null
