@@ -130,4 +130,30 @@ public interface PhotoBoothControllerDocs {
             @AuthenticationPrincipal UserInfoDTO user
     );
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))})
+    })
+    @Operation(summary = "포토부스 찜 여부 확인", description = "찜한 포토부스인지 확인하는 API")
+    ApplicationResponse<Boolean> likePhotoBoothCheck(
+            @PathVariable("id") Long id,
+            @AuthenticationPrincipal UserInfoDTO user
+    );
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))})
+    })
+    @Operation(summary = "포토부스 찜 삭제", description = "포토부스 찜 삭제하는 API")
+    ApplicationResponse<String> deletePhotoBoothLike(
+            @PathVariable("id") Long id,
+            @AuthenticationPrincipal UserInfoDTO user
+    );
+
 }
