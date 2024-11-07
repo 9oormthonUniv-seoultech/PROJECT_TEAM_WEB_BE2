@@ -19,20 +19,16 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-	@Override
-	public void commence(HttpServletRequest request, HttpServletResponse response,
-		AuthenticationException authException)
-		throws IOException {
-		HttpStatus httpStatus;
-		ApiResponse<String> errorResponse;
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
+        HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
+        ApiResponse<String> errorResponse = ApiResponse.onFailure(
+                SecurityErrorCode.UNAUTHORIZED.getCode(),
+                SecurityErrorCode.UNAUTHORIZED.getMessage(),
+                authException.getMessage()
+        );
 
-		log.error(">>>>>> AuthenticationException: ", authException);
-		httpStatus = HttpStatus.UNAUTHORIZED;
-		errorResponse = ApiResponse.onFailure(
-			SecurityErrorCode.UNAUTHORIZED.getCode(),
-			SecurityErrorCode.UNAUTHORIZED.getMessage(),
-			authException.getMessage());
+        HttpResponseUtil.setErrorResponse(response, httpStatus, errorResponse);
+    }
 
-		HttpResponseUtil.setErrorResponse(response, httpStatus, errorResponse);
-	}
 }
