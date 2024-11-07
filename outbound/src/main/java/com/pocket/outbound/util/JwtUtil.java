@@ -188,8 +188,11 @@ public class JwtUtil {
             JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(secretKey).build();
             jwtParser.parseClaimsJws(token);
             return true;
-        } catch (SecurityException | MalformedJwtException | IllegalArgumentException | UnsupportedJwtException |
-                 ExpiredJwtException e) {
+        } catch (ExpiredJwtException e) {
+            log.warn("[*] Token has expired: {}", e.getMessage());
+            throw new SecurityCustomException(TOKEN_EXPIRED);
+        } catch (SecurityException | MalformedJwtException | IllegalArgumentException | UnsupportedJwtException e) {
+            log.warn("[*] Invalid token: {}", e.getMessage());
             throw new SecurityCustomException(INVALID_TOKEN);
         }
     }

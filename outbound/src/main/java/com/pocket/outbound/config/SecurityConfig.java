@@ -2,14 +2,19 @@ package com.pocket.outbound.config;
 
 import com.pocket.core.exception.jwt.JwtAccessDeniedHandler;
 import com.pocket.core.exception.jwt.JwtAuthenticationEntryPoint;
+import com.pocket.core.redis.util.RedisUtil;
+import com.pocket.core.util.HttpResponseUtil;
 import com.pocket.outbound.adapter.authentication.OAuthLoginFailureHandler;
 import com.pocket.outbound.adapter.authentication.OAuthLoginSuccessHandler;
 import com.pocket.outbound.adapter.oauth.KakaoLoginAdapter;
+import com.pocket.outbound.adapter.user.handler.CustomLogoutHandler;
 import com.pocket.outbound.util.JwtFilter;
+import com.pocket.outbound.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -38,7 +43,7 @@ public class SecurityConfig {
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, RedisUtil redisUtil, JwtUtil jwtUtil) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
@@ -79,6 +84,18 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                         .accessDeniedHandler(jwtAccessDeniedHandler));
+
+        http
+                .logout(logout -> logout
+                        .logoutUrl("/api/v1/users/logout")
+                        .addLogoutHandler(new CustomLogoutHandler(redisUtil, jwtUtil))
+                        .logoutSuccessHandler((request, response, authentication)
+                                -> HttpResponseUtil.setSuccessResponse(
+                                response,
+                                HttpStatus.OK,
+                                "로그아웃 성공"
+                        ))
+                );
 
         return http.build();
     }
