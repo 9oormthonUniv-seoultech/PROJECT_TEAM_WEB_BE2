@@ -39,6 +39,7 @@ public class AlbumHashtagAdapter implements AlbumHashtagPort {
 
                     // AlbumHashtagResponseDto 구성
                     return new AlbumHashtagResponseDto(
+                            album.getId(),
                             album.getImage().getImageUrl(),
                             hashtags,
                             album.getImage().getYear(),
