@@ -104,4 +104,30 @@ public interface PhotoBoothControllerDocs {
             @AuthenticationPrincipal UserInfoDTO user
     );
 
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))})
+    })
+    @Operation(summary = "포토부스 찜하기 기능 (마이페이지)", description = "포토부스 찜하기 기능 (마이페이지에서 확인)")
+    ApplicationResponse<String> likePhotoBooth(
+            @PathVariable("id") Long id,
+            @AuthenticationPrincipal UserInfoDTO user
+    );
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))})
+    })
+    @Operation(summary = "찜한 포토부스 조회", description = "찜한 포토부스의 이름, 별점, 특징 조회")
+    ApplicationResponse<List<PhotoBoothLikeDto>> getPhotoBoothLike(
+            @AuthenticationPrincipal UserInfoDTO user
+    );
+
 }
