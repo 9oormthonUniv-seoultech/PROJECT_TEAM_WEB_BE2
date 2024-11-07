@@ -104,12 +104,23 @@ public class AlbumRegisterAdapter implements AlbumRegisterPort, AlbumSharePort {
     @Override
     public void saveNewData(String email, Long token) {
 
-        JpaAlbumShare albumShare = albumShareRepository.findById(token).orElseThrow(() -> new AlbumCustomException(AlbumErrorCode.ALBUM_SHARE_NOT_FOUND));
+        // albumShare 가져오기
+        JpaAlbumShare albumShare = albumShareRepository.findById(token)
+                .orElseThrow(() -> new AlbumCustomException(AlbumErrorCode.ALBUM_SHARE_NOT_FOUND));
+
+        // jpaUser 가져오기
         JpaUser jpaUser = userRepository.findByUserEmail(email)
                 .orElseThrow(() -> new UserCustomException(UserErrorCode.NO_USER_INFO));
 
+        // albumShare의 user와 jpaUser가 같은지 비교
+        if (albumShare.getUser().equals(jpaUser)) {
+            throw new AlbumCustomException(AlbumErrorCode.USER_ALREADY_OWNED_ALBUM);
+        }
+
         // 앨범 저장
-        JpaAlbum album = albumRepository.findById(albumShare.getAlbum().getId()).orElseThrow(() -> new AlbumCustomException(AlbumErrorCode.ALBUM_NOT_FOUND));
+        JpaAlbum album = albumRepository.findById(albumShare.getAlbum().getId())
+                .orElseThrow(() -> new AlbumCustomException(AlbumErrorCode.ALBUM_NOT_FOUND));
+
         JpaAlbum newAlbum = JpaAlbum.builder()
                 .image(album.getImage())
                 .jpaUser(jpaUser)
@@ -123,7 +134,8 @@ public class AlbumRegisterAdapter implements AlbumRegisterPort, AlbumSharePort {
         List<JpaAlbumHashTag> albumHashTagList = albumHashTagRepository.findByJpaAlbum_Id(album.getId());
 
         for (JpaAlbumHashTag a : albumHashTagList) {
-            JpaHashTag hashTag = hashtagRepository.findById(a.getJpaHashtag().getId()).orElseThrow(() -> new HashTagCustomException(HashTagErrorCode.HASHTAG_NOT_FOUND));
+            JpaHashTag hashTag = hashtagRepository.findById(a.getJpaHashtag().getId())
+                    .orElseThrow(() -> new HashTagCustomException(HashTagErrorCode.HASHTAG_NOT_FOUND));
 
             JpaHashTag newTag = JpaHashTag.builder()
                     .hashTag(hashTag.getHashTag())
@@ -133,4 +145,5 @@ public class AlbumRegisterAdapter implements AlbumRegisterPort, AlbumSharePort {
             hashtagRepository.save(newTag);
         }
     }
+
 }
