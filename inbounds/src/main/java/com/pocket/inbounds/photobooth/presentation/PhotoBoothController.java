@@ -4,7 +4,6 @@ import com.pocket.core.exception.common.ApplicationResponse;
 import com.pocket.domain.dto.photobooth.*;
 import com.pocket.domain.dto.user.UserInfoDTO;
 import com.pocket.domain.entity.photobooth.PhotoBoothBrand;
-import com.pocket.domain.port.photobooth.PhotoBoothGetNamePort;
 import com.pocket.domain.usecase.photobooth.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,6 +23,8 @@ public class PhotoBoothController implements PhotoBoothControllerDocs {
     private final PhotoBoothSearchUseCase photoBoothSearchUseCase;
     private final PhotoBoothGetModalUseCase photoBoothGetModalUseCase;
     private final PhotoBoothVisitedUseCase photoBoothVisitedUseCase;
+    private final PhotoBoothLikeUseCase photoBoothLikeUseCase;
+    private final PhotoBoothGetLikeUseCase photoBoothGetLikeUseCase;
 
     @GetMapping("{id}")
     public ApplicationResponse<PhotoBoothFindResponseDto> getPhotoBoothById(@PathVariable("id") Long id) {
@@ -72,6 +73,23 @@ public class PhotoBoothController implements PhotoBoothControllerDocs {
             @AuthenticationPrincipal UserInfoDTO user
     ) {
         List<PhotoBoothVisitedDto> response = photoBoothVisitedUseCase.getVisitedPhotoBooths(user.email());
+        return ApplicationResponse.ok(response);
+    }
+
+    @PostMapping("/like/{id}")
+    public ApplicationResponse<String> likePhotoBooth(
+            @PathVariable("id") Long id,
+            @AuthenticationPrincipal UserInfoDTO user
+    ) {
+        photoBoothLikeUseCase.photoBoothLike(id, user.email());
+        return ApplicationResponse.ok("success");
+    }
+
+    @GetMapping("/like")
+    public ApplicationResponse<List<PhotoBoothLikeDto>> getPhotoBoothLike(
+            @AuthenticationPrincipal UserInfoDTO user
+    ) {
+        List<PhotoBoothLikeDto> response = photoBoothGetLikeUseCase.getLikedPhotos(user.email());
         return ApplicationResponse.ok(response);
     }
 }

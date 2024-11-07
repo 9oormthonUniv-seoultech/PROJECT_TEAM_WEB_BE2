@@ -13,7 +13,8 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNameUseCase, PhotoBoothGetRatingUseCase, PhotoBoothSearchUseCase, PhotoBoothGetModalUseCase, PhotoBoothVisitedUseCase {
+public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNameUseCase, PhotoBoothGetRatingUseCase, PhotoBoothSearchUseCase, PhotoBoothGetModalUseCase, PhotoBoothVisitedUseCase, PhotoBoothLikeUseCase, PhotoBoothGetLikeUseCase
+{
 
     private final PhotoBoothFindPort photoBoothFindPort;
     private final PhotoBoothGetRatingPort photoBoothGetRatingPort;
@@ -21,6 +22,8 @@ public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNa
     private final PhotoBoothSearchPort photoBoothSearchPort;
     private final PhotoBoothGetModalPort photoBoothGetModalPort;
     private final PhotoBoothVisitedPort photoBoothVisitedPort;
+    private final PhotoBoothLikePort photoBoothLikePort;
+    private final PhotoBoothGetLikePort photoBoothGetLikePort;
 
     public PhotoBoothFindResponseDto findPhotoBoothResponse(Long id) {
         return photoBoothFindPort.findById(id);
@@ -49,5 +52,15 @@ public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNa
     @Override
     public List<PhotoBoothVisitedDto> getVisitedPhotoBooths(String userEmail) {
         return photoBoothVisitedPort.getVisitedPhotoBooths(userEmail);
+    }
+
+    @Override
+    public void photoBoothLike(Long photoId, String userEmail) {
+        photoBoothLikePort.photoBoothLike(photoId, userEmail);
+    }
+
+    @Override
+    public List<PhotoBoothLikeDto> getLikedPhotos(String userEmail) {
+        return photoBoothGetLikePort.getLikedPhotos(userEmail);
     }
 }
