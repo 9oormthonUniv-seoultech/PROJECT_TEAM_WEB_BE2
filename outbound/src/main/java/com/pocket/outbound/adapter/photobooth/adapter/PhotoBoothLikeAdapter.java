@@ -15,6 +15,8 @@ import com.pocket.outbound.repository.photobooth.LikeRepository;
 import com.pocket.outbound.repository.photobooth.PhotoBoothRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @AdapterService
 @RequiredArgsConstructor
 public class PhotoBoothLikeAdapter implements PhotoBoothLikePort {
@@ -25,6 +27,11 @@ public class PhotoBoothLikeAdapter implements PhotoBoothLikePort {
 
     @Override
     public void photoBoothLike(Long photoBoothId, String userEmail) {
+
+        Optional<JpaLike> entity = likeRepository.findByUser_UserEmailAndPhotoBooth_Id(userEmail, photoBoothId);
+        if (entity.isPresent()) {
+            throw new PhotoBoothCustomException(PhotoBoothErrorCode.PHOTOBOOTHLIKE_FOUND);
+        }
         JpaUser jpaUser = userRepository.findByUserEmail(userEmail)
                 .orElseThrow(() -> new UserCustomException(UserErrorCode.NO_USER_INFO));
 
@@ -32,6 +39,7 @@ public class PhotoBoothLikeAdapter implements PhotoBoothLikePort {
                 .orElseThrow(() -> new PhotoBoothCustomException((PhotoBoothErrorCode.PHOTOBOOTH_NOT_FOUND)));
 
         JpaLike jpaLike = JpaLike.createLike(jpaUser, jpaPhotoBooth);
+
         likeRepository.save(jpaLike);
     }
 }

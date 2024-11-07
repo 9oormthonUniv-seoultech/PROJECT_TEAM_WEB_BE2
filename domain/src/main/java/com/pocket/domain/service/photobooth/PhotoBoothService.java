@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNameUseCase, PhotoBoothGetRatingUseCase, PhotoBoothSearchUseCase, PhotoBoothGetModalUseCase, PhotoBoothVisitedUseCase, PhotoBoothLikeUseCase, PhotoBoothGetLikeUseCase, PhotoBoothCheckLikeUseCase
+public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNameUseCase, PhotoBoothGetRatingUseCase, PhotoBoothSearchUseCase, PhotoBoothGetModalUseCase, PhotoBoothVisitedUseCase, PhotoBoothLikeUseCase, PhotoBoothGetLikeUseCase, PhotoBoothCheckLikeUseCase, PhotoBoothDeleteLikeUseCase
 {
 
     private final PhotoBoothFindPort photoBoothFindPort;
@@ -25,6 +25,7 @@ public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNa
     private final PhotoBoothLikePort photoBoothLikePort;
     private final PhotoBoothGetLikePort photoBoothGetLikePort;
     private final PhotoBoothCheckLikePort photoBoothCheckLikePort;
+    private final PhotoBoothDeleteLikePort photoBoothDeleteLikePort;
 
     public PhotoBoothFindResponseDto findPhotoBoothResponse(Long id) {
         return photoBoothFindPort.findById(id);
@@ -68,5 +69,10 @@ public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNa
     @Override
     public Boolean checkLike(Long photoBoothId, String userEmail) {
         return photoBoothCheckLikePort.checkLike(photoBoothId, userEmail);
+    }
+
+    @Override
+    public void deleteLike(Long photoBoothId, String userEmail) {
+        photoBoothDeleteLikePort.deleteLike(photoBoothId, userEmail);
     }
 }

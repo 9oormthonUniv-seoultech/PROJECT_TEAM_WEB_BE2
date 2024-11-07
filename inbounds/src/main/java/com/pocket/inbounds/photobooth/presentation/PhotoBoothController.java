@@ -26,6 +26,7 @@ public class PhotoBoothController implements PhotoBoothControllerDocs {
     private final PhotoBoothLikeUseCase photoBoothLikeUseCase;
     private final PhotoBoothGetLikeUseCase photoBoothGetLikeUseCase;
     private final PhotoBoothCheckLikeUseCase photoBoothCheckLikeUseCase;
+    private final PhotoBoothDeleteLikeUseCase photoBoothDeleteLikeUseCase;
 
     @GetMapping("{id}")
     public ApplicationResponse<PhotoBoothFindResponseDto> getPhotoBoothById(@PathVariable("id") Long id) {
@@ -101,5 +102,14 @@ public class PhotoBoothController implements PhotoBoothControllerDocs {
     ) {
         Boolean response = photoBoothCheckLikeUseCase.checkLike(id, user.email());
         return ApplicationResponse.ok(response);
+    }
+
+    @DeleteMapping("/like/{id}")
+    public ApplicationResponse<String> deletePhotoBoothLike(
+            @PathVariable("id") Long id,
+            @AuthenticationPrincipal UserInfoDTO user
+    ) {
+        photoBoothDeleteLikeUseCase.deleteLike(id, user.email());
+        return ApplicationResponse.ok("success");
     }
 }
