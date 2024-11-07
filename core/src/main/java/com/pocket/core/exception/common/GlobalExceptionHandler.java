@@ -21,7 +21,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(SecurityCustomException.class)
     public ResponseEntity<ApplicationResponse<String>> handleSecurityException(SecurityCustomException ex) {
-
         ApplicationResponse<String> response = new ApplicationResponse<>(
                 new ApplicationResult(Integer.parseInt(ex.getErrorCode().getCode()), ex.getErrorCode().getMessage()),
                 null
