@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNameUseCase, PhotoBoothGetRatingUseCase, PhotoBoothSearchUseCase, PhotoBoothGetModalUseCase, PhotoBoothVisitedUseCase, PhotoBoothLikeUseCase, PhotoBoothGetLikeUseCase
+public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNameUseCase, PhotoBoothGetRatingUseCase, PhotoBoothSearchUseCase, PhotoBoothGetModalUseCase, PhotoBoothVisitedUseCase, PhotoBoothLikeUseCase, PhotoBoothGetLikeUseCase, PhotoBoothCheckLikeUseCase, PhotoBoothDeleteLikeUseCase
 {
 
     private final PhotoBoothFindPort photoBoothFindPort;
@@ -24,6 +24,8 @@ public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNa
     private final PhotoBoothVisitedPort photoBoothVisitedPort;
     private final PhotoBoothLikePort photoBoothLikePort;
     private final PhotoBoothGetLikePort photoBoothGetLikePort;
+    private final PhotoBoothCheckLikePort photoBoothCheckLikePort;
+    private final PhotoBoothDeleteLikePort photoBoothDeleteLikePort;
 
     public PhotoBoothFindResponseDto findPhotoBoothResponse(Long id) {
         return photoBoothFindPort.findById(id);
@@ -55,12 +57,22 @@ public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNa
     }
 
     @Override
-    public void photoBoothLike(Long photoId, String userEmail) {
-        photoBoothLikePort.photoBoothLike(photoId, userEmail);
+    public void photoBoothLike(Long photoboothId, String userEmail) {
+        photoBoothLikePort.photoBoothLike(photoboothId, userEmail);
     }
 
     @Override
     public List<PhotoBoothLikeDto> getLikedPhotos(String userEmail) {
         return photoBoothGetLikePort.getLikedPhotos(userEmail);
+    }
+
+    @Override
+    public Boolean checkLike(Long photoBoothId, String userEmail) {
+        return photoBoothCheckLikePort.checkLike(photoBoothId, userEmail);
+    }
+
+    @Override
+    public void deleteLike(Long photoBoothId, String userEmail) {
+        photoBoothDeleteLikePort.deleteLike(photoBoothId, userEmail);
     }
 }

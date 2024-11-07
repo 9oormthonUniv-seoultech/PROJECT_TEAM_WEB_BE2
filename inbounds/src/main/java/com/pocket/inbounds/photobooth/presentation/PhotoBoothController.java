@@ -25,6 +25,8 @@ public class PhotoBoothController implements PhotoBoothControllerDocs {
     private final PhotoBoothVisitedUseCase photoBoothVisitedUseCase;
     private final PhotoBoothLikeUseCase photoBoothLikeUseCase;
     private final PhotoBoothGetLikeUseCase photoBoothGetLikeUseCase;
+    private final PhotoBoothCheckLikeUseCase photoBoothCheckLikeUseCase;
+    private final PhotoBoothDeleteLikeUseCase photoBoothDeleteLikeUseCase;
 
     @GetMapping("{id}")
     public ApplicationResponse<PhotoBoothFindResponseDto> getPhotoBoothById(@PathVariable("id") Long id) {
@@ -91,5 +93,23 @@ public class PhotoBoothController implements PhotoBoothControllerDocs {
     ) {
         List<PhotoBoothLikeDto> response = photoBoothGetLikeUseCase.getLikedPhotos(user.email());
         return ApplicationResponse.ok(response);
+    }
+
+    @GetMapping("/like/check/{id}")
+    public ApplicationResponse<Boolean> likePhotoBoothCheck(
+            @PathVariable("id") Long id,
+            @AuthenticationPrincipal UserInfoDTO user
+    ) {
+        Boolean response = photoBoothCheckLikeUseCase.checkLike(id, user.email());
+        return ApplicationResponse.ok(response);
+    }
+
+    @DeleteMapping("/like/{id}")
+    public ApplicationResponse<String> deletePhotoBoothLike(
+            @PathVariable("id") Long id,
+            @AuthenticationPrincipal UserInfoDTO user
+    ) {
+        photoBoothDeleteLikeUseCase.deleteLike(id, user.email());
+        return ApplicationResponse.ok("success");
     }
 }
