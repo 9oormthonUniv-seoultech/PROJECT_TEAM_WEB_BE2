@@ -81,7 +81,7 @@ public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase, Alb
         return albumHashtagResponseDtos.stream()
                 .map(dto -> {
                     String presignedUrl = dto.photoUrl().isEmpty() ? "" : fileDownloadPort.getDownloadPresignedUrl(dto.photoUrl());
-                    return new AlbumHashtagResponseDto(presignedUrl, dto.hashtags(), dto.year(), dto.month(), dto.date(), dto.memo(), dto.isLiked());
+                    return new AlbumHashtagResponseDto(dto.albumId(), presignedUrl, dto.hashtags(), dto.year(), dto.month(), dto.date(), dto.memo(), dto.isLiked());
                 })
                 .collect(Collectors.toList());
     }
