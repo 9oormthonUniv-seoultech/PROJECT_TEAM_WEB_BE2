@@ -88,7 +88,10 @@ public interface AlbumContollerDocs {
                     content = {@Content(schema = @Schema(implementation = ErrorResponse.class))})
     })
     @Operation(summary = "앨범 삭제", description = "특정 앨범을 삭제하는 API")
-    ApplicationResponse<String> deleteAlbum(@PathVariable("album_id") Long albumId);
+    ApplicationResponse<String> deleteAlbum(
+            @PathVariable("album_id") Long albumId,
+            @AuthenticationPrincipal UserInfoDTO user
+    );
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),

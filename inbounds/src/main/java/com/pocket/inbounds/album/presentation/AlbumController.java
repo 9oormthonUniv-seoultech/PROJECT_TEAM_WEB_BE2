@@ -81,9 +81,10 @@ public class AlbumController implements AlbumContollerDocs {
     // 삭제 기능
     @DeleteMapping("/{album_id}")
     public ApplicationResponse<String> deleteAlbum(
-            @PathVariable("album_id") Long albumId
+            @PathVariable("album_id") Long albumId,
+            @AuthenticationPrincipal UserInfoDTO user
     ) {
-        albumDeleteUseCase.deleteAlbum(albumId);
+        albumDeleteUseCase.deleteAlbum(albumId, user.email());
         return ApplicationResponse.ok("Success");
     }
 
@@ -125,7 +126,6 @@ public class AlbumController implements AlbumContollerDocs {
             @AuthenticationPrincipal UserInfoDTO user,
             @PathVariable Long token
     ) {
-
         albumShareUseCase.saveNewData(user.email(), token);
         return ApplicationResponse.ok("Saved");
     }

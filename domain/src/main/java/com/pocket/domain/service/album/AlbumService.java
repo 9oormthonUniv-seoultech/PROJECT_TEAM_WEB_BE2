@@ -73,8 +73,8 @@ public class AlbumService implements AlbumRegisterUseCase, AlbumLikeUseCase,
                 .collect(Collectors.toList());
     }
 
-    public void deleteAlbum(Long albumId) {
-        albumDeletePort.deleteAlbum(albumId);
+    public void deleteAlbum(Long albumId, String userEmail) {
+        albumDeletePort.deleteAlbum(albumId, userEmail);
     }
 
     @Override

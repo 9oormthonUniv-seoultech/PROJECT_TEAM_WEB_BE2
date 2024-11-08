@@ -2,6 +2,6 @@ package com.pocket.domain.usecase.album;
 
 public interface AlbumDeleteUseCase {
 
-    void deleteAlbum(Long albumId);
+    void deleteAlbum(Long albumId, String userEmail);
 
 }
