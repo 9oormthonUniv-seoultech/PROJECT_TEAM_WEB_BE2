@@ -1,10 +1,13 @@
 package com.pocket.outbound.util;
 
 import com.pocket.core.exception.jwt.SecurityCustomException;
+import com.pocket.core.exception.user.UserCustomException;
+import com.pocket.core.exception.user.UserErrorCode;
 import com.pocket.core.redis.util.RedisUtil;
 import com.pocket.domain.dto.user.LoginResponse;
 import com.pocket.domain.dto.user.UserInfoDTO;
-import com.pocket.outbound.adapter.user.UserAdapter;
+import com.pocket.outbound.entity.JpaUser;
+import com.pocket.outbound.repository.UserRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
@@ -23,7 +26,6 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.pocket.core.exception.jwt.SecurityErrorCode.INVALID_TOKEN;
@@ -41,20 +43,20 @@ public class JwtUtil {
     private final Long accessExpMs;
     private final Long refreshExpMs;
     private final RedisUtil redisUtil;
-    private final UserAdapter userAdapter;
+    private final UserRepository userRepository;
 
     public JwtUtil(
             @Value("${security.jwt.secret}") String secret,
             @Value("${security.jwt.token.access-expiration-time}") Long access,
             @Value("${security.jwt.token.refresh-expiration-time}") Long refresh,
             RedisUtil redis,
-            UserAdapter userAdapter) {
+            UserRepository userRepository) {
 
         secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         accessExpMs = access;
         refreshExpMs = refresh;
         redisUtil = redis;
-        this.userAdapter = userAdapter;
+        this.userRepository = userRepository;
     }
 
     public String createJwtAccessToken(String email, String subId) {
@@ -112,10 +114,17 @@ public class JwtUtil {
         Collection<SimpleGrantedAuthority> authorities = Stream.of(
                         String.valueOf(claims.get(AUTHORITIES)).split(","))
                 .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+                .toList();
 
-        UserInfoDTO userInfo = userAdapter.loadUserInfoByEmail(getEmail(token));
-        return new UsernamePasswordAuthenticationToken(userInfo, token, authorities);
+        final JpaUser user = findUser(getEmail(token));
+        UserInfoDTO infoDTO = new UserInfoDTO(user.getUser().getName(), user.getUser().getEmail(), user.getUser().getPicture());
+
+        return new UsernamePasswordAuthenticationToken(infoDTO, token, authorities);
+    }
+
+    private JpaUser findUser(String email) {
+        return userRepository.findByUserEmail(email)
+                .orElseThrow(() -> new UserCustomException(UserErrorCode.NO_USER_INFO));
     }
 
     public String resolveAccessToken(HttpServletRequest request) {
@@ -179,8 +188,11 @@ public class JwtUtil {
             JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(secretKey).build();
             jwtParser.parseClaimsJws(token);
             return true;
-        } catch (SecurityException | MalformedJwtException | IllegalArgumentException | UnsupportedJwtException |
-                 ExpiredJwtException e) {
+        } catch (ExpiredJwtException e) {
+            log.warn("[*] Token has expired: {}", e.getMessage());
+            throw new SecurityCustomException(TOKEN_EXPIRED);
+        } catch (SecurityException | MalformedJwtException | IllegalArgumentException | UnsupportedJwtException e) {
+            log.warn("[*] Invalid token: {}", e.getMessage());
             throw new SecurityCustomException(INVALID_TOKEN);
         }
     }

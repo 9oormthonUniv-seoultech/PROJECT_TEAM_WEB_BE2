@@ -131,4 +131,17 @@ public interface ReviewControllerDocs {
             @ParameterObject Pageable pageable
     );
 
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
+                    content = {@Content(schema = @Schema(implementation = ErrorResponse.class))})
+    })
+    @Operation(summary = "마이페이지 나의 리뷰 조회", description = "나의 리뷰 조회(날짜, 이름, 별점)")
+    ApplicationResponse<ReviewMypageDto> getReviewMypage(
+            @AuthenticationPrincipal UserInfoDTO user
+    );
+
 }

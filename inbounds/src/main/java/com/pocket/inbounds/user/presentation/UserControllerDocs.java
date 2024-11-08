@@ -25,4 +25,6 @@ public interface UserControllerDocs {
     @Operation(summary = "사용자 정보 제공", description = "사용자 정보 전달 API")
     ApplicationResponse<UserResponse> getUserInfo(
             @AuthenticationPrincipal UserInfoDTO userInfoDTO);
+
+
 }

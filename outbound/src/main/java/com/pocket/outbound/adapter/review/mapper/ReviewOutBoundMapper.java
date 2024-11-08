@@ -38,6 +38,7 @@ public class ReviewOutBoundMapper {
 
         return new ReviewPreviewDto(
                 review.getId(),
+                review.getJpaUser().getUser().getPicture(),
                 name,
                 year,
                 month,

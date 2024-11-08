@@ -1,9 +1,6 @@
 package com.pocket.domain.service.photobooth;
 
-import com.pocket.domain.dto.photobooth.NearPhotoBoothInfo;
-import com.pocket.domain.dto.photobooth.PhotoBoothFindResponseDto;
-import com.pocket.domain.dto.photobooth.PhotoBoothModalDto;
-import com.pocket.domain.dto.photobooth.PhotoBoothSearchDto;
+import com.pocket.domain.dto.photobooth.*;
 import com.pocket.domain.entity.photobooth.PhotoBoothBrand;
 import com.pocket.domain.port.photobooth.*;
 import com.pocket.domain.usecase.photobooth.*;
@@ -16,13 +13,19 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNameUseCase, PhotoBoothGetRatingUseCase, PhotoBoothSearchUseCase, PhotoBoothGetModalUseCase {
+public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNameUseCase, PhotoBoothGetRatingUseCase, PhotoBoothSearchUseCase, PhotoBoothGetModalUseCase, PhotoBoothVisitedUseCase, PhotoBoothLikeUseCase, PhotoBoothGetLikeUseCase, PhotoBoothCheckLikeUseCase, PhotoBoothDeleteLikeUseCase
+{
 
     private final PhotoBoothFindPort photoBoothFindPort;
     private final PhotoBoothGetRatingPort photoBoothGetRatingPort;
     private final PhotoBoothGetNamePort photoBoothGetNamePort;
     private final PhotoBoothSearchPort photoBoothSearchPort;
     private final PhotoBoothGetModalPort photoBoothGetModalPort;
+    private final PhotoBoothVisitedPort photoBoothVisitedPort;
+    private final PhotoBoothLikePort photoBoothLikePort;
+    private final PhotoBoothGetLikePort photoBoothGetLikePort;
+    private final PhotoBoothCheckLikePort photoBoothCheckLikePort;
+    private final PhotoBoothDeleteLikePort photoBoothDeleteLikePort;
 
     public PhotoBoothFindResponseDto findPhotoBoothResponse(Long id) {
         return photoBoothFindPort.findById(id);
@@ -46,5 +49,30 @@ public class PhotoBoothService implements PhotoBoothFindUseCase, PhotoBoothGetNa
     @Override
     public PhotoBoothModalDto getPhotoBoothModal(Long photoboothId) {
         return photoBoothGetModalPort.getPhotoBoothModal(photoboothId);
+    }
+
+    @Override
+    public List<PhotoBoothVisitedDto> getVisitedPhotoBooths(String userEmail) {
+        return photoBoothVisitedPort.getVisitedPhotoBooths(userEmail);
+    }
+
+    @Override
+    public void photoBoothLike(Long photoboothId, String userEmail) {
+        photoBoothLikePort.photoBoothLike(photoboothId, userEmail);
+    }
+
+    @Override
+    public List<PhotoBoothLikeDto> getLikedPhotos(String userEmail) {
+        return photoBoothGetLikePort.getLikedPhotos(userEmail);
+    }
+
+    @Override
+    public Boolean checkLike(Long photoBoothId, String userEmail) {
+        return photoBoothCheckLikePort.checkLike(photoBoothId, userEmail);
+    }
+
+    @Override
+    public void deleteLike(Long photoBoothId, String userEmail) {
+        photoBoothDeleteLikePort.deleteLike(photoBoothId, userEmail);
     }
 }

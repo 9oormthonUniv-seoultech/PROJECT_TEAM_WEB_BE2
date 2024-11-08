@@ -14,7 +14,8 @@ import java.util.stream.Collectors;
 
 @DomainService
 @RequiredArgsConstructor
-public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUseCase, ReviewGetRecentUseCase, ReviewGetAllImagesUseCase, ReviewBoothFeatureCountUseCase, ReviewPhotoFeatureCountUseCase, ReviewGetBoothFeatureUseCase, ReviewGetPhotoFeatureUseCase, ReviewGetAllUseCase
+public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUseCase, ReviewGetRecentUseCase, ReviewGetAllImagesUseCase, ReviewBoothFeatureCountUseCase, ReviewPhotoFeatureCountUseCase, ReviewGetBoothFeatureUseCase, ReviewGetPhotoFeatureUseCase, ReviewGetAllUseCase, ReviewMypageUseCase
+
 
 {
 
@@ -28,6 +29,7 @@ public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUse
     private final ReviewGetPhotoFeaturePort reviewGetPhotoFeaturePort;
     private final ReviewGetAllPort reviewGetAllPort;
     private final FileDownloadPort fileDownloadPort;
+    private final ReviewMypagePort reviewMypagePort;
 
     @Override
     public ReviewRegisterResponseDto registerReviewResponse(ReviewRegisterRequestDto reviewRegisterRequestDto, String name) {
@@ -53,6 +55,7 @@ public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUse
             String presignedUrl = review.imageUrl().isEmpty() ? "" : fileDownloadPort.getDownloadPresignedUrl(review.imageUrl());
             return new ReviewPreviewDto(
                     review.photoboothId(),
+                    review.profileUrl(),
                     review.name(),
                     review.year(),
                     review.month(),
@@ -104,6 +107,7 @@ public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUse
             String presignedUrl = review.imageUrl().isEmpty() ? "" : fileDownloadPort.getDownloadPresignedUrl(review.imageUrl());
             return new ReviewPreviewDto(
                     review.photoboothId(),
+                    review.profileUrl(),
                     review.name(),
                     review.year(),
                     review.month(),
@@ -116,5 +120,22 @@ public class ReviewService implements ReviewRegisterUseCase, ReviewGet6ImagesUse
         }).collect(Collectors.toList());
 
         return new ReviewGetResponseDto(response.reviewCount(), reviewPreviewsWithPresignedUrls);
+    }
+
+    @Override
+    public ReviewMypageDto reviewMypage(String userEmail) {
+        ReviewMypageDto response = reviewMypagePort.reviewMypage(userEmail);
+        List<ReviewMypageDetailDto> reviewMypageWithPresignedUrls = response.reviewMypageDetailDtoList().stream().map(review -> {
+            String presignedUrl = review.imageUrl().isEmpty() ? "" : fileDownloadPort.getDownloadPresignedUrl(review.imageUrl());
+            return new ReviewMypageDetailDto(
+                    review.reviewId(),
+                    presignedUrl,
+                    review.month(),
+                    review.date(),
+                    review.photoboothName(),
+                    review.rating()
+            );
+        }) .collect(Collectors.toList());
+        return new ReviewMypageDto(response.reviewCount(), reviewMypageWithPresignedUrls);
     }
 }

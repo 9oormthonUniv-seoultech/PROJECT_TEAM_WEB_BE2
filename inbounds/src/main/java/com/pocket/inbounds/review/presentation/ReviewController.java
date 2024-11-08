@@ -26,6 +26,7 @@ public class ReviewController implements ReviewControllerDocs {
     private final ReviewGetBoothFeatureUseCase reviewGetBoothFeatureUseCase;
     private final ReviewGetPhotoFeatureUseCase reviewGetPhotoFeatureUseCase;
     private final ReviewGetAllUseCase reviewGetAllUseCase;
+    private final ReviewMypageUseCase reviewMypageUseCase;
 
     @PostMapping
     public ApplicationResponse<ReviewRegisterResponseDto> postReview(
@@ -95,6 +96,14 @@ public class ReviewController implements ReviewControllerDocs {
             @ParameterObject final Pageable pageable
     ) {
         ReviewGetResponseDto response = reviewGetAllUseCase.getAllReviews(photoboothId, pageable);
+        return ApplicationResponse.ok(response);
+    }
+
+    @GetMapping("/mypage")
+    public ApplicationResponse<ReviewMypageDto> getReviewMypage(
+            @AuthenticationPrincipal UserInfoDTO user
+    ) {
+        ReviewMypageDto response = reviewMypageUseCase.reviewMypage(user.email());
         return ApplicationResponse.ok(response);
     }
 
